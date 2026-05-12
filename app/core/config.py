@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import model_validator
 from functools import lru_cache
 
 
@@ -29,6 +30,20 @@ class Settings(BaseSettings):
     @property
     def origins_list(self) -> list[str]:
         return [o.strip() for o in self.frontend_origins.split(",")]
+
+    @model_validator(mode="after")
+    def check_production_secrets(self) -> "Settings":
+        if not self.debug:
+            if self.secret_key == "dev-secret-change-in-prod":
+                raise ValueError(
+                    "SECRET_KEY must be changed in production. "
+                    "Generate one with: openssl rand -hex 32"
+                )
+            if not self.gemini_api_key:
+                raise ValueError("GEMINI_API_KEY must be set in production.")
+            if not self.cloudinary_cloud_name:
+                raise ValueError("Cloudinary credentials must be set in production.")
+        return self
 
     class Config:
         env_file = ".env"

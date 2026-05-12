@@ -1,0 +1,1 @@
+from app.models import base, user, post, interactions  # noqa: F401

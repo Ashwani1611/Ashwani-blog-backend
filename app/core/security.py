@@ -14,7 +14,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer_scheme = HTTPBearer(auto_error=False)
 
 
-# ── Password helpers ─────────────────────────────────────────
+# ── Password helpers ──────────────────────────────────────────
 
 def hash_password(plain: str) -> str:
     return pwd_context.hash(plain)
@@ -24,7 +24,7 @@ def verify_password(plain: str, hashed: str) -> bool:
     return pwd_context.verify(plain, hashed)
 
 
-# ── Token helpers ────────────────────────────────────────────
+# ── Token helpers ─────────────────────────────────────────────
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     payload = data.copy()
@@ -53,6 +53,13 @@ def decode_token(token: str) -> dict:
         )
 
 
+# ── User loader (lazy import avoids circular dependency) ──────
+
+def _load_user(user_id: int, db: Session):
+    from app.models.user import User  # intentional lazy import
+    return db.query(User).filter(User.id == user_id, User.is_active == True).first()
+
+
 # ── FastAPI dependencies ──────────────────────────────────────
 
 def get_current_user(
@@ -62,13 +69,12 @@ def get_current_user(
     if not credentials:
         raise HTTPException(status_code=401, detail="Not authenticated")
 
-    from app.models.user import User
     payload = decode_token(credentials.credentials)
     if payload.get("type") != "access":
         raise HTTPException(status_code=401, detail="Wrong token type")
 
-    user = db.query(User).filter(User.id == int(payload["sub"])).first()
-    if not user or not user.is_active:
+    user = _load_user(int(payload["sub"]), db)
+    if not user:
         raise HTTPException(status_code=401, detail="User not found or inactive")
     return user
 
@@ -86,8 +92,9 @@ def get_optional_user(
     if not credentials:
         return None
     try:
-        from app.models.user import User
         payload = decode_token(credentials.credentials)
-        return db.query(User).filter(User.id == int(payload["sub"])).first()
+        if payload.get("type") != "access":
+            return None
+        return _load_user(int(payload["sub"]), db)
     except Exception:
         return None

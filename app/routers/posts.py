@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.orm import Session
 from typing import Optional
 
@@ -11,6 +11,8 @@ from app.schemas.post import PostCreate, PostUpdate, PostOut, PostListOut
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
 
+# ── Helpers ───────────────────────────────────────────────────
+
 def _post_or_404(db: Session, slug: str) -> Post:
     post = db.query(Post).filter(Post.slug == slug, Post.is_published == True).first()
     if not post:
@@ -18,13 +20,18 @@ def _post_or_404(db: Session, slug: str) -> Post:
     return post
 
 
-def _add_user_liked(post: Post, user, db: Session) -> bool:
-    if not user:
-        return False
-    return db.query(PostLike).filter(
-        PostLike.post_id == post.id,
-        PostLike.user_id == user.id
-    ).first() is not None
+def _get_liked_post_ids(post_ids: list[int], user_id: int, db: Session) -> set[int]:
+    """Single query to get all post IDs liked by the user — avoids N+1."""
+    rows = db.query(PostLike.post_id).filter(
+        PostLike.post_id.in_(post_ids),
+        PostLike.user_id == user_id,
+    ).all()
+    return {row.post_id for row in rows}
+
+
+def _is_bot(request: Request) -> bool:
+    ua = request.headers.get("user-agent", "").lower()
+    return any(bot in ua for bot in ["bot", "crawler", "spider", "wget", "curl"])
 
 
 # ── Public ────────────────────────────────────────────────────
@@ -39,6 +46,7 @@ def list_posts(
     current_user=Depends(get_optional_user),
 ):
     q = db.query(Post).filter(Post.is_published == True)
+
     if cat:
         q = q.filter(Post.cat == cat)
     if search:
@@ -48,12 +56,18 @@ def list_posts(
             Post.excerpt.ilike(term) |
             Post.content.ilike(term)
         )
+
     posts = q.order_by(Post.created_at.desc()).offset(skip).limit(limit).all()
+
+    # Single query for all liked post IDs — no N+1
+    liked_ids: set[int] = set()
+    if current_user and posts:
+        liked_ids = _get_liked_post_ids([p.id for p in posts], current_user.id, db)
 
     result = []
     for p in posts:
         data = PostListOut.model_validate(p)
-        data.user_liked = _add_user_liked(p, current_user, db)
+        data.user_liked = p.id in liked_ids
         result.append(data)
     return result
 
@@ -61,16 +75,25 @@ def list_posts(
 @router.get("/{slug}", response_model=PostOut)
 def get_post(
     slug: str,
+    request: Request,
     db: Session = Depends(get_db),
     current_user=Depends(get_optional_user),
 ):
     post = _post_or_404(db, slug)
-    post.view_count = (post.view_count or 0) + 1
-    db.commit()
-    db.refresh(post)
+
+    # Increment view count — skip bots
+    if not _is_bot(request):
+        post.view_count = (post.view_count or 0) + 1
+        db.commit()
+        db.refresh(post)
 
     data = PostOut.model_validate(post)
-    data.user_liked = _add_user_liked(post, current_user, db)
+    data.user_liked = False
+    if current_user:
+        data.user_liked = db.query(PostLike).filter(
+            PostLike.post_id == post.id,
+            PostLike.user_id == current_user.id,
+        ).first() is not None
     return data
 
 

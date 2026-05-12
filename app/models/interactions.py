@@ -1,14 +1,10 @@
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from app.core.database import Base
-from datetime import datetime, timezone
+from app.models.base import utcnow
 
 
-def utcnow():
-    return datetime.now(timezone.utc)
-
-
-# ── Comments ─────────────────────────────────────────────────
+# ── Comments ──────────────────────────────────────────────────
 
 class Comment(Base):
     __tablename__ = "comments"
@@ -21,17 +17,15 @@ class Comment(Base):
     body        = Column(Text, nullable=False)
     ai_reply    = Column(Text, nullable=True)
     is_approved = Column(Boolean, default=True)
+    like_count  = Column(Integer, default=0, server_default="0", nullable=False)
     created_at  = Column(DateTime(timezone=True), default=utcnow)
+    updated_at  = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
 
     # relationships
     post   = relationship("Post", back_populates="comments")
     author = relationship("User", back_populates="comments")
     likes  = relationship("CommentLike", back_populates="comment",
                           cascade="all, delete-orphan", lazy="select")
-
-    @property
-    def like_count(self):
-        return len(self.likes)
 
     @property
     def display_name(self):
