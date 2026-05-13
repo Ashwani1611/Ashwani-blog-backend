@@ -3,16 +3,12 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.core.security import get_optional_user
+from app.core.utils import get_client_ip
 from app.models.post import Post
 from app.models.interactions import PostLike
 from app.schemas.interactions import LikeOut
 
 router = APIRouter(prefix="/posts", tags=["Likes"])
-
-
-def _get_ip(request: Request) -> str:
-    forwarded = request.headers.get("X-Forwarded-For")
-    return forwarded.split(",")[0].strip() if forwarded else (request.client.host if request.client else "unknown")
 
 
 @router.post("/{slug}/like", response_model=LikeOut)
@@ -26,7 +22,7 @@ def toggle_post_like(
     if not post:
         raise HTTPException(404, "Post not found")
 
-    ip = _get_ip(request)
+    ip = get_client_ip(request)
 
     if current_user:
         existing = db.query(PostLike).filter(
@@ -41,8 +37,8 @@ def toggle_post_like(
 
     if existing:
         db.delete(existing)
+        post.like_count = max(0, post.like_count - 1)
         db.commit()
-        db.refresh(post)
         return LikeOut(liked=False, like_count=post.like_count)
 
     like = PostLike(
@@ -51,8 +47,8 @@ def toggle_post_like(
         ip_address=None if current_user else ip,
     )
     db.add(like)
+    post.like_count += 1
     db.commit()
-    db.refresh(post)
     return LikeOut(liked=True, like_count=post.like_count)
 
 
@@ -67,7 +63,7 @@ def get_post_like_status(
     if not post:
         raise HTTPException(404, "Post not found")
 
-    ip = _get_ip(request)
+    ip = get_client_ip(request)
 
     if current_user:
         liked = db.query(PostLike).filter(

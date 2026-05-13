@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
     # Gemini AI
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-1.5-flash"
+    gemini_model: str = "gemini-2.5-flash"
 
     # Cloudinary
     cloudinary_cloud_name: str = ""

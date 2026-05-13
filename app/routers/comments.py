@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.core.security import get_optional_user, get_current_admin
+from app.core.utils import get_client_ip
 from app.models.post import Post
 from app.models.interactions import Comment, CommentLike
 from app.schemas.interactions import CommentCreate, CommentOut
@@ -11,25 +12,36 @@ from app.services.gemini import generate_comment_reply
 router = APIRouter(tags=["Comments"])
 
 
-def _get_ip(request: Request) -> str:
-    forwarded = request.headers.get("X-Forwarded-For")
-    return forwarded.split(",")[0].strip() if forwarded else (request.client.host if request.client else "unknown")
-
-
-async def _add_ai_reply(comment_id: int, post_title: str, body: str, db_url: str):
-    from sqlalchemy import create_engine
-    from sqlalchemy.orm import sessionmaker
-    engine = create_engine(db_url, connect_args={"check_same_thread": False} if "sqlite" in db_url else {})
-    Session = sessionmaker(bind=engine)
-    with Session() as s:
-        comment = s.query(Comment).filter(Comment.id == comment_id).first()
+async def _add_ai_reply(comment_id: int, post_title: str, body: str):
+    from app.core.database import SessionLocal
+    db = SessionLocal()
+    try:
+        comment = db.query(Comment).filter(Comment.id == comment_id).first()
         if comment:
-            try:
-                reply = await generate_comment_reply(body, post_title)
-                comment.ai_reply = reply
-                s.commit()
-            except Exception:
-                pass
+            reply = await generate_comment_reply(body, post_title)
+            comment.ai_reply = reply
+            db.commit()
+    except Exception:
+        pass
+    finally:
+        db.close()
+
+
+def _get_liked_comment_ids(comment_ids: list[int], user_id: int, db: Session) -> set[int]:
+    """Single query for all liked comment IDs — avoids N+1."""
+    rows = db.query(CommentLike.comment_id).filter(
+        CommentLike.comment_id.in_(comment_ids),
+        CommentLike.user_id == user_id,
+    ).all()
+    return {row.comment_id for row in rows}
+
+
+def _get_liked_comment_ids_by_ip(comment_ids: list[int], ip: str, db: Session) -> set[int]:
+    rows = db.query(CommentLike.comment_id).filter(
+        CommentLike.comment_id.in_(comment_ids),
+        CommentLike.ip_address == ip,
+    ).all()
+    return {row.comment_id for row in rows}
 
 
 # ── Per-post endpoints ────────────────────────────────────────
@@ -37,9 +49,9 @@ async def _add_ai_reply(comment_id: int, post_title: str, body: str, db_url: str
 @router.get("/posts/{slug}/comments", response_model=list[CommentOut])
 def list_comments(
     slug: str,
+    request: Request,
     db: Session = Depends(get_db),
     current_user=Depends(get_optional_user),
-    request: Request = None,
 ):
     post = db.query(Post).filter(Post.slug == slug, Post.is_published == True).first()
     if not post:
@@ -52,20 +64,19 @@ def list_comments(
         .all()
     )
 
-    ip = _get_ip(request) if request else None
+    comment_ids = [c.id for c in comments]
+    liked_ids: set[int] = set()
+
+    if current_user and comment_ids:
+        liked_ids = _get_liked_comment_ids(comment_ids, current_user.id, db)
+    elif comment_ids:
+        ip = get_client_ip(request)
+        liked_ids = _get_liked_comment_ids_by_ip(comment_ids, ip, db)
+
     result = []
     for c in comments:
         data = CommentOut.model_validate(c)
-        if current_user:
-            data.user_liked = db.query(CommentLike).filter(
-                CommentLike.comment_id == c.id,
-                CommentLike.user_id == current_user.id,
-            ).first() is not None
-        elif ip:
-            data.user_liked = db.query(CommentLike).filter(
-                CommentLike.comment_id == c.id,
-                CommentLike.ip_address == ip,
-            ).first() is not None
+        data.user_liked = c.id in liked_ids
         result.append(data)
     return result
 
@@ -93,17 +104,14 @@ async def create_comment(
         body=payload.body,
     )
     db.add(comment)
+
+    # Update post comment count
+    post.comment_count += 1
+
     db.commit()
     db.refresh(comment)
 
-    from app.core.config import get_settings
-    background_tasks.add_task(
-        _add_ai_reply,
-        comment.id,
-        post.title,
-        payload.body,
-        get_settings().database_url,
-    )
+    background_tasks.add_task(_add_ai_reply, comment.id, post.title, payload.body)
 
     return CommentOut.model_validate(comment)
 
@@ -121,7 +129,7 @@ def toggle_comment_like(
     if not comment:
         raise HTTPException(404, "Comment not found")
 
-    ip = _get_ip(request)
+    ip = get_client_ip(request)
 
     if current_user:
         existing = db.query(CommentLike).filter(
@@ -136,18 +144,19 @@ def toggle_comment_like(
 
     if existing:
         db.delete(existing)
+        comment.like_count = max(0, comment.like_count - 1)
         db.commit()
-        return {"liked": False, "like_count": comment.like_count - 1}
-    else:
-        like = CommentLike(
-            comment_id=comment_id,
-            user_id=current_user.id if current_user else None,
-            ip_address=None if current_user else ip,
-        )
-        db.add(like)
-        db.commit()
-        db.refresh(comment)
-        return {"liked": True, "like_count": comment.like_count}
+        return {"liked": False, "like_count": comment.like_count}
+
+    like = CommentLike(
+        comment_id=comment_id,
+        user_id=current_user.id if current_user else None,
+        ip_address=None if current_user else ip,
+    )
+    db.add(like)
+    comment.like_count += 1
+    db.commit()
+    return {"liked": True, "like_count": comment.like_count}
 
 
 # ── Admin ─────────────────────────────────────────────────────
@@ -161,5 +170,11 @@ def delete_comment(
     comment = db.query(Comment).filter(Comment.id == comment_id).first()
     if not comment:
         raise HTTPException(404, "Comment not found")
+
+    # Update post comment count
+    post = db.query(Post).filter(Post.id == comment.post_id).first()
+    if post:
+        post.comment_count = max(0, post.comment_count - 1)
+
     db.delete(comment)
     db.commit()

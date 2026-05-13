@@ -3,17 +3,21 @@ from typing import Optional, List
 from datetime import datetime
 
 
+class TocItem(BaseModel):
+    title: str
+    anchor: str
+    level: int = 2
+
+
 class PostCreate(BaseModel):
     slug: str
     title: str
     excerpt: str
-    body: str
     content: str
     cat: str
     layout: str = "half"
     tags: List[str] = []
-    toc: List[str] = []
-    date_str: str
+    toc: List[TocItem] = []
     read_time: str = "5 min read"
     cover_image: Optional[str] = None
     is_featured: bool = False
@@ -39,13 +43,11 @@ class PostCreate(BaseModel):
 class PostUpdate(BaseModel):
     title: Optional[str] = None
     excerpt: Optional[str] = None
-    body: Optional[str] = None
     content: Optional[str] = None
     cat: Optional[str] = None
     layout: Optional[str] = None
     tags: Optional[List[str]] = None
-    toc: Optional[List[str]] = None
-    date_str: Optional[str] = None
+    toc: Optional[List[TocItem]] = None
     read_time: Optional[str] = None
     cover_image: Optional[str] = None
     is_featured: Optional[bool] = None
@@ -57,13 +59,11 @@ class PostOut(BaseModel):
     slug: str
     title: str
     excerpt: str
-    body: str
     content: str
     cat: str
     layout: str
     tags: List[str]
-    toc: List[str]
-    date_str: str
+    toc: List[TocItem]
     read_time: str
     cover_image: Optional[str] = None
     is_featured: bool
@@ -86,13 +86,13 @@ class PostListOut(BaseModel):
     cat: str
     layout: str
     tags: List[str]
-    date_str: str
     read_time: str
     cover_image: Optional[str] = None
     is_featured: bool
     like_count: int
     comment_count: int
     view_count: int
+    created_at: datetime
     user_liked: bool = False
 
     model_config = {"from_attributes": True}
