@@ -1,21 +1,24 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from app.core.config import get_settings
 from app.core.database import Base, engine
 
-# Import all models so SQLAlchemy registers them before create_all
 from app.models import user, post, interactions  # noqa: F401
 
 from app.routers import auth, posts, comments, likes, newsletter, ai
 
 settings = get_settings()
 
+frontend_dir = Path(__file__).parent.parent / "frontend"
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Auto-create tables on startup (dev convenience — use Alembic in prod)
     Base.metadata.create_all(bind=engine)
     yield
 
@@ -29,7 +32,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ── CORS ─────────────────────────────────────────────────────────────────────
+# ── CORS ──────────────────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.origins_list,
@@ -46,13 +49,21 @@ app.include_router(likes.router,      prefix="/api/v1")
 app.include_router(newsletter.router, prefix="/api/v1")
 app.include_router(ai.router,         prefix="/api/v1")
 
-
 # ── Health check ──────────────────────────────────────────────────────────────
-@app.get("/", tags=["Health"])
-def root():
-    return {"status": "ok", "app": settings.app_name, "version": "1.0.0"}
-
-
 @app.get("/health", tags=["Health"])
 def health():
     return {"status": "healthy"}
+
+# ── Frontend ──────────────────────────────────────────────────────────────────
+app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+
+@app.get("/")
+async def root():
+    return FileResponse(frontend_dir / "index.html")
+
+@app.get("/{page:path}")
+async def serve_page(page: str):
+    file = frontend_dir / page
+    if file.exists():
+        return FileResponse(file)
+    return FileResponse(frontend_dir / "index.html")
