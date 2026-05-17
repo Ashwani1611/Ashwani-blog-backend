@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Contact — Ashwani Kumar</title>
+<link rel="stylesheet" href="style.css">
+<style>
+main { position:relative; z-index:1; padding-top:68px; }
+
+/* HERO */
+#contact-hero {
+  padding:80px 52px 0;
+  max-width:1300px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:80px; align-items:start;
+}
+.ch-left { }
+.ch-left h1 { font-family:var(--font-head); font-size:clamp(44px,6vw,80px); font-weight:900; line-height:.95; letter-spacing:-.04em; margin-bottom:24px; }
+.ch-left h1 .c { color:var(--cyan); }
+.ch-left .ch-intro { font-size:15px; color:var(--text2); line-height:1.85; margin-bottom:36px; max-width:440px; }
+.ch-availability {
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--font-mono); font-size:12px;
+  color:var(--green); border:1px solid rgba(74,222,128,.25);
+  padding:10px 20px; border-radius:100px; margin-bottom:40px;
+}
+.ch-availability .dot { width:8px; height:8px; background:var(--green); border-radius:50%; animation:pulse-dot2 2s infinite; }
+
+/* CONTACT CARDS */
+.ch-cards { display:flex; flex-direction:column; gap:12px; }
+.ch-card {
+  display:flex; align-items:center; gap:16px;
+  background:var(--c1); border:1px solid var(--border3);
+  padding:20px 24px; text-decoration:none;
+  transition:.25s var(--ease2); position:relative; overflow:hidden;
+  border-radius:8px;
+}
+.ch-card::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:var(--cyan); transform:scaleY(0); transform-origin:top;
+  transition:transform .3s var(--ease);
+}
+.ch-card:hover::before { transform:scaleY(1); }
+.ch-card:hover { border-color:var(--border2); transform:translateX(6px); }
+.ch-card-icon { font-size:22px; flex-shrink:0; }
+.ch-card-label { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.14em; text-transform:uppercase; margin-bottom:3px; }
+.ch-card-val { font-size:14px; color:var(--text); }
+.ch-card-arrow { margin-left:auto; color:var(--text3); font-size:18px; transition:transform .2s, color .2s; }
+.ch-card:hover .ch-card-arrow { color:var(--cyan); transform:translateX(4px); }
+
+/* response time badge */
+.ch-meta { margin-top:32px; display:flex; flex-wrap:wrap; gap:12px; }
+.ch-meta-item {
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+}
+.ch-meta-item .icon { font-size:14px; }
+
+/* FORM */
+.ch-right { }
+#contact-form {
+  background:var(--c1); border:1px solid var(--border2);
+  padding:40px; border-radius:12px;
+  box-shadow:0 24px 64px rgba(0,0,0,.3);
+  position:relative; overflow:hidden;
+}
+#contact-form::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, var(--cyan2), var(--cyan), var(--cyan2));
+}
+.form-title { font-family:var(--font-head); font-size:22px; font-weight:800; margin-bottom:8px; }
+.form-sub { font-family:var(--font-mono); font-size:11px; color:var(--text3); letter-spacing:.1em; margin-bottom:32px; }
+
+.form-row { margin-bottom:20px; }
+.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+.form-group { display:flex; flex-direction:column; }
+label {
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.16em; text-transform:uppercase;
+  margin-bottom:8px; display:flex; align-items:center; gap:6px;
+}
+label .req { color:var(--cyan); }
+input, textarea, select {
+  background:var(--c0); border:1px solid var(--border3);
+  color:var(--text); font-family:var(--font-body); font-size:14px;
+  padding:12px 16px; border-radius:6px; outline:none;
+  transition:border-color .2s, box-shadow .2s;
+  cursor:none;
+  appearance:none;
+}
+input:focus, textarea:focus, select:focus {
+  border-color:var(--border2);
+  box-shadow:0 0 0 3px rgba(0,229,192,.08);
+}
+input::placeholder, textarea::placeholder { color:var(--text3); }
+textarea { resize:vertical; min-height:120px; }
+select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a9ab5' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; }
+
+/* project type selector */
+.type-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
+.type-btn {
+  background:var(--c0); border:1px solid var(--border3);
+  color:var(--text2); font-family:var(--font-mono); font-size:10px;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:10px 8px; text-align:center; border-radius:6px;
+  cursor:none; transition:.2s; user-select:none;
+}
+.type-btn:hover { border-color:var(--border2); color:var(--text); }
+.type-btn.selected { border-color:var(--cyan); color:var(--cyan); background:rgba(0,229,192,.07); }
+
+/* budget */
+.budget-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+.budget-tag {
+  font-family:var(--font-mono); font-size:10px;
+  border:1px solid var(--border3); color:var(--text2);
+  padding:7px 14px; border-radius:100px; cursor:none;
+  transition:.2s; letter-spacing:.08em;
+}
+.budget-tag:hover { border-color:var(--border2); color:var(--text); }
+.budget-tag.selected { border-color:var(--cyan); color:var(--cyan); background:rgba(0,229,192,.07); }
+
+/* char counter */
+.msg-footer { display:flex; justify-content:flex-end; margin-top:6px; }
+.char-count { font-family:var(--font-mono); font-size:10px; color:var(--text3); }
+
+/* submit */
+.form-submit {
+  width:100%; padding:16px;
+  background:var(--cyan); color:var(--c0);
+  border:none; border-radius:6px;
+  font-family:var(--font-mono); font-size:12px;
+  letter-spacing:.14em; text-transform:uppercase;
+  cursor:none; margin-top:8px;
+  transition:.25s var(--ease2);
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  position:relative; overflow:hidden;
+}
+.form-submit::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  transform:translateX(-100%);
+  transition:transform 0s;
+}
+.form-submit:hover { background:#fff; transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,229,192,.25); }
+.form-submit:hover::after { transform:translateX(100%); transition:transform .5s; }
+
+/* success state */
+.form-success {
+  display:none; flex-direction:column; align-items:center;
+  justify-content:center; text-align:center; padding:40px 20px;
+  gap:16px;
+}
+.form-success.show { display:flex; }
+.success-icon { font-size:56px; animation:popIn .4s var(--ease); }
+@keyframes popIn { from{transform:scale(.5);opacity:0} to{transform:scale(1);opacity:1} }
+.success-title { font-family:var(--font-head); font-size:24px; font-weight:800; }
+.success-sub { font-size:14px; color:var(--text2); line-height:1.7; }
+
+/* FAQ SECTION */
+#faq { padding:80px 52px; background:var(--c1); border-top:1px solid var(--border3); }
+.faq-inner { max-width:900px; margin:0 auto; }
+.faq-list { margin-top:48px; }
+.faq-item { border-bottom:1px solid var(--border3); }
+.faq-q {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 0; cursor:none;
+  font-family:var(--font-head); font-size:16px; font-weight:600;
+  transition:color .2s; gap:20px;
+}
+.faq-q:hover { color:var(--cyan); }
+.faq-icon {
+  width:28px; height:28px; border:1px solid var(--border2);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:transform .3s, background .2s, border-color .2s;
+  font-size:16px; color:var(--text3);
+}
+.faq-item.open .faq-icon { transform:rotate(45deg); background:var(--cyan); border-color:var(--cyan); color:var(--c0); }
+.faq-a {
+  font-size:14px; color:var(--text2); line-height:1.8;
+  max-height:0; overflow:hidden;
+  transition:max-height .4s var(--ease), padding .3s;
+}
+.faq-item.open .faq-a { max-height:200px; padding-bottom:20px; }
+
+/* LOCATION CARD */
+#location { padding:80px 52px 100px; max-width:1300px; margin:0 auto; }
+.loc-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:48px; }
+.loc-card {
+  background:var(--c1); border:1px solid var(--border2);
+  border-radius:12px; padding:36px;
+}
+.loc-title { font-family:var(--font-head); font-size:20px; font-weight:800; margin-bottom:20px; }
+.loc-row { display:flex; gap:12px; margin-bottom:14px; align-items:flex-start; }
+.loc-row .icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+.loc-row .info .label { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.12em; text-transform:uppercase; margin-bottom:3px; }
+.loc-row .info .val { font-size:14px; color:var(--text); }
+.timezone-clock {
+  background:var(--c0); border:1px solid var(--border3);
+  padding:20px; border-radius:8px; margin-top:20px;
+  text-align:center;
+}
+.clock-time { font-family:var(--font-mono); font-size:28px; color:var(--cyan); letter-spacing:.08em; }
+.clock-label { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.14em; text-transform:uppercase; margin-top:4px; }
+.office-hours { }
+.oh-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border3); }
+.oh-row:last-child { border-bottom:none; }
+.oh-day { font-family:var(--font-mono); font-size:12px; color:var(--text2); }
+.oh-time { font-family:var(--font-mono); font-size:12px; color:var(--text3); }
+.oh-row.today .oh-day { color:var(--cyan); }
+.oh-row.today .oh-time { color:var(--cyan); }
+
+@media(max-width:900px) {
+  #contact-hero { grid-template-columns:1fr; padding-left:20px; padding-right:20px; gap:40px; }
+  #faq, #location { padding-left:20px; padding-right:20px; }
+  .loc-grid { grid-template-columns:1fr; }
+  .form-row-2 { grid-template-columns:1fr; }
+  .type-grid { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+<div id="page-transition"></div>
+<div id="pt-label"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo"><span class="logo-bracket">[</span>AK<span class="logo-bracket">]</span><div class="logo-dot"></div></a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-avail">Available</span>
+    <a href="contact.html" class="nav-hire">Hire Me</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div id="mobile-menu">
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="work.html">Work</a><a href="skills.html">Skills</a><a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<section id="contact-hero">
+  <div class="ch-left">
+    <div class="section-tag reveal">Get In Touch</div>
+    <h1 class="reveal" data-delay="80">Let's build<br>something <span class="c">real</span></h1>
+    <div class="ch-availability reveal" data-delay="120">
+      <span class="dot"></span>
+      Available for new projects · Immediate start
+    </div>
+    <p class="ch-intro reveal" data-delay="160">
+      Whether you need a backend system built from scratch, a full-stack web platform, 
+      AI features integrated into an existing product, or just have a question — I'd love to hear from you.
+    </p>
+    <div class="ch-cards reveal" data-delay="200">
+      <a href="mailto:a4ashwanik4kr@gmail.com" class="ch-card">
+        <span class="ch-card-icon">📧</span>
+        <div><div class="ch-card-label">Email</div><div class="ch-card-val">a4ashwanik4kr@gmail.com</div></div>
+        <span class="ch-card-arrow">→</span>
+      </a>
+      <a href="https://linkedin.com/in/ashwani-kumar-52b453139/" class="ch-card" target="_blank">
+        <span class="ch-card-icon">💼</span>
+        <div><div class="ch-card-label">LinkedIn</div><div class="ch-card-val">linkedin.com/in/ashwani-kumar</div></div>
+        <span class="ch-card-arrow">→</span>
+      </a>
+      <a href="https://github.com/Ashwani1611" class="ch-card" target="_blank">
+        <span class="ch-card-icon">🐙</span>
+        <div><div class="ch-card-label">GitHub</div><div class="ch-card-val">github.com/Ashwani1611</div></div>
+        <span class="ch-card-arrow">→</span>
+      </a>
+      <a href="https://www.naukri.com/mnjuser/profile?id=&altresid" class="ch-card" target="_blank">
+        <span class="ch-card-icon">🔎</span>
+        <div><div class="ch-card-label">Naukri</div><div class="ch-card-val">Ashwani Kumar — Backend Developer</div></div>
+        <span class="ch-card-arrow">→</span>
+      </a>
+    </div>
+    <div class="ch-meta reveal" data-delay="280">
+      <div class="ch-meta-item"><span class="icon">⚡</span>Replies within 24 hours</div>
+      <div class="ch-meta-item"><span class="icon">🕒</span>IST (UTC+5:30)</div>
+      <div class="ch-meta-item"><span class="icon">🌍</span>Remote-friendly</div>
+    </div>
+  </div>
+
+  <div class="ch-right reveal" data-delay="100">
+    <div id="contact-form">
+      <div id="form-body">
+        <div class="form-title">Start a Conversation</div>
+        <div class="form-sub">// RESPONSE_TIME: &lt; 24H · TIMEZONE: IST</div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>Name <span class="req">*</span></label>
+            <input type="text" id="f-name" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" id="f-email" placeholder="you@company.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Company / Project</label>
+            <input type="text" id="f-company" placeholder="Optional">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Project Type</label>
+          <div class="type-grid" id="type-grid">
+            <div class="type-btn" data-val="backend">Backend API</div>
+            <div class="type-btn" data-val="fullstack">Full-Stack</div>
+            <div class="type-btn" data-val="ai">AI / RAG</div>
+            <div class="type-btn" data-val="realtime">Real-Time</div>
+            <div class="type-btn" data-val="consulting">Consulting</div>
+            <div class="type-btn" data-val="other">Other</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Budget Range</label>
+          <div class="budget-row" id="budget-row">
+            <div class="budget-tag" data-val="<20k">&lt; ₹20k</div>
+            <div class="budget-tag" data-val="20-50k">₹20–50k</div>
+            <div class="budget-tag" data-val="50-100k">₹50–1L</div>
+            <div class="budget-tag" data-val="100k+">₹1L+</div>
+            <div class="budget-tag" data-val="discuss">Let's discuss</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Message <span class="req">*</span></label>
+            <textarea id="f-msg" placeholder="Tell me about your project — what you're building, the problem you're solving, your timeline..." maxlength="600" required></textarea>
+            <div class="msg-footer"><span class="char-count" id="char-count">0 / 600</span></div>
+          </div>
+        </div>
+
+        <button type="button" class="form-submit" id="submit-btn">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+          Send Message
+        </button>
+      </div>
+
+      <div class="form-success" id="form-success">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Message Sent!</div>
+        <p class="success-sub">Thanks for reaching out. I'll review your project details and get back to you within 24 hours.<br><br>In the meantime, feel free to check out my work on <a href="work.html" style="color:var(--cyan)">the projects page</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-inner">
+    <div class="section-tag reveal">Common Questions</div>
+    <h2 class="big-title reveal" data-delay="80">FAQ</h2>
+    <div class="faq-list" id="faq-list">
+      <div class="faq-item">
+        <div class="faq-q"><span>What kind of projects do you take on?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">I specialize in Python backend development (Django, FastAPI), full-stack web platforms, REST API design, and AI/RAG feature integration. I can handle everything from greenfield projects to adding features to existing codebases.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Are you available for full-time employment?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">Yes — I'm actively looking for full-time SDE roles in Delhi NCR or Remote. I'm targeting Full-Stack / Backend Developer positions at product companies. If you're hiring, I'd love to talk.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>How long does a typical project take?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">A simple REST API backend: 1–2 weeks. A full-stack web app with auth, admin, and deployment: 3–6 weeks. A production-grade platform like a dealership system: 2–3 months. I give accurate estimates after understanding your requirements.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>What does your development process look like?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">Discovery call → requirements doc → milestone-based delivery → review cycles → production deployment → handover. I use GitHub for version control, write tests, document APIs, and deploy with CI/CD. No surprises, no scope creep without discussion.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Can you integrate AI features into an existing product?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">Yes. I specialize in adding RAG-based NLP features using pgvector + OpenAI API, specifically within Django applications. If you have a database-backed Django app and want to add smart search, a Q&A assistant, or semantic recommendations — that's exactly what I'm building right now.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>What's your rate / pricing?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">Pricing depends on scope, complexity, and timeline. I work on fixed-price contracts for well-defined projects and hourly for consulting/maintenance. Reach out with your project details and I'll give you a fair quote within 24 hours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="section-tag reveal">Location & Availability</div>
+  <h2 class="big-title reveal" data-delay="80">Where I <span class="c">Am</span></h2>
+  <div class="loc-grid">
+    <div class="loc-card reveal">
+      <div class="loc-title">📍 New Delhi, India</div>
+      <div class="loc-row">
+        <span class="icon">🏙️</span>
+        <div class="info"><div class="label">Area</div><div class="val">Mayur Vihar Phase III, New Delhi</div></div>
+      </div>
+      <div class="loc-row">
+        <span class="icon">🌐</span>
+        <div class="info"><div class="label">Timezone</div><div class="val">IST — UTC+5:30</div></div>
+      </div>
+      <div class="loc-row">
+        <span class="icon">🤝</span>
+        <div class="info"><div class="label">In-Person</div><div class="val">Available Delhi NCR</div></div>
+      </div>
+      <div class="loc-row">
+        <span class="icon">💻</span>
+        <div class="info"><div class="label">Remote</div><div class="val">Global · Any timezone</div></div>
+      </div>
+      <div class="timezone-clock">
+        <div class="clock-time" id="ist-clock">--:--:--</div>
+        <div class="clock-label">Current Time in New Delhi (IST)</div>
+      </div>
+    </div>
+    <div class="loc-card reveal" data-delay="100">
+      <div class="loc-title">🕒 Working Hours</div>
+      <div class="office-hours" id="office-hours">
+        <div class="oh-row"><span class="oh-day">Monday</span><span class="oh-time">9:30am – 6:00pm IST</span></div>
+        <div class="oh-row"><span class="oh-day">Tuesday</span><span class="oh-time">9:30am – 6:00pm IST</span></div>
+        <div class="oh-row"><span class="oh-day">Wednesday</span><span class="oh-time">9:30am – 6:00pm IST</span></div>
+        <div class="oh-row"><span class="oh-day">Thursday</span><span class="oh-time">9:30am – 6:00pm IST</span></div>
+        <div class="oh-row"><span class="oh-day">Friday</span><span class="oh-time">9:30am – 6:00pm IST</span></div>
+        <div class="oh-row"><span class="oh-day">Saturday</span><span class="oh-time">10:00am – 2:00pm IST</span></div>
+        <div class="oh-row"><span class="oh-day">Sunday</span><span class="oh-time">Rest day 🙏</span></div>
+      </div>
+      <div style="margin-top:20px;padding:14px;background:var(--c0);border:1px solid var(--border3);border-radius:8px;">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text3);margin-bottom:6px;letter-spacing:.12em">RESPONSE TIME</div>
+        <div style="font-size:14px;color:var(--text)">Emails: within <strong style="color:var(--cyan)">24 hours</strong></div>
+        <div style="font-size:14px;color:var(--text);margin-top:4px">LinkedIn: within <strong style="color:var(--cyan)">48 hours</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-left">© 2025 <span>Ashwani Kumar</span></div>
+  <div class="footer-center">Built with <span>♥</span> + 4am discipline</div>
+  <div class="footer-right">
+    <a href="https://github.com/Ashwani1611" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/ashwani-kumar" target="_blank">LinkedIn</a>
+    <a href="mailto:a4ashwanik4kr@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+// TYPE SELECTOR
+let selectedType = '', selectedBudget = '';
+document.getElementById('type-grid').querySelectorAll('.type-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected'); selectedType = btn.dataset.val;
+  });
+});
+document.getElementById('budget-row').querySelectorAll('.budget-tag').forEach(tag => {
+  tag.addEventListener('click', () => {
+    document.querySelectorAll('.budget-tag').forEach(b => b.classList.remove('selected'));
+    tag.classList.add('selected'); selectedBudget = tag.dataset.val;
+  });
+});
+
+// CHAR COUNTER
+const msgEl = document.getElementById('f-msg');
+const countEl = document.getElementById('char-count');
+msgEl.addEventListener('input', () => {
+  const n = msgEl.value.length;
+  countEl.textContent = n + ' / 600';
+  countEl.style.color = n > 500 ? 'var(--amber)' : 'var(--text3)';
+});
+
+// ─── FORMSPREE INTEGRATION ───────────────────────────────────────
+// STEP 1: Go to https://formspree.io → Sign up (free) → New Form
+// STEP 2: Replace YOUR_FORM_ID below with your actual form ID
+// STEP 3: Enquiries will land directly in a4ashwanik4kr@gmail.com
+// ─────────────────────────────────────────────────────────────────
+const FORMSPREE_ID = 'xjgljegp'; // ← 🔴 REPLACE THIS
+
+document.getElementById('submit-btn').addEventListener('click', async () => {
+  const name    = document.getElementById('f-name').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const company = document.getElementById('f-company').value.trim();
+  const msg     = document.getElementById('f-msg').value.trim();
+
+  // Validation
+  let hasError = false;
+  [['f-name', name], ['f-email', email], ['f-msg', msg]].forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (!val) { el.style.borderColor = 'var(--red)'; hasError = true;
+      setTimeout(() => el.style.borderColor = '', 2500); }
+  });
+  if (hasError) return;
+
+  const btn = document.getElementById('submit-btn');
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Sending...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        company:      company || 'Not provided',
+        project_type: selectedType  || 'Not selected',
+        budget:       selectedBudget || 'Not selected',
+        message:      msg,
+        _subject:     `New enquiry from ${name} — ${selectedType || 'Portfolio Contact'}`,
+      })
+    });
+
+    if (res.ok) {
+      // ✅ SUCCESS — show thank-you screen
+      document.getElementById('form-body').style.display = 'none';
+      document.getElementById('form-success').classList.add('show');
+    } else {
+      throw new Error('Server error');
+    }
+  } catch (err) {
+    // ❌ ERROR — show inline error message
+    btn.disabled = false;
+    btn.innerHTML = '⚠️ Failed — Try Again';
+    btn.style.background = 'var(--red)';
+    setTimeout(() => {
+      btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/></svg> Send Message';
+      btn.style.background = '';
+    }, 3000);
+  }
+});
+
+// FAQ ACCORDION
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// IST CLOCK
+function updateClock() {
+  const now = new Date();
+  const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const h = String(ist.getHours()).padStart(2,'0');
+  const m = String(ist.getMinutes()).padStart(2,'0');
+  const s = String(ist.getSeconds()).padStart(2,'0');
+  document.getElementById('ist-clock').textContent = `${h}:${m}:${s}`;
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const today = days[ist.getDay()];
+  document.querySelectorAll('.oh-day').forEach(el => {
+    el.closest('.oh-row').classList.toggle('today', el.textContent === today);
+  });
+}
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+</body>
+</html>

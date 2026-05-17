@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Post — Ashwani Kumar</title>
+<link rel="stylesheet" href="style.css">
+<style>
+main { position:relative; z-index:1; padding-top:68px; }
+
+/* POST LAYOUT */
+#post-wrap {
+  max-width:1200px; margin:0 auto;
+  padding:60px 52px 100px;
+  display:grid; grid-template-columns:1fr 360px; gap:48px;
+  align-items:start;
+}
+
+/* LEFT — article */
+.post-article { min-width:0; }
+
+.post-breadcrumb {
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+  letter-spacing:.1em; margin-bottom:28px;
+  display:flex; align-items:center; gap:8px;
+}
+.post-breadcrumb a { color:var(--text3); text-decoration:none; transition:color .2s; }
+.post-breadcrumb a:hover { color:var(--cyan); }
+.post-breadcrumb .sep { color:var(--text3); }
+
+.post-header { margin-bottom:40px; }
+.post-header .meta-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+.post-header .post-cat {
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; padding:4px 12px; border-radius:100px; font-weight:700;
+}
+.cat-django        { background:rgba(0,229,192,.1);    color:var(--cyan); }
+.cat-dsa           { background:rgba(244,185,66,.1);   color:var(--amber); }
+.cat-system-design { background:rgba(240,95,122,.1);   color:var(--red); }
+.cat-ai            { background:rgba(167,139,250,.12); color:#a78bfa; }
+.cat-devops        { background:rgba(74,222,128,.1);   color:var(--green); }
+.cat-python        { background:rgba(0,184,154,.1);    color:var(--cyan2); }
+
+.post-header .post-date { font-family:var(--font-mono); font-size:11px; color:var(--text3); }
+.post-header .post-read { font-family:var(--font-mono); font-size:11px; color:var(--text3); margin-left:auto; }
+
+.post-h1 {
+  font-family:var(--font-head); font-size:clamp(28px,4vw,48px);
+  font-weight:900; line-height:1.05; letter-spacing:-.03em;
+  margin-bottom:20px; color:var(--text);
+}
+.post-excerpt-big {
+  font-size:17px; color:var(--text2); line-height:1.8;
+  margin-bottom:24px; font-style:italic;
+  border-left:3px solid var(--cyan); padding-left:20px;
+}
+.post-tags-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:32px; }
+
+/* LIKE / SHARE BAR */
+.post-action-bar {
+  display:flex; align-items:center; gap:16px;
+  padding:16px 20px; background:var(--c1); border:1px solid var(--border3);
+  border-radius:10px; margin-bottom:40px; flex-wrap:wrap;
+}
+.pab-like {
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--font-mono); font-size:12px;
+  background:none; border:1px solid var(--border2);
+  color:var(--text2); padding:8px 18px; border-radius:100px;
+  cursor:none; transition:.2s; letter-spacing:.08em;
+}
+.pab-like.liked { color:var(--red); border-color:var(--red); background:rgba(192,41,74,.07); }
+.pab-like:hover { border-color:var(--red); color:var(--red); }
+.pab-like svg { width:14px; height:14px; }
+.pab-share {
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+  background:none; border:1px solid var(--border3);
+  padding:8px 16px; border-radius:100px; cursor:none; transition:.2s;
+}
+.pab-share:hover { border-color:var(--border2); color:var(--text); }
+.pab-read { font-family:var(--font-mono); font-size:11px; color:var(--text3); margin-left:auto; }
+.progress-ring { display:flex; align-items:center; gap:8px; }
+#read-fill { transition:stroke-dashoffset .3s; }
+
+/* ARTICLE BODY */
+.post-body { font-size:15px; line-height:1.9; color:var(--text2); }
+.post-body h2 { font-family:var(--font-head); font-size:24px; font-weight:800; color:var(--text); margin:40px 0 16px; letter-spacing:-.02em; }
+.post-body h3 { font-family:var(--font-head); font-size:18px; font-weight:700; color:var(--text); margin:28px 0 12px; }
+.post-body p { margin-bottom:20px; }
+.post-body strong { color:var(--text); font-weight:600; }
+.post-body code { font-family:var(--font-mono); font-size:12px; background:var(--c2); color:var(--cyan); padding:2px 6px; border-radius:4px; border:1px solid var(--border3); }
+.post-body pre { background:var(--c1); border:1px solid var(--border2); border-radius:10px; padding:24px; overflow-x:auto; margin:24px 0; position:relative; }
+.post-body pre code { background:none; border:none; padding:0; font-size:13px; line-height:1.75; color:var(--text); }
+.post-body blockquote { border-left:3px solid var(--cyan); padding:16px 20px; background:rgba(0,229,192,.04); margin:24px 0; border-radius:0 8px 8px 0; font-style:italic; color:var(--text2); }
+.post-body ul, .post-body ol { padding-left:20px; margin-bottom:20px; }
+.post-body li { margin-bottom:8px; }
+.post-body .callout { background:rgba(167,139,250,.07); border:1px solid rgba(167,139,250,.2); padding:20px 24px; border-radius:10px; margin:24px 0; display:flex; gap:12px; align-items:flex-start; }
+.post-body .callout-icon { font-size:20px; flex-shrink:0; }
+.post-body .callout-text { font-size:14px; line-height:1.7; }
+.copy-btn { position:absolute; top:12px; right:12px; font-family:var(--font-mono); font-size:10px; color:var(--text3); background:var(--c2); border:1px solid var(--border3); padding:4px 10px; border-radius:4px; cursor:none; transition:.2s; }
+.copy-btn:hover { border-color:var(--cyan); color:var(--cyan); }
+.copy-btn.copied { color:var(--green); border-color:var(--green); }
+
+/* AUTHOR BOX */
+.author-box { background:var(--c1); border:1px solid var(--border2); border-radius:12px; padding:28px; margin:48px 0; display:flex; gap:20px; align-items:flex-start; }
+.author-avatar { width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,var(--cyan2),var(--cyan)); display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; box-shadow:0 0 0 3px rgba(0,229,192,.2); }
+.author-name { font-family:var(--font-head); font-size:16px; font-weight:800; margin-bottom:4px; }
+.author-role { font-family:var(--font-mono); font-size:10px; color:var(--cyan); letter-spacing:.12em; margin-bottom:10px; }
+.author-bio { font-size:13px; color:var(--text2); line-height:1.7; }
+
+.post-divider { height:1px; background:var(--border3); margin:48px 0; }
+
+/* COMMENTS */
+#comments { margin-top:48px; }
+.comments-title { font-family:var(--font-head); font-size:24px; font-weight:800; margin-bottom:32px; }
+.comment-form { background:var(--c1); border:1px solid var(--border2); padding:28px; border-radius:12px; margin-bottom:40px; }
+.comment-form h3 { font-family:var(--font-head); font-size:16px; font-weight:700; margin-bottom:20px; }
+.cf-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+.cf-group { display:flex; flex-direction:column; gap:6px; }
+.cf-group label { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.14em; text-transform:uppercase; }
+.cf-group input, .cf-group textarea { background:var(--c0); border:1px solid var(--border3); color:var(--text); font-family:var(--font-body); font-size:14px; padding:11px 14px; border-radius:8px; outline:none; cursor:none; transition:border-color .2s; }
+.cf-group input:focus, .cf-group textarea:focus { border-color:var(--border2); }
+.cf-group input::placeholder, .cf-group textarea::placeholder { color:var(--text3); }
+.cf-group textarea { resize:vertical; min-height:100px; }
+.cf-submit { background:var(--cyan); color:var(--c0); border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; padding:12px 28px; border-radius:6px; cursor:none; margin-top:14px; transition:.2s; }
+.cf-submit:hover { background:var(--text); }
+.comments-list { display:flex; flex-direction:column; gap:20px; }
+.comment-item { background:var(--c1); border:1px solid var(--border3); padding:24px; border-radius:12px; transition:border-color .2s; animation:commentIn .4s var(--ease); }
+@keyframes commentIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+.comment-item:hover { border-color:var(--border2); }
+.comment-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.comment-avatar { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; font-weight:700; font-family:var(--font-head); }
+.comment-name { font-family:var(--font-head); font-size:14px; font-weight:700; }
+.comment-date { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.08em; margin-left:auto; }
+.comment-text { font-size:14px; color:var(--text2); line-height:1.75; }
+.comment-footer { display:flex; align-items:center; gap:12px; margin-top:12px; }
+.comment-like { display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:10px; color:var(--text3); background:none; border:none; cursor:none; transition:color .2s; }
+.comment-like:hover { color:var(--red); }
+.comment-like.liked { color:var(--red); }
+.ai-reply-tag { font-family:var(--font-mono); font-size:10px; color:#a78bfa; background:rgba(167,139,250,.08); border:1px solid rgba(167,139,250,.18); padding:2px 8px; border-radius:100px; margin-left:auto; }
+
+/* RIGHT SIDEBAR */
+.post-sidebar { position:sticky; top:88px; display:flex; flex-direction:column; gap:20px; }
+
+/* AI Chat */
+.post-ai { background:var(--c1); border:1px solid var(--border2); border-radius:14px; overflow:hidden; box-shadow:var(--shadow); }
+.pai-head { padding:16px 20px; background:var(--c2); border-bottom:1px solid var(--border3); display:flex; align-items:center; gap:8px; }
+.pai-dot { width:7px; height:7px; background:#a78bfa; border-radius:50%; animation:ai-pulse 2s infinite; }
+@keyframes ai-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(167,139,250,.4)} 50%{box-shadow:0 0 0 4px rgba(167,139,250,0)} }
+.pai-title { font-family:var(--font-head); font-size:13px; font-weight:700; }
+.pai-sub { font-family:var(--font-mono); font-size:9px; color:var(--text3); letter-spacing:.1em; margin-left:auto; }
+.pai-msgs { padding:16px; max-height:280px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
+.pai-msgs::-webkit-scrollbar { width:3px; }
+.pai-msgs::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+.pai-msg { display:flex; gap:7px; align-items:flex-start; }
+.pai-msg.user { flex-direction:row-reverse; }
+.pai-avatar { width:24px; height:24px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; background:var(--c2); border:1px solid var(--border3); }
+.pai-msg.ai-msg .pai-avatar { background:rgba(167,139,250,.15); border-color:rgba(167,139,250,.2); }
+.pai-bubble { max-width:88%; padding:9px 12px; border-radius:10px; font-size:12px; line-height:1.65; }
+.pai-msg.user .pai-bubble { background:var(--cyan); color:var(--c0); border-radius:10px 0 10px 10px; }
+.pai-msg.ai-msg .pai-bubble { background:var(--c2); color:var(--text); border-radius:0 10px 10px 10px; border:1px solid var(--border3); }
+.pai-bubble.typing::after { content:'●●●'; animation:typing 1s infinite; font-size:9px; letter-spacing:2px; }
+@keyframes typing { 0%,100%{opacity:.3} 50%{opacity:1} }
+.pai-qs { padding:0 16px 12px; display:flex; flex-wrap:wrap; gap:5px; }
+.pai-q { font-family:var(--font-mono); font-size:9px; color:var(--text3); border:1px solid var(--border3); background:var(--c0); padding:4px 9px; border-radius:100px; cursor:none; transition:.2s; }
+.pai-q:hover { border-color:rgba(167,139,250,.35); color:#a78bfa; }
+.pai-row { padding:12px 16px; border-top:1px solid var(--border3); display:flex; gap:7px; }
+.pai-input { flex:1; background:var(--c0); border:1px solid var(--border3); color:var(--text); font-family:var(--font-body); font-size:12px; padding:8px 12px; border-radius:7px; outline:none; cursor:none; transition:border-color .2s; }
+.pai-input:focus { border-color:rgba(167,139,250,.4); }
+.pai-input::placeholder { color:var(--text3); }
+.pai-send { width:32px; height:32px; background:#a78bfa; border:none; border-radius:7px; cursor:none; display:flex; align-items:center; justify-content:center; transition:background .2s; flex-shrink:0; }
+.pai-send:hover { background:#9061f9; }
+.pai-send svg { width:13px; height:13px; fill:white; }
+
+/* TOC */
+.toc-box { background:var(--c1); border:1px solid var(--border3); border-radius:12px; padding:24px; }
+.toc-title { font-family:var(--font-mono); font-size:11px; color:var(--text3); letter-spacing:.18em; text-transform:uppercase; margin-bottom:14px; }
+.toc-item { display:block; font-size:13px; color:var(--text2); text-decoration:none; padding:6px 0; border-bottom:1px solid var(--border3); transition:color .2s; }
+.toc-item:last-child { border-bottom:none; }
+.toc-item:hover, .toc-item.active { color:var(--cyan); }
+.toc-item::before { content:'#'; color:var(--text3); margin-right:6px; font-family:var(--font-mono); font-size:11px; }
+
+/* RELATED */
+.related-box { background:var(--c1); border:1px solid var(--border3); border-radius:12px; padding:24px; }
+.related-title { font-family:var(--font-mono); font-size:11px; color:var(--text3); letter-spacing:.18em; text-transform:uppercase; margin-bottom:14px; }
+.related-item { display:flex; flex-direction:column; gap:4px; padding:10px 0; border-bottom:1px solid var(--border3); text-decoration:none; }
+.related-item:last-child { border-bottom:none; }
+.related-item-title { font-size:13px; color:var(--text); font-weight:600; transition:color .2s; }
+.related-item:hover .related-item-title { color:var(--cyan); }
+.related-item-meta { font-family:var(--font-mono); font-size:10px; color:var(--text3); }
+
+@media(max-width:1000px) {
+  #post-wrap { grid-template-columns:1fr; padding-left:20px; padding-right:20px; }
+  .post-sidebar { position:static; }
+  .cf-row { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+<div id="page-transition"></div>
+<div id="pt-label"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo"><span class="logo-bracket">[</span>AK<span class="logo-bracket">]</span><div class="logo-dot"></div></a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-avail">Available</span>
+    <a href="contact.html" class="nav-hire">Hire Me</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="work.html">Work</a>
+  <a href="skills.html">Skills</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+<div id="post-wrap">
+  <!-- ARTICLE -->
+  <article class="post-article" id="post-article">
+    <div class="post-breadcrumb">
+      <a href="index.html">Home</a><span class="sep">/</span>
+      <a href="blog.html">Blog</a><span class="sep">/</span>
+      <span id="bc-title">Loading...</span>
+    </div>
+    <div id="post-content"></div>
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="post-sidebar">
+    <div class="post-ai reveal-right">
+      <div class="pai-head">
+        <div class="pai-dot"></div>
+        <div class="pai-title">Post AI</div>
+        <span class="pai-sub">Ask about this post</span>
+      </div>
+      <div class="pai-msgs" id="pai-msgs">
+        <div class="pai-msg ai-msg">
+          <div class="pai-avatar">✦</div>
+          <div class="pai-bubble">I've read this post. Ask me anything about it — concepts, code, or how to apply it.</div>
+        </div>
+      </div>
+      <div class="pai-qs" id="pai-qs"></div>
+      <div class="pai-row">
+        <input class="pai-input" id="pai-input" placeholder="Ask about this post...">
+        <button class="pai-send" id="pai-send"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/></svg></button>
+      </div>
+    </div>
+
+    <div class="toc-box reveal-right" data-delay="80" id="toc-box">
+      <div class="toc-title">Contents</div>
+      <div id="toc-links"></div>
+    </div>
+
+    <div class="related-box reveal-right" data-delay="160" id="related-box">
+      <div class="related-title">Related Posts</div>
+      <div id="related-links"></div>
+    </div>
+  </aside>
+</div>
+</main>
+
+<footer>
+  <div class="footer-left">© 2025 <span>Ashwani Kumar</span></div>
+  <div class="footer-center">Built with <span>♥</span> + 4am discipline</div>
+  <div class="footer-right">
+    <a href="https://github.com/Ashwani1611" target="_blank">GitHub</a>
+    <a href="blog.html">← Back to Blog</a>
+  </div>
+</footer>
+
+<!-- api.js must come before main.js and posts-data.js -->
+<script src="api.js"></script>
+<script src="main.js"></script>
+<script src="posts-data.js"></script>
+<script>
+/* ════════════════════════════════════════
+   LIKES (localStorage fallback when backend offline)
+════════════════════════════════════════ */
+function getLikes() { try { return JSON.parse(localStorage.getItem('ak_likes') || '{}'); } catch { return {}; } }
+function saveLikes(o) { try { localStorage.setItem('ak_likes', JSON.stringify(o)); } catch {} }
+function isLiked(id) { return !!getLikes()[id]; }
+function toggleLike(id) { const l = getLikes(); l[id] = !l[id]; saveLikes(l); return l[id]; }
+
+/* ════════════════════════════════════════
+   COMMENTS (localStorage fallback)
+════════════════════════════════════════ */
+function getComments(id) { try { return JSON.parse(localStorage.getItem('ak_comments_' + id) || '[]'); } catch { return []; } }
+function saveComments(id, arr) { try { localStorage.setItem('ak_comments_' + id, JSON.stringify(arr)); } catch {} }
+const AVATAR_COLORS = ['#00e5c0','#a78bfa','#f4b942','#f05f7a','#4ade80','#60a5fa'];
+function avatarColor(name) { return AVATAR_COLORS[name.charCodeAt(0) % AVATAR_COLORS.length]; }
+
+/* ════════════════════════════════════════
+   LOAD POST
+════════════════════════════════════════ */
+const params = new URLSearchParams(window.location.search);
+const postId = params.get('id') || POSTS[0].id;
+const post   = POSTS.find(p => p.id === postId) || POSTS[0];
+
+document.title = post.title + ' — Ashwani Kumar';
+document.getElementById('bc-title').textContent = post.title.length > 40 ? post.title.slice(0,40) + '…' : post.title;
+
+const liked     = isLiked(post.id);
+const likeCount = post.likes + (liked ? 1 : 0);
+
+document.getElementById('post-content').innerHTML = `
+  <header class="post-header">
+    <div class="meta-row">
+      <span class="post-cat cat-${post.cat}">${post.cat.replace('-',' ')}</span>
+      <span class="post-date">${post.date}</span>
+      <span class="post-read">${post.read}</span>
+    </div>
+    <h1 class="post-h1">${post.title}</h1>
+    <p class="post-excerpt-big">${post.excerpt}</p>
+    <div class="post-tags-row">${post.tags.map(t=>`<span class="pill" style="font-size:10px">${t}</span>`).join('')}</div>
+  </header>
+
+  <div class="post-action-bar">
+    <button class="pab-like ${liked ? 'liked' : ''}" id="pab-like">
+      <svg viewBox="0 0 24 24" fill="${liked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <span id="pab-count">${likeCount}</span> Likes
+    </button>
+    <button class="pab-share" onclick="navigator.clipboard.writeText(location.href).then(()=>this.textContent='✓ Copied!')">Share ↗</button>
+    <div class="pab-read">
+      <div class="progress-ring">
+        <svg width="28" height="28">
+          <circle cx="14" cy="14" r="11" fill="none" stroke="var(--border3)" stroke-width="2.5"/>
+          <circle id="read-fill" cx="14" cy="14" r="11" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-dasharray="69.1" stroke-dashoffset="69.1"/>
+        </svg>
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">${post.read}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-body" id="post-body">${post.body}</div>
+
+  <div class="author-box">
+    <div class="author-avatar">👨‍💻</div>
+    <div>
+      <div class="author-name">Ashwani Kumar</div>
+      <div class="author-role">FULL-STACK DEVELOPER · BACKEND SPECIALIST</div>
+      <div class="author-bio">Building scalable backends with Django, FastAPI & PostgreSQL. Studying at IIT Mandi. Writing to learn in public and share what actually works in production.</div>
+    </div>
+  </div>
+
+  <div class="post-divider"></div>
+
+  <section id="comments">
+    <div class="comments-title">Comments (<span id="comment-count">0</span>)</div>
+    <div class="comment-form">
+      <h3>Leave a Comment</h3>
+      <div class="cf-row">
+        <div class="cf-group"><label>Name *</label><input id="cf-name" placeholder="Your name"></div>
+        <div class="cf-group"><label>Email</label><input id="cf-email" type="email" placeholder="your@email.com (not shown)"></div>
+      </div>
+      <div class="cf-group" style="margin-bottom:14px">
+        <label>Message *</label>
+        <textarea id="cf-msg" placeholder="Share your thoughts, questions, or corrections..."></textarea>
+      </div>
+      <button class="cf-submit" id="cf-submit">Post Comment</button>
+    </div>
+    <div class="comments-list" id="comments-list"></div>
+  </section>
+`;
+
+/* Like button — tries API first, falls back to localStorage */
+document.getElementById('pab-like').addEventListener('click', async function () {
+  const slug = post.slug || post.id;
+  const res = await AK.apiTogglePostLike(slug);
+  if (res) {
+    this.classList.toggle('liked', res.liked);
+    this.querySelector('svg').setAttribute('fill', res.liked ? 'currentColor' : 'none');
+    document.getElementById('pab-count').textContent = res.like_count;
+  } else {
+    const l = toggleLike(post.id);
+    this.classList.toggle('liked', l);
+    this.querySelector('svg').setAttribute('fill', l ? 'currentColor' : 'none');
+    document.getElementById('pab-count').textContent = post.likes + (l ? 1 : 0);
+  }
+  this.style.transform = 'scale(1.15)';
+  setTimeout(() => this.style.transform = '', 200);
+});
+
+/* Read progress ring */
+const circle = document.getElementById('read-fill');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+  if (circle) circle.style.strokeDashoffset = 69.1 * (1 - Math.min(pct, 1));
+}, { passive: true });
+
+/* Code copy buttons */
+document.querySelectorAll('.post-body pre').forEach(pre => {
+  const btn = document.createElement('button');
+  btn.className = 'copy-btn'; btn.textContent = 'Copy';
+  pre.appendChild(btn);
+  btn.addEventListener('click', () => {
+    navigator.clipboard.writeText(pre.querySelector('code').textContent);
+    btn.textContent = 'Copied ✓'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+});
+
+/* TOC */
+const tocBox = document.getElementById('toc-links');
+if (post.toc) {
+  const heads = document.querySelectorAll('.post-body h2, .post-body h3');
+  post.toc.forEach((t, i) => {
+    const a = document.createElement('a');
+    a.className = 'toc-item'; a.href = '#h' + i; a.textContent = t;
+    tocBox.appendChild(a);
+    if (heads[i]) heads[i].id = 'h' + i;
+  });
+}
+
+/* TOC scroll highlight */
+const heads = document.querySelectorAll('.post-body h2, .post-body h3');
+window.addEventListener('scroll', () => {
+  let cur = 0;
+  heads.forEach((h, i) => { if (window.scrollY >= h.offsetTop - 120) cur = i; });
+  document.querySelectorAll('.toc-item').forEach((a, i) => a.classList.toggle('active', i === cur));
+}, { passive: true });
+
+/* Related posts */
+const related = POSTS.filter(p => p.id !== post.id && (p.cat === post.cat || p.tags.some(t => post.tags.includes(t)))).slice(0, 3);
+const relBox  = document.getElementById('related-links');
+if (related.length) {
+  related.forEach(r => {
+    relBox.innerHTML += `<a href="blog-post.html?id=${r.id}" class="related-item"><div class="related-item-title">${r.title}</div><div class="related-item-meta">${r.date} · ${r.read}</div></a>`;
+  });
+} else {
+  relBox.innerHTML = '<p style="font-size:13px;color:var(--text3)">No related posts yet.</p>';
+}
+
+/* ════════════════════════════════════════
+   COMMENTS — API-first, localStorage fallback
+════════════════════════════════════════ */
+const SEEDED_COMMENTS = {
+  'django-select-related': [
+    { name: 'Rahul M.',  text: 'Great explanation! The select_related vs prefetch_related distinction was exactly what I was confused about. Used this on my project and queries went from 80 to 3.', date: '2 days ago', likes: 5, color: '#00e5c0' },
+    { name: 'Priya S.',  text: 'Really clear writeup Ashwani. The Debug Toolbar tip alone saved me hours of debugging. Do you have a post on database indexing next?', date: '1 day ago', likes: 3, color: '#a78bfa' },
+    { name: 'DevNerd42', text: 'N+1 bugs are so sneaky. I once shipped a feature that made 500 DB calls per page load 😂 wish I had this guide earlier.', date: '5 hours ago', likes: 8, color: '#f4b942' },
+  ],
+  'rag-pgvector': [
+    { name: 'Arjun K.', text: 'This is exactly what I needed. Been trying to understand how to add semantic search to my Django app without a separate vector DB. pgvector is the answer!', date: '1 day ago', likes: 12, color: '#00e5c0' },
+    { name: 'Meera T.', text: 'The cosine distance explanation finally clicked for me. Thank you for writing this clearly.', date: '3 hours ago', likes: 4, color: '#a78bfa' },
+  ],
+};
+
+async function renderComments() {
+  const list    = document.getElementById('comments-list');
+  const countEl = document.getElementById('comment-count');
+
+  /* Try live comments first */
+  const slug = post.slug || post.id;
+  const liveComments = await AK.apiGetComments(slug);
+
+  if (liveComments && liveComments.length) {
+    countEl.textContent = liveComments.length;
+    list.innerHTML = liveComments.map(c => `
+      <div class="comment-item">
+        <div class="comment-header">
+          <div class="comment-avatar" style="background:${avatarColor(c.display_name || c.guest_name || 'U')};color:#05080c">
+            ${(c.display_name || c.guest_name || 'U')[0].toUpperCase()}
+          </div>
+          <div><div class="comment-name">${c.display_name || c.guest_name || 'Guest'}</div></div>
+          <div class="comment-date">${new Date(c.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</div>
+        </div>
+        <div class="comment-text">${c.body}</div>
+        <div class="comment-footer">
+          <button class="comment-like" data-id="${c.id}">❤️ ${c.like_count || 0}</button>
+          ${c.ai_reply ? `<span class="ai-reply-tag">✦ AI replied</span>` : ''}
+        </div>
+        ${c.ai_reply ? `
+          <div style="margin-top:12px;padding:14px 18px;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:8px;">
+            <div style="font-family:var(--font-mono);font-size:9px;color:#a78bfa;margin-bottom:6px;letter-spacing:.1em">✦ ASHWANI REPLIED</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.7">${c.ai_reply}</div>
+          </div>` : ''}
+      </div>`).join('');
+  } else {
+    /* Fallback: seeded + localStorage */
+    const all    = getComments(post.id);
+    const seeded = (SEEDED_COMMENTS[post.id] || []).slice(0, post.comments);
+    countEl.textContent = seeded.length + all.length;
+    list.innerHTML = [...seeded, ...all].map(c => `
+      <div class="comment-item">
+        <div class="comment-header">
+          <div class="comment-avatar" style="background:${c.color || avatarColor(c.name)};color:#05080c">${c.name[0].toUpperCase()}</div>
+          <div><div class="comment-name">${c.name}</div></div>
+          <div class="comment-date">${c.date || 'Just now'}</div>
+        </div>
+        <div class="comment-text">${c.text}</div>
+        <div class="comment-footer">
+          <button class="comment-like">❤️ ${c.likes || 0}</button>
+        </div>
+      </div>`).join('');
+  }
+
+  /* Wire like buttons */
+  list.querySelectorAll('.comment-like').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.dataset.id;
+      const n  = parseInt(btn.textContent.replace(/\D/g, '')) || 0;
+      if (id) {
+        const res = await AK.apiToggleCommentLike(id);
+        if (res) { btn.classList.toggle('liked', res.liked); btn.textContent = `❤️ ${res.like_count}`; return; }
+      }
+      btn.classList.toggle('liked');
+      btn.textContent = `❤️ ${btn.classList.contains('liked') ? n + 1 : n}`;
+    });
+  });
+}
+renderComments();
+
+/* Comment submit — API-first, localStorage fallback, AI reply via backend */
+document.getElementById('cf-submit').addEventListener('click', async () => {
+  const name  = document.getElementById('cf-name').value.trim();
+  const email = document.getElementById('cf-email').value.trim();
+  const msg   = document.getElementById('cf-msg').value.trim();
+
+  if (!name || !msg) {
+    ['cf-name','cf-msg'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) { el.style.borderColor = 'var(--red)'; setTimeout(() => el.style.borderColor = '', 2000); }
+    });
+    return;
+  }
+
+  const btn = document.getElementById('cf-submit');
+  btn.textContent = 'Posting...'; btn.disabled = true;
+
+  const slug = post.slug || post.id;
+  const res  = await AK.apiPostComment(slug, msg, name, email || null);
+
+  if (res) {
+    /* Backend handled it (including AI reply via server) */
+    document.getElementById('cf-name').value  = '';
+    document.getElementById('cf-email').value = '';
+    document.getElementById('cf-msg').value   = '';
+    btn.textContent = 'Post Comment'; btn.disabled = false;
+    await renderComments();
+    return;
+  }
+
+  /* Offline fallback — save locally, get AI reply via backend */
+  const all = getComments(post.id);
+  all.push({ name, text: msg, date: 'Just now', likes: 0, color: avatarColor(name) });
+  saveComments(post.id, all);
+  document.getElementById('cf-name').value  = '';
+  document.getElementById('cf-email').value = '';
+  document.getElementById('cf-msg').value   = '';
+  btn.textContent = 'Post Comment'; btn.disabled = false;
+  await renderComments();
+
+  /* AI reply (routed through backend, not direct to Anthropic) */
+  const aiData = await AK.apiAIChat(
+    [{ role: 'user', content: msg }]
+  );
+  const aiReply = aiData?.reply;
+  if (aiReply) {
+    setTimeout(() => {
+      const list  = document.getElementById('comments-list');
+      const aiDiv = document.createElement('div');
+      aiDiv.className = 'comment-item';
+      aiDiv.style.border = '1px solid rgba(167,139,250,.25)';
+      aiDiv.innerHTML = `
+        <div class="comment-header">
+          <div class="comment-avatar" style="background:rgba(167,139,250,.2);color:#a78bfa;font-size:16px">✦</div>
+          <div><div class="comment-name">Ashwani Kumar <span style="font-family:var(--font-mono);font-size:9px;color:#a78bfa;margin-left:6px">AI Reply</span></div></div>
+          <div class="comment-date">Just now</div>
+        </div>
+        <div class="comment-text">${aiReply}</div>`;
+      list.insertBefore(aiDiv, list.firstChild);
+    }, 1200);
+  }
+});
+
+/* ════════════════════════════════════════
+   POST AI CHAT — routed via backend /ai/chat
+════════════════════════════════════════ */
+const paiMsgs  = document.getElementById('pai-msgs');
+const paiInput = document.getElementById('pai-input');
+const paiSend  = document.getElementById('pai-send');
+let paiHistory = [];
+
+const questions = ['Summarize key points', 'Show me a code example', 'How do I apply this?', 'What are common mistakes?'];
+document.getElementById('pai-qs').innerHTML = questions.map(q =>
+  `<button class="pai-q" data-q="${q}">${q}</button>`
+).join('');
+document.querySelectorAll('.pai-q').forEach(b => b.addEventListener('click', () => paiSendMsg(b.dataset.q)));
+
+function paiAddMsg(role, text, typing = false) {
+  const div = document.createElement('div');
+  div.className = 'pai-msg ' + (role === 'user' ? 'user' : 'ai-msg');
+  div.innerHTML = `<div class="pai-avatar">${role === 'user' ? '👤' : '✦'}</div><div class="pai-bubble${typing ? ' typing' : ''}">${typing ? '' : text}</div>`;
+  paiMsgs.appendChild(div);
+  paiMsgs.scrollTop = paiMsgs.scrollHeight;
+  return div.querySelector('.pai-bubble');
+}
+
+async function paiSendMsg(q) {
+  if (!q.trim()) return;
+  paiHistory.push({ role: 'user', content: q });
+  paiAddMsg('user', q);
+  const bubble = paiAddMsg('ai', '', true);
+
+  const data = await AK.apiAIChat(paiHistory);
+  const reply = data?.reply || '⚠️ AI backend is offline. Make sure your FastAPI server is running.';
+
+  bubble.classList.remove('typing');
+  bubble.textContent = reply;
+  paiHistory.push({ role: 'assistant', content: reply });
+  paiMsgs.scrollTop = paiMsgs.scrollHeight;
+}
+
+paiSend.addEventListener('click', () => {
+  const q = paiInput.value.trim();
+  if (q) { paiInput.value = ''; paiSendMsg(q); }
+});
+paiInput.addEventListener('keydown', e => { if (e.key === 'Enter') paiSend.click(); });
+</script>
+</body>
+</html>

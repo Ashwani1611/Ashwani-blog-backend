@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>About — Ashwani Kumar</title>
+<link rel="stylesheet" href="style.css">
+<style>
+main { position:relative; z-index:1; padding-top:68px; }
+
+/* HERO */
+#about-hero {
+  padding:80px 52px 100px;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:80px; align-items:center;
+  max-width:1300px; margin:0 auto;
+  position:relative;
+}
+.about-hero-left .eyebrow {
+  font-family:var(--font-mono); font-size:11px; color:var(--cyan);
+  letter-spacing:.22em; text-transform:uppercase;
+  margin-bottom:20px;
+  opacity:0; animation:fadeUp .6s .1s forwards;
+}
+.about-hero-left h1 {
+  font-family:var(--font-head); font-size:clamp(48px,6vw,78px);
+  font-weight:900; line-height:.95; letter-spacing:-.03em;
+  margin-bottom:28px;
+  opacity:0; animation:fadeUp .7s .2s forwards;
+}
+.about-hero-left h1 .s {
+  font-family:var(--font-serif); font-style:italic;
+  font-weight:400; color:var(--text2);
+}
+.about-hero-left .lead {
+  font-size:16px; color:var(--text2); line-height:1.9;
+  margin-bottom:36px; max-width:480px;
+  opacity:0; animation:fadeUp .7s .35s forwards;
+}
+.about-badges {
+  display:flex; gap:10px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp .7s .5s forwards;
+}
+
+/* PROFILE CARD */
+.profile-card {
+  background:var(--c1); border:1px solid var(--border2);
+  border-radius:16px; padding:36px;
+  box-shadow:0 32px 80px rgba(0,0,0,.4);
+  opacity:0; animation:fadeUp .9s .3s forwards;
+  position:relative; overflow:hidden;
+}
+.profile-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--cyan2),var(--cyan),var(--cyan2));
+}
+.profile-avatar {
+  width:72px; height:72px; border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan2),var(--cyan));
+  display:flex; align-items:center; justify-content:center;
+  font-size:28px; margin-bottom:20px;
+  box-shadow:0 0 0 3px rgba(0,229,192,.2);
+}
+.profile-name { font-family:var(--font-head); font-size:22px; font-weight:800; margin-bottom:4px; }
+.profile-role { font-family:var(--font-mono); font-size:11px; color:var(--cyan); letter-spacing:.12em; margin-bottom:20px; }
+.profile-divider { height:1px; background:var(--border3); margin:20px 0; }
+.profile-row {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:12px;
+}
+.profile-row .lbl { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.12em; text-transform:uppercase; }
+.profile-row .val { font-size:13px; color:var(--text); }
+.profile-row .val a { color:var(--cyan); text-decoration:none; }
+.profile-actions { display:flex; gap:10px; margin-top:24px; }
+.profile-btn {
+  flex:1; font-family:var(--font-mono); font-size:11px;
+  letter-spacing:.1em; text-transform:uppercase;
+  text-decoration:none; text-align:center; padding:10px;
+  border-radius:6px; transition:.2s;
+}
+.profile-btn.primary { background:var(--cyan); color:var(--c0); }
+.profile-btn.primary:hover { background:#fff; }
+.profile-btn.secondary { border:1px solid var(--border2); color:var(--text2); }
+.profile-btn.secondary:hover { border-color:var(--cyan); color:var(--cyan); }
+
+/* STORY */
+#story {
+  padding:100px 52px;
+  background:var(--c1);
+  border-top:1px solid var(--border3);
+}
+.story-inner { max-width:1300px; margin:0 auto; display:grid; grid-template-columns:1fr 2fr; gap:80px; align-items:start; }
+.story-nav { position:sticky; top:100px; }
+.story-nav-item {
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:10px 0 10px 20px;
+  border-left:2px solid var(--border3);
+  cursor:none; transition:color .2s, border-color .2s;
+  display:block; text-decoration:none;
+}
+.story-nav-item.active, .story-nav-item:hover { color:var(--cyan); border-color:var(--cyan); }
+
+.story-content .block { margin-bottom:64px; }
+.story-content .block-title {
+  font-family:var(--font-head); font-size:28px; font-weight:800;
+  margin-bottom:20px; letter-spacing:-.02em;
+}
+.story-content .block-title .num {
+  font-family:var(--font-mono); font-size:12px; color:var(--text3);
+  display:block; margin-bottom:6px;
+}
+.story-content p { font-size:15px; color:var(--text2); line-height:1.9; margin-bottom:16px; }
+.story-content strong { color:var(--text); }
+
+
+/* TIMELINE */
+.exp-timeline { position:relative; padding-left:28px; margin-top:20px; }
+.exp-timeline::before {
+  content:''; position:absolute; left:0; top:8px; bottom:0;
+  width:1px; background:var(--border3);
+}
+.exp-item { position:relative; margin-bottom:40px; }
+.exp-item::before {
+  content:''; position:absolute; left:-33px; top:6px;
+  width:10px; height:10px; border-radius:50%;
+  background:var(--c1); border:2px solid var(--cyan);
+}
+.exp-item.current::before { background:var(--cyan); box-shadow:0 0 10px rgba(0,229,192,.4); }
+.exp-meta   { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.12em; margin-bottom:6px; }
+.exp-title  { font-family:var(--font-head); font-size:17px; font-weight:700; margin-bottom:3px; }
+.exp-company{ font-size:13px; color:var(--cyan); margin-bottom:12px; }
+.exp-points { list-style:none; display:flex; flex-direction:column; gap:6px; }
+.exp-points li {
+  font-size:13px; color:var(--text2); line-height:1.7;
+  padding-left:16px; position:relative;
+}
+.exp-points li::before { content:'→'; position:absolute; left:0; color:var(--cyan); font-size:11px; }
+
+/* VALUES */
+.values-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+.value-card {
+  background:var(--c0); border:1px solid var(--border3);
+  padding:20px; border-radius:8px;
+  transition:border-color .3s, transform .3s var(--ease);
+}
+.value-card:hover { border-color:var(--border2); transform:translateY(-2px); }
+.value-icon  { font-size:24px; margin-bottom:10px; }
+.value-title { font-family:var(--font-head); font-size:15px; font-weight:700; margin-bottom:6px; }
+.value-desc  { font-size:12px; color:var(--text2); line-height:1.7; }
+
+/* EDUCATION */
+#education {
+  padding:100px 52px;
+  max-width:1300px; margin:0 auto;
+}
+.edu-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:48px; }
+.edu-card {
+  background:var(--c1); border:1px solid var(--border3);
+  padding:32px; position:relative; overflow:hidden;
+  border-radius:4px;
+  transition:border-color .3s, transform .3s var(--ease);
+}
+.edu-card:hover { border-color:var(--border2); transform:translateY(-3px); }
+.edu-card.featured {
+  border-color:var(--border2); grid-column:span 2;
+  display:grid; grid-template-columns:2fr 1fr;
+  gap:32px; align-items:center;
+}
+.edu-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--cyan2),var(--cyan));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .4s var(--ease);
+}
+.edu-card:hover::after { transform:scaleX(1); }
+.edu-logo    { font-size:36px; margin-bottom:16px; }
+.edu-inst    { font-family:var(--font-head); font-size:20px; font-weight:800; margin-bottom:4px; }
+.edu-degree  { font-size:13px; color:var(--cyan); margin-bottom:4px; }
+.edu-year    { font-family:var(--font-mono); font-size:11px; color:var(--text3); letter-spacing:.1em; margin-bottom:16px; }
+.edu-desc    { font-size:13px; color:var(--text2); line-height:1.7; }
+.edu-subjects{ display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; }
+
+/* BEYOND CODE — freelance client projects ---------------------------------- */
+#beyond {
+  padding:80px 52px 100px;
+  background:var(--c1);
+  border-top:1px solid var(--border3);
+}
+.beyond-inner { max-width:1300px; margin:0 auto; }
+.beyond-grid  { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:48px; }
+.beyond-card  {
+  background:var(--c0); border:1px solid var(--border3);
+  padding:32px; border-radius:4px;
+  transition:border-color .3s, transform .3s var(--ease);
+  position:relative; overflow:hidden;
+}
+.beyond-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .4s var(--ease);
+}
+.beyond-card:hover::before { transform:scaleX(1); }
+.beyond-card:hover { border-color:var(--border2); transform:translateY(-2px); }
+.beyond-icon  { font-size:32px; margin-bottom:16px; }
+.beyond-client{ font-family:var(--font-mono); font-size:10px; color:var(--cyan); letter-spacing:.16em; text-transform:uppercase; margin-bottom:8px; }
+.beyond-title { font-family:var(--font-head); font-size:20px; font-weight:800; margin-bottom:10px; }
+.beyond-desc  { font-size:13px; color:var(--text2); line-height:1.8; margin-bottom:20px; }
+
+/* pill colour variants */
+.pill.green { background:rgba(74,222,128,.1); color:#4ade80; border-color:rgba(74,222,128,.25); }
+.pill.amber { background:rgba(251,191,36,.1); color:#fbbf24; border-color:rgba(251,191,36,.25); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){
+  #about-hero { grid-template-columns:1fr; }
+  .story-inner { grid-template-columns:1fr; }
+  .story-nav   { display:none; }
+  .edu-grid    { grid-template-columns:1fr; }
+  .edu-card.featured { grid-column:span 1; grid-template-columns:1fr; }
+  .beyond-grid { grid-template-columns:1fr; }
+  #about-hero,#story,#education,#beyond { padding-left:20px; padding-right:20px; }
+  .values-grid { grid-template-columns:1fr; }
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+<div id="page-transition"></div>
+<div id="pt-label"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-bracket">[</span>AK<span class="logo-bracket">]</span>
+    <div class="logo-dot"></div>
+  </a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-avail">Available</span>
+    <a href="contact.html" class="nav-hire">Hire Me</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="work.html">Work</a>
+  <a href="skills.html">Skills</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="about-hero">
+  <div class="about-hero-left">
+    <div class="eyebrow">About Me</div>
+    <h1>The person<br>behind<br><span class="s">the code.</span></h1>
+    <p class="lead">
+      I'm Ashwani — a full-stack developer from New Delhi, backend at heart.
+      3+ years building real products with Django, FastAPI, and PostgreSQL.
+      I care about clean code, honest communication, and shipping things that actually work.
+    </p>
+    <div class="about-badges">
+      <span class="pill green">Open to Work</span>
+      <span class="pill">Pan India</span>
+      <span class="pill">Remote OK</span>
+      <span class="pill amber">IIT Mandi · In Progress</span>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-avatar">👨‍💻</div>
+    <div class="profile-name">Ashwani Kumar</div>
+    <div class="profile-role">FULL-STACK DEVELOPER · BACKEND SPECIALIST</div>
+    <div class="profile-divider"></div>
+    <div class="profile-row"><span class="lbl">Location</span><span class="val">New Delhi · Open Pan India</span></div>
+    <div class="profile-row"><span class="lbl">Experience</span><span class="val">3+ Years</span></div>
+    <div class="profile-row"><span class="lbl">Speciality</span><span class="val">Django · FastAPI · PostgreSQL</span></div>
+    <div class="profile-row"><span class="lbl">Education</span><span class="val">IIT Mandi SD Cert. (In Progress)</span></div>
+    <div class="profile-row"><span class="lbl">GitHub</span><span class="val"><a href="https://github.com/Ashwani1611" target="_blank" rel="noopener">Ashwani1611</a></span></div>
+    <div class="profile-row"><span class="lbl">Status</span><span class="val" style="color:var(--green)">● Available for hire</span></div>
+    <div class="profile-actions">
+      <a href="contact.html" class="profile-btn primary">Hire Me</a>
+      <a href="#" class="profile-btn secondary" download>Resume ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- STORY -->
+<section id="story">
+  <div class="story-inner">
+    <nav class="story-nav reveal-left">
+      <a href="#career"  class="story-nav-item active">Career</a>
+      <a href="#values"  class="story-nav-item">Values</a>
+    </nav>
+
+    <div class="story-content">
+
+      <!-- CAREER -->
+      <div class="block reveal" id="career">
+        <div class="block-title"><span class="num">01 —</span>Career Story</div>
+        <p>My journey started with <strong>database and SQL development</strong>, before transitioning to Python backend work at <strong>GIS Consortium India</strong> in Noida — where I spent two years building REST APIs for e-governance platforms serving multiple municipal corporations across India.</p>
+        <p>Those APIs handled citizen-facing services: property tax, water billing, complaints — real impact at scale. I learned what "production" actually means when thousands of citizens depend on your endpoint being up at 9am.</p>
+        <p>I've since moved to <strong>full-stack freelance work</strong>, building complete platforms from scratch for clients — live dealership sites, business web apps, and AI API integrations using OpenAI and Gemini inside Django backends.</p>
+        <p>Currently pursuing a <strong>Software Development certification at IIT Mandi</strong> covering Python, DSA, DBMS, OS, Networking, and GenAI. The fundamentals matter.</p>
+
+        <div class="exp-timeline">
+          <div class="exp-item current">
+            <div class="exp-meta">FEB 2026 — PRESENT</div>
+            <div class="exp-title">Full-Stack Developer</div>
+            <div class="exp-company">Freelance · Remote</div>
+            <ul class="exp-points">
+              <li>Built and deployed skylinewheels.in — live Bajaj dealership platform in production</li>
+              <li>Implemented VAPID web push, WhatsApp API, Cloudinary CDN, and Jazzmin admin</li>
+              <li>Integrating OpenAI API into client Django backends for AI-powered features</li>
+              <li>Pursuing IIT Mandi Software Development certification</li>
+            </ul>
+          </div>
+          <div class="exp-item">
+            <div class="exp-meta">2022 — 2024</div>
+            <div class="exp-title">Backend Developer</div>
+            <div class="exp-company">GIS Consortium India Pvt. Ltd. · Noida, UP</div>
+            <ul class="exp-points">
+              <li>Built REST APIs for e-governance platforms across 5+ municipal clients</li>
+              <li>Reduced report latency 40% via ORM optimization (select_related, prefetch_related)</li>
+              <li>Implemented JWT auth, RBAC, and production security configurations</li>
+              <li>Delivered citizen-facing government infrastructure serving daily active users</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- VALUES -->
+      <div class="block reveal" id="values" data-delay="80">
+        <div class="block-title"><span class="num">02 —</span>How I Work</div>
+        <p>These aren't just values — they're the principles that show up in every pull request, every API design decision, and every client call.</p>
+        <div class="values-grid">
+          <div class="value-card">
+            <div class="value-icon">⚡</div>
+            <div class="value-title">Ship Fast, Fix Faster</div>
+            <div class="value-desc">Iteration beats perfection. Get to production, then improve. A shipped product beats a perfect mockup.</div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">🔍</div>
+            <div class="value-title">Fundamentals First</div>
+            <div class="value-desc">Frameworks change. SQL, OS, networking, and algorithms don't. I invest deeply in the foundation.</div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">📖</div>
+            <div class="value-title">Read the Docs</div>
+            <div class="value-desc">Not Stack Overflow-first. I read source code and official documentation before asking questions.</div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">🤝</div>
+            <div class="value-title">Honest Communication</div>
+            <div class="value-desc">Deadlines, blockers, scope changes — I communicate clearly and early. No surprises.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-tag reveal">Education</div>
+  <h2 class="big-title reveal" data-delay="80">Learning Never <span class="c">Stops</span></h2>
+  <div class="edu-grid">
+
+    <div class="edu-card featured reveal">
+      <div>
+        <div class="edu-logo">🏛️</div>
+        <div class="edu-inst">IIT Mandi</div>
+        <div class="edu-degree">Software Development Certification</div>
+        <div class="edu-year">May 2025 — Present</div>
+        <div class="edu-desc">Intensive program covering core Computer Science fundamentals alongside modern engineering practices. Bridging the gap between applied development and theoretical depth.</div>
+        <div class="edu-subjects">
+          <span class="pill">Python</span>
+          <span class="pill">DSA</span>
+          <span class="pill">DBMS</span>
+          <span class="pill">OS</span>
+          <span class="pill">Networking</span>
+          <span class="pill amber">GenAI</span>
+        </div>
+      </div>
+      <div style="text-align:center; padding:20px;">
+        <div style="font-size:72px; margin-bottom:12px;">🎓</div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:var(--cyan); letter-spacing:.12em;">IN PROGRESS</div>
+        <div style="font-family:var(--font-head); font-size:14px; color:var(--text2); margin-top:8px;">One of India's top technical institutes</div>
+      </div>
+    </div>
+
+    <div class="edu-card reveal" data-delay="80">
+      <div class="edu-logo">💻</div>
+      <div class="edu-inst">Self-Directed Learning</div>
+      <div class="edu-degree">System Design & Architecture</div>
+      <div class="edu-year">2022 — Present</div>
+      <div class="edu-desc">CAP theorem, consistency models, CDN, caching strategies, sharding, distributed systems. Applied directly to production projects.</div>
+      <div class="edu-subjects">
+        <span class="pill">CAP Theorem</span>
+        <span class="pill">Scalability</span>
+        <span class="pill">CDN</span>
+      </div>
+    </div>
+
+    <div class="edu-card reveal" data-delay="160">
+      <div class="edu-logo">🧠</div>
+      <div class="edu-inst">DSA & Problem Solving</div>
+      <div class="edu-degree">Algorithms & Data Structures</div>
+      <div class="edu-year">2024 — Present</div>
+      <div class="edu-desc">Working through NeetCode 150 in Python — Arrays, Hashing, Two Pointers, Sliding Window, Stack, Binary Search, Linked Lists, Trees. One topic block per day, every day.</div>
+      <div class="edu-subjects">
+        <span class="pill">Python</span>
+        <span class="pill">NeetCode 150</span>
+        <span class="pill">LeetCode</span>
+        <span class="pill amber">In Progress</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BEYOND CODE — freelance client projects -->
+<section id="beyond">
+  <div class="beyond-inner">
+    <div class="section-tag reveal">Beyond Work</div>
+    <h2 class="big-title reveal" data-delay="80">Freelance <span class="c">Client Work</span></h2>
+    <p class="reveal" data-delay="120" style="max-width:600px; font-size:15px; color:var(--text2); line-height:1.85; margin-bottom:0;">
+      Outside of job applications, I take on freelance projects that push me into real requirements, real deadlines, and real users. Here are two current client builds.
+    </p>
+    <div class="beyond-grid">
+
+      <div class="beyond-card reveal" data-delay="80">
+        <div class="beyond-icon">🏍️</div>
+        <div class="beyond-client">Client · Live in Production</div>
+        <div class="beyond-title">Skyline Wheels — Bajaj Dealership</div>
+        <p class="beyond-desc">
+          Full dealership platform for a Bajaj motorcycle client — bike inventory, service bookings,
+          exchange requests, lead management, Cloudinary media, web push notifications, and WhatsApp
+          follow-up. Deployed on Railway + Supabase.
+        </p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <span class="pill green">Live</span>
+          <span class="pill">Django</span>
+          <span class="pill">PostgreSQL</span>
+          <span class="pill">Railway</span>
+        </div>
+      </div>
+
+      <div class="beyond-card reveal" data-delay="160">
+        <div class="beyond-icon">🌿</div>
+        <div class="beyond-client">Client · In Development</div>
+        <div class="beyond-title">Mogli Flow Club — Calisthenics Business</div>
+        <p class="beyond-desc">
+          Website for a calisthenics training business in Mayur Vihar, New Delhi. Multi-page site
+          with member enrollment, admin panel, Firebase backend, and a custom dark athletic
+          design — Bebas Neue, lime-green accents, mobile-first.
+        </p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <span class="pill amber">In Progress</span>
+          <span class="pill">Firebase</span>
+          <span class="pill">HTML/CSS/JS</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-left">© 2026 <span>Ashwani Kumar</span></div>
+  <div class="footer-center">Built with <span>♥</span> + 4am discipline</div>
+  <div class="footer-right">
+    <a href="https://github.com/Ashwani1611" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/ashwani-kumar" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+const techs = [
+  'Django','FastAPI','PostgreSQL','React','Docker',
+  'Celery','Redis','WebSockets','OpenAI API',
+  'Bootstrap 5','Railway','Supabase','Cloudinary','IIT Mandi'
+];
+const t = document.getElementById('ticker');
+const html = [...techs,...techs,...techs,...techs]
+  .map(x => `<div class="ticker-item"><span class="sep">→</span>${x}</div>`)
+  .join('');
+t.innerHTML = html + html;
+
+// Story nav active scroll
+const blocks   = document.querySelectorAll('.block');
+const navItems = document.querySelectorAll('.story-nav-item');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  blocks.forEach(b => { if (window.scrollY >= b.offsetTop - 160) cur = b.id; });
+  navItems.forEach(n => n.classList.toggle('active', n.getAttribute('href') === '#' + cur));
+});
+</script>
+</body>
+</html>

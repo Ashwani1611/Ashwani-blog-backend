@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Work — Ashwani Kumar</title>
+<meta name="description" content="Projects and case studies by Ashwani Kumar — Full-Stack Developer specializing in Django, FastAPI, and PostgreSQL.">
+<link rel="stylesheet" href="style.css">
+<style>
+main { position:relative; z-index:1; padding-top:68px; }
+
+/* ── PAGE HERO ── */
+#work-hero {
+  padding:80px 52px 72px;
+  max-width:1300px; margin:0 auto;
+  position:relative;
+}
+.work-hero-eyebrow {
+  font-family:var(--font-mono); font-size:11px; color:var(--cyan);
+  letter-spacing:.22em; text-transform:uppercase;
+  margin-bottom:20px;
+  opacity:0; animation:fadeUp .6s .1s forwards;
+}
+.work-hero-title {
+  font-family:var(--font-head); font-size:clamp(52px,7vw,88px);
+  font-weight:900; line-height:.92; letter-spacing:-.04em;
+  margin-bottom:24px;
+  opacity:0; animation:fadeUp .7s .2s forwards;
+}
+.work-hero-title .dim { color:var(--text3); }
+.work-hero-title .accent { color:var(--cyan); }
+.work-hero-sub {
+  font-size:15px; color:var(--text2); line-height:1.8;
+  max-width:520px;
+  opacity:0; animation:fadeUp .7s .35s forwards;
+}
+.work-hero-line {
+  height:1px; background:var(--border3);
+  margin-top:56px;
+  opacity:0; animation:fadeUp .6s .5s forwards;
+}
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  padding:0 52px;
+  max-width:1300px; margin:0 auto 64px;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp .6s .55s forwards;
+}
+.filter-btn {
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; padding:8px 18px;
+  border:1px solid var(--border3); border-radius:100px;
+  background:transparent; color:var(--text3);
+  cursor:none; transition:all .2s;
+}
+.filter-btn:hover  { border-color:var(--border2); color:var(--text); }
+.filter-btn.active { border-color:var(--cyan); color:var(--cyan); background:rgba(0,229,192,.06); }
+
+/* ── PROJECTS ── */
+#projects { padding:0 52px 120px; max-width:1300px; margin:0 auto; }
+
+/* featured big card */
+.project-featured {
+  display:grid; grid-template-columns:1fr 1fr;
+  border:1px solid var(--border3); margin-bottom:16px;
+  position:relative; overflow:hidden;
+  transition:border-color .3s;
+  background:var(--c1);
+}
+.project-featured:hover { border-color:var(--border2); }
+.project-featured::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--cyan2), var(--cyan), var(--cyan2));
+}
+.pf-left {
+  padding:48px 48px 48px 48px;
+  display:flex; flex-direction:column;
+  border-right:1px solid var(--border3);
+}
+.pf-right {
+  padding:48px;
+  display:flex; flex-direction:column;
+  justify-content:space-between;
+  background:var(--c0);
+}
+.proj-index {
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+  letter-spacing:.2em; margin-bottom:20px;
+}
+.proj-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px; }
+.proj-title {
+  font-family:var(--font-head); font-size:clamp(28px,3vw,42px);
+  font-weight:900; line-height:1.0; letter-spacing:-.03em;
+  margin-bottom:16px;
+}
+.proj-client {
+  font-family:var(--font-mono); font-size:11px;
+  color:var(--cyan); letter-spacing:.14em; text-transform:uppercase;
+  margin-bottom:20px;
+}
+.proj-desc {
+  font-size:14px; color:var(--text2); line-height:1.85;
+  flex:1; margin-bottom:32px;
+}
+.proj-links { display:flex; gap:10px; flex-wrap:wrap; }
+.proj-link {
+  font-family:var(--font-mono); font-size:11px;
+  letter-spacing:.1em; text-transform:uppercase;
+  text-decoration:none; padding:10px 20px;
+  border-radius:6px; transition:all .2s;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.proj-link.primary {
+  background:var(--cyan); color:var(--c0);
+}
+.proj-link.primary:hover { background:#fff; }
+.proj-link.secondary {
+  border:1px solid var(--border2); color:var(--text2);
+}
+.proj-link.secondary:hover { border-color:var(--cyan); color:var(--cyan); }
+.proj-link::after { content:'↗'; }
+
+/* right panel — tech stack + highlights */
+.pf-label {
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.18em; text-transform:uppercase; margin-bottom:12px;
+}
+.tech-stack-list {
+  display:flex; flex-direction:column; gap:8px; margin-bottom:36px;
+}
+.tech-row {
+  display:flex; align-items:center; gap:10px;
+  font-size:13px; color:var(--text2);
+}
+.tech-row .dot { width:6px; height:6px; border-radius:50%; background:var(--cyan); flex-shrink:0; }
+.highlights { display:flex; flex-direction:column; gap:10px; }
+.highlight-item {
+  background:var(--c1); border:1px solid var(--border3);
+  padding:12px 16px; border-radius:6px;
+  font-size:12px; color:var(--text2); line-height:1.6;
+  display:flex; gap:10px; align-items:flex-start;
+}
+.highlight-item .hi { color:var(--cyan); font-size:14px; flex-shrink:0; }
+
+/* medium cards grid */
+.projects-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px;
+  margin-bottom:16px;
+}
+.project-card {
+  background:var(--c1); border:1px solid var(--border3);
+  padding:40px; position:relative; overflow:hidden;
+  transition:border-color .3s, transform .3s var(--ease);
+  display:flex; flex-direction:column;
+}
+.project-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .5s var(--ease);
+}
+.project-card:hover::before { transform:scaleX(1); }
+.project-card:hover {
+  border-color:var(--border2);
+  transform:translateY(-3px);
+}
+.project-card .proj-desc { margin-bottom:24px; }
+.project-card .proj-links { margin-top:auto; }
+
+/* status strip */
+.status-strip {
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:20px;
+}
+.status-dot {
+  width:7px; height:7px; border-radius:50%;
+}
+.status-dot.live   { background:var(--green); box-shadow:0 0 8px rgba(74,222,128,.5); }
+.status-dot.wip    { background:var(--amber); }
+.status-dot.done   { background:var(--cyan); }
+.status-text {
+  font-family:var(--font-mono); font-size:10px;
+  letter-spacing:.14em; text-transform:uppercase;
+}
+.status-text.live { color:var(--green); }
+.status-text.wip  { color:var(--amber); }
+.status-text.done { color:var(--cyan); }
+
+/* pill colour variants */
+.pill.green { background:rgba(74,222,128,.1); color:#4ade80; border-color:rgba(74,222,128,.25); }
+.pill.amber { background:rgba(251,191,36,.1);  color:#fbbf24; border-color:rgba(251,191,36,.25); }
+.pill.blue  { background:rgba(96,165,250,.1);  color:#60a5fa; border-color:rgba(96,165,250,.25); }
+.pill.red   { background:rgba(248,113,113,.1); color:#f87171; border-color:rgba(248,113,113,.25); }
+
+/* ── PROCESS STRIP ── */
+#process {
+  border-top:1px solid var(--border3);
+  border-bottom:1px solid var(--border3);
+  background:var(--c1); padding:72px 52px;
+}
+.process-inner { max-width:1300px; margin:0 auto; }
+.process-steps {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--border3);
+  border:1px solid var(--border3);
+  margin-top:48px;
+}
+.process-step {
+  background:var(--c1); padding:32px 28px;
+  position:relative;
+  transition:background .3s;
+}
+.process-step:hover { background:var(--c0); }
+.ps-num {
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+  letter-spacing:.2em; margin-bottom:20px;
+}
+.ps-icon { font-size:28px; margin-bottom:16px; }
+.ps-title {
+  font-family:var(--font-head); font-size:17px; font-weight:700;
+  margin-bottom:8px;
+}
+.ps-desc { font-size:13px; color:var(--text2); line-height:1.75; }
+
+/* ── CTA ── */
+#work-cta {
+  padding:120px 52px; text-align:center;
+  position:relative; overflow:hidden;
+}
+.cta-glow {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:800px; height:400px;
+  background:radial-gradient(ellipse, rgba(0,229,192,.05) 0%, transparent 70%);
+  pointer-events:none;
+}
+.work-cta-inner { position:relative; max-width:680px; margin:0 auto; }
+.work-cta-title {
+  font-family:var(--font-head); font-size:clamp(36px,5vw,64px);
+  font-weight:900; letter-spacing:-.03em; line-height:1.0;
+  margin-bottom:20px;
+}
+.work-cta-title span { color:var(--cyan); }
+.work-cta-sub {
+  font-size:15px; color:var(--text2); line-height:1.8;
+  margin-bottom:40px;
+}
+.cta-actions { display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px) {
+  .project-featured { grid-template-columns:1fr; }
+  .pf-left  { border-right:none; border-bottom:1px solid var(--border3); }
+  .process-steps { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:768px) {
+  #work-hero, #projects, #process, #work-cta, #professional { padding-left:20px; padding-right:20px; }
+  .filter-bar { padding-left:20px; padding-right:20px; }
+  .projects-grid { grid-template-columns:1fr; }
+  .pf-left, .pf-right { padding:28px; }
+  .process-steps { grid-template-columns:1fr; }
+  #professional > div:last-child { grid-template-columns:1fr !important; }
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+<div id="page-transition"></div>
+<div id="pt-label"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-bracket">[</span>AK<span class="logo-bracket">]</span>
+    <div class="logo-dot"></div>
+  </a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-avail">Available</span>
+    <a href="contact.html" class="nav-hire">Hire Me</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="work.html">Work</a>
+  <a href="skills.html">Skills</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<!-- PAGE HERO -->
+<section id="work-hero">
+  <div class="work-hero-eyebrow">Selected Work</div>
+  <h1 class="work-hero-title">
+    Things I've<br>
+    <span class="accent">built</span> <span class="dim">&amp; shipped.</span>
+  </h1>
+  <p class="work-hero-sub">
+    From government e-governance APIs serving thousands of citizens daily, to
+    live freelance platforms in production — here's what I've built.
+  </p>
+  <div class="work-hero-line"></div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All Projects</button>
+  <button class="filter-btn" data-filter="freelance">Freelance</button>
+  <button class="filter-btn" data-filter="personal">Personal</button>
+  <button class="filter-btn" data-filter="company">Company</button>
+  <button class="filter-btn" data-filter="django">Django</button>
+  <button class="filter-btn" data-filter="react">React</button>
+</div>
+
+<!-- PROJECTS -->
+<div id="projects">
+
+  <!-- 01 — SKYLINE WHEELS (featured) -->
+  <div class="project-featured reveal" data-tags="freelance django">
+    <div class="pf-left">
+      <div class="proj-index">01 — Featured Project</div>
+      <div class="status-strip">
+        <span class="status-dot live"></span>
+        <span class="status-text live">Live in Production</span>
+      </div>
+      <div class="proj-tags">
+        <span class="pill green">Live</span>
+        <span class="pill">Django 5.1</span>
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">Cloudinary</span>
+        <span class="pill">Railway</span>
+        <span class="pill">Supabase</span>
+        <span class="pill blue">CI/CD</span>
+      </div>
+      <div class="proj-client">Client · Bajaj Dealership</div>
+      <div class="proj-title">Skyline Wheels</div>
+      <p class="proj-desc">
+        Full-stack dealership management platform for a Bajaj motorcycle client —
+        built from zero to production. Six core modules handle the complete
+        dealership workflow: bike inventory, showroom listings, service stations,
+        customer enquiries, service bookings, and exchange requests.
+        <br><br>
+        Integrated Cloudinary for multi-model media delivery with transformation
+        pipelines, VAPID web push notifications for real-time lead alerts,
+        WhatsApp Business API + SMTP for automated follow-ups, and Jazzmin
+        for a polished admin experience. Deployed on Railway with Supabase
+        PostgreSQL — 8 production security settings enabled.
+      </p>
+      <div class="proj-links">
+        <a href="https://www.skylinewheels.in" class="proj-link primary" target="_blank" rel="noopener">Live Site</a>
+        <a href="#skyline-detail" class="proj-link secondary">Case Study</a>
+      </div>
+    </div>
+    <div class="pf-right">
+      <div>
+        <div class="pf-label">Tech Stack</div>
+        <div class="tech-stack-list">
+          <div class="tech-row"><span class="dot"></span>Django 5.1 + DRF</div>
+          <div class="tech-row"><span class="dot"></span>PostgreSQL + Supabase</div>
+          <div class="tech-row"><span class="dot"></span>Cloudinary CDN</div>
+          <div class="tech-row"><span class="dot"></span>Redis Caching</div>
+          <div class="tech-row"><span class="dot"></span>VAPID Web Push</div>
+          <div class="tech-row"><span class="dot"></span>WhatsApp API + SMTP</div>
+          <div class="tech-row"><span class="dot"></span>Jazzmin Admin</div>
+          <div class="tech-row"><span class="dot"></span>GitHub Actions CI/CD</div>
+          <div class="tech-row"><span class="dot"></span>Railway Deployment</div>
+        </div>
+      </div>
+      <div>
+        <div class="pf-label">Key Highlights</div>
+        <div class="highlights">
+          <div class="highlight-item">
+            <span class="hi">⚡</span>
+            <span>6 core modules — full dealership workflow from inventory to bookings</span>
+          </div>
+          <div class="highlight-item">
+            <span class="hi">📲</span>
+            <span>Real-time lead alerts via VAPID push + WhatsApp Business API</span>
+          </div>
+          <div class="highlight-item">
+            <span class="hi">🖼️</span>
+            <span>Cloudinary transformation pipelines for optimized media delivery</span>
+          </div>
+          <div class="highlight-item">
+            <span class="hi">🔒</span>
+            <span>8 production security settings — HTTPS, HSTS, CSP, secure cookies</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 & 03 — GRID -->
+  <div class="projects-grid">
+
+    <!-- FLOWBOARD -->
+    <div class="project-card reveal" data-delay="80" data-tags="personal django react">
+      <div class="proj-index">02 — Personal Project</div>
+      <div class="status-strip">
+        <span class="status-dot done"></span>
+        <span class="status-text done">Complete</span>
+      </div>
+      <div class="proj-tags">
+        <span class="pill blue">Open Source</span>
+        <span class="pill">Django</span>
+        <span class="pill">React</span>
+        <span class="pill">WebSockets</span>
+        <span class="pill">Docker</span>
+      </div>
+      <div class="proj-client">Personal Build · Portfolio Project</div>
+      <div class="proj-title" style="font-size:clamp(22px,2.5vw,32px)">FlowBoard</div>
+      <p class="proj-desc">
+        Real-time project management tool — Kanban boards, team collaboration,
+        and task analytics. Built to showcase production-level Django architecture:
+        Django Channels for WebSockets, Celery + Redis for async task queues,
+        JWT auth, React frontend, Dockerized, and full CI/CD via GitHub Actions.
+        <br><br>
+        DSA embedded throughout — Min-Heap for task prioritization,
+        Binary Search for filtering, Sliding Window for analytics.
+      </p>
+      <div class="proj-tags" style="margin-bottom:24px;">
+        <span class="pill">Celery</span>
+        <span class="pill">Redis</span>
+        <span class="pill">JWT</span>
+        <span class="pill">GitHub Actions</span>
+        <span class="pill">CI/CD</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://github.com/Ashwani1611/flowboard" class="proj-link primary" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <!-- MOGLI FLOW CLUB -->
+    <div class="project-card reveal" data-delay="160" data-tags="freelance">
+      <div class="proj-index">03 — Client Project</div>
+      <div class="status-strip">
+        <span class="status-dot wip"></span>
+        <span class="status-text wip">In Development</span>
+      </div>
+      <div class="proj-tags">
+        <span class="pill amber">In Progress</span>
+        <span class="pill">Firebase</span>
+        <span class="pill">HTML/CSS/JS</span>
+      </div>
+      <div class="proj-client">Client · Calisthenics Business, New Delhi</div>
+      <div class="proj-title" style="font-size:clamp(22px,2.5vw,32px)">Mogli Flow Club</div>
+      <p class="proj-desc">
+        Website for a calisthenics training business based in Mayur Vihar,
+        New Delhi. Multi-page site with member enrollment flow, admin panel
+        for managing members and schedules, Firebase backend, and a custom
+        dark athletic design — Bebas Neue display type, lime-green accents,
+        mobile-first layout built for the gym community.
+      </p>
+      <div class="proj-tags" style="margin-bottom:24px;">
+        <span class="pill">Firebase Auth</span>
+        <span class="pill">Firestore</span>
+        <span class="pill">Mobile First</span>
+      </div>
+      <div class="proj-links">
+        <a href="#" class="proj-link secondary">Coming Soon</a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- PROFESSIONAL WORK -->
+<section id="professional" style="padding:0 52px 80px; max-width:1300px; margin:0 auto;">
+  <div class="section-tag reveal">Professional Experience</div>
+  <h2 class="big-title reveal" data-delay="80">Company <span class="c">Projects</span></h2>
+  <p class="reveal" data-delay="120" style="font-size:14px; color:var(--text3); line-height:1.8; max-width:600px; margin:12px 0 48px; font-family:var(--font-mono); letter-spacing:.04em;">
+    Built at GIS Consortium India Pvt. Ltd. (2022–2025) · Proprietary — code not publicly available
+  </p>
+
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+
+    <!-- SURVEY SYSTEM -->
+    <div class="project-card reveal" data-delay="0" data-tags="company">
+      <div class="proj-index">04 — Backend API</div>
+      <div class="status-strip">
+        <span class="status-dot done"></span>
+        <span class="status-text done">Delivered</span>
+      </div>
+      <div class="proj-tags">
+        <span class="pill">Django</span>
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">REST API</span>
+      </div>
+      <div class="proj-client">GIS Consortium India · Municipal Client</div>
+      <div class="proj-title" style="font-size:clamp(18px,2vw,26px)">House Survey System</div>
+      <p class="proj-desc">
+        Backend API for door-to-door household survey operations across
+        municipal zones. Field workers used the API to record property
+        data, owner details, and geo-tagged survey entries in real time.
+        Handled zone-wise data segmentation, survey progress tracking,
+        and bulk data reporting for municipal administrators.
+      </p>
+      <div class="proj-tags" style="margin-bottom:0;">
+        <span class="pill">JWT Auth</span>
+        <span class="pill">Geo Data</span>
+        <span class="pill">Bulk Reports</span>
+      </div>
+    </div>
+
+    <!-- PROPERTY TAX -->
+    <div class="project-card reveal" data-delay="100" data-tags="company">
+      <div class="proj-index">05 — Backend API</div>
+      <div class="status-strip">
+        <span class="status-dot done"></span>
+        <span class="status-text done">Delivered</span>
+      </div>
+      <div class="proj-tags">
+        <span class="pill">Django</span>
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">REST API</span>
+      </div>
+      <div class="proj-client">GIS Consortium India · Municipal Client</div>
+      <div class="proj-title" style="font-size:clamp(18px,2vw,26px)">Property Tax System</div>
+      <p class="proj-desc">
+        Backend API for automated property tax calculation serving
+        municipal corporations. Tax computed dynamically from the
+        database using property type, area, zone, and usage factors.
+        Citizens could query dues and generate tax receipts via API.
+        Handled bulk property records with optimized query performance.
+      </p>
+      <div class="proj-tags" style="margin-bottom:0;">
+        <span class="pill">Tax Engine</span>
+        <span class="pill">ORM Optimization</span>
+        <span class="pill">RBAC</span>
+      </div>
+    </div>
+
+    <!-- EMPLOYEE MANAGEMENT -->
+    <div class="project-card reveal" data-delay="200" data-tags="company">
+      <div class="proj-index">06 — Backend API</div>
+      <div class="status-strip">
+        <span class="status-dot done"></span>
+        <span class="status-text done">Delivered</span>
+      </div>
+      <div class="proj-tags">
+        <span class="pill">Django</span>
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">REST API</span>
+      </div>
+      <div class="proj-client">GIS Consortium India · Internal HR Tool</div>
+      <div class="proj-title" style="font-size:clamp(18px,2vw,26px)">Employee Management System</div>
+      <p class="proj-desc">
+        HR and employee tracking platform for internal use. Managers
+        could assign project milestones and weekly task targets to
+        employees, track progress, and generate performance reports.
+        Employees logged daily work updates via API. Built role-based
+        access for HR, managers, and individual contributors.
+      </p>
+      <div class="proj-tags" style="margin-bottom:0;">
+        <span class="pill">Milestones</span>
+        <span class="pill">Task Tracking</span>
+        <span class="pill">RBAC</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="process-inner">
+    <div class="section-tag reveal">How I Work</div>
+    <h2 class="big-title reveal" data-delay="80">My <span class="c">Process</span></h2>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="ps-num">01</div>
+        <div class="ps-icon">🔍</div>
+        <div class="ps-title">Understand</div>
+        <p class="ps-desc">Requirements, constraints, real users. I ask the questions most developers skip before writing a single line.</p>
+      </div>
+      <div class="process-step reveal" data-delay="80">
+        <div class="ps-num">02</div>
+        <div class="ps-icon">🏗️</div>
+        <div class="ps-title">Architect</div>
+        <p class="ps-desc">Schema design, API contracts, data flow. Decisions made upfront save weeks of refactoring later.</p>
+      </div>
+      <div class="process-step reveal" data-delay="160">
+        <div class="ps-num">03</div>
+        <div class="ps-icon">⚙️</div>
+        <div class="ps-title">Build</div>
+        <p class="ps-desc">Iterative development with clear commits. Backend first, then frontend, then integration — tested at each layer.</p>
+      </div>
+      <div class="process-step reveal" data-delay="240">
+        <div class="ps-num">04</div>
+        <div class="ps-icon">🚀</div>
+        <div class="ps-title">Ship</div>
+        <p class="ps-desc">CI/CD, environment config, production hardening. I don't hand over a zip file — I hand over a live URL.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="work-cta">
+  <div class="cta-glow"></div>
+  <div class="work-cta-inner">
+    <div class="section-tag reveal" style="justify-content:center">Next Project</div>
+    <h2 class="work-cta-title reveal" data-delay="80">
+      Got something<br>to <span>build?</span>
+    </h2>
+    <p class="work-cta-sub reveal" data-delay="120">
+      I'm open to freelance projects and full-time roles across India and Remote.
+      Let's talk about what you need.
+    </p>
+    <div class="cta-actions reveal" data-delay="160">
+      <a href="contact.html" class="btn btn-fill" data-magnetic>Start a Conversation</a>
+      <a href="about.html"   class="btn btn-outline" data-magnetic>Learn About Me</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-left">© 2026 <span>Ashwani Kumar</span></div>
+  <div class="footer-center">Built with <span>♥</span> + 4am discipline</div>
+  <div class="footer-right">
+    <a href="https://github.com/Ashwani1611" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/ashwani-kumar" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="contact.html">Email</a>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+// Filter logic
+const filterBtns = document.querySelectorAll('.filter-btn');
+const projectItems = document.querySelectorAll('[data-tags]');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.dataset.filter;
+    projectItems.forEach(item => {
+      const tags = item.dataset.tags || '';
+      const show = filter === 'all' || tags.includes(filter);
+      item.style.opacity    = show ? '1' : '0.2';
+      item.style.transform  = show ? '' : 'scale(0.98)';
+      item.style.pointerEvents = show ? '' : 'none';
+      item.style.transition = 'opacity .3s, transform .3s';
+    });
+  });
+});
+</script>
+</body>
+</html>

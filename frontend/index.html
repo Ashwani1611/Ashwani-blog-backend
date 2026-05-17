@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ashwani Kumar — Full-Stack Developer</title>
+<meta name="description" content="Full-Stack Developer specializing in Django, FastAPI, PostgreSQL, and scalable backend systems. Available for projects in Delhi NCR and Remote.">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── HOME SPECIFIC ── */
+main { position:relative; z-index:1; }
+
+/* HERO */
+#hero {
+  min-height:100vh;
+  display:grid; grid-template-columns:1fr 1fr;
+  align-items:center; gap:0;
+  padding:0 52px 0;
+  padding-top:68px;
+  overflow:hidden; position:relative;
+}
+.hero-grid-bg {
+  position:absolute; inset:0; z-index:0;
+  background-image:
+    linear-gradient(rgba(0,229,192,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,192,.04) 1px, transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+.hero-left { position:relative; z-index:1; padding-right:48px; }
+
+.hero-status {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-mono); font-size:11px;
+  color:var(--green); letter-spacing:.16em;
+  background:rgba(74,222,128,.07);
+  border:1px solid rgba(74,222,128,.18);
+  padding:6px 14px; border-radius:100px;
+  margin-bottom:28px;
+  opacity:0; animation:fadeUp .6s .1s forwards;
+}
+.hero-status .dot {
+  width:5px; height:5px;
+  background:var(--green); border-radius:50%;
+  animation:pulse-dot2 2s infinite;
+}
+
+.hero-eyebrow {
+  font-family:var(--font-mono); font-size:12px;
+  color:var(--text2); letter-spacing:.2em; text-transform:uppercase;
+  margin-bottom:16px;
+  opacity:0; animation:fadeUp .6s .2s forwards;
+}
+
+.hero-name {
+  font-family:var(--font-head); font-size:clamp(56px,7vw,90px);
+  font-weight:900; line-height:.95; letter-spacing:-.04em;
+  margin-bottom:20px;
+  opacity:0; animation:fadeUp .7s .3s forwards;
+}
+.hero-name .first { display:block; color:var(--text); }
+.hero-name .last  { display:block; color:var(--cyan); position:relative; }
+.hero-name .last::after {
+  content:attr(data-text);
+  position:absolute; left:0; top:0;
+  color:var(--red);
+  clip-path:polygon(0 40%,100% 40%,100% 58%,0 58%);
+  opacity:0; animation:glitch-slice 5s infinite 3s;
+}
+@keyframes glitch-slice {
+  0%,90%,100%{opacity:0;transform:none}
+  91%{opacity:1;transform:translateX(-5px) skewX(-3deg)}
+  93%{opacity:1;transform:translateX(5px) skewX(3deg)}
+  95%{opacity:0}
+}
+
+.hero-role {
+  font-family:var(--font-head); font-size:clamp(18px,2vw,26px);
+  font-weight:400; color:var(--text2);
+  margin-bottom:28px; min-height:1.4em;
+  opacity:0; animation:fadeUp .7s .45s forwards;
+}
+.hero-role #tw { color:var(--cyan); }
+.hero-role #tw::after { content:'|'; animation:blink .7s infinite; }
+
+.hero-desc {
+  font-size:15px; color:var(--text2); line-height:1.85;
+  max-width:480px; margin-bottom:40px;
+  opacity:0; animation:fadeUp .7s .58s forwards;
+}
+
+.hero-actions {
+  display:flex; gap:14px; flex-wrap:wrap;
+  opacity:0; animation:fadeUp .7s .7s forwards;
+}
+
+/* ── HERO RIGHT — code window ── */
+.hero-right {
+  position:relative; z-index:1;
+  opacity:0; animation:fadeUp .9s .5s forwards;
+}
+.code-window {
+  background:var(--c1); border:1px solid var(--border2);
+  border-radius:12px; overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.5), 0 0 0 1px var(--border3), var(--glow);
+  transition:box-shadow .4s;
+}
+.code-window:hover {
+  box-shadow:0 40px 100px rgba(0,0,0,.6), 0 0 0 1px var(--border2),
+    0 0 40px rgba(0,229,192,.08);
+}
+.code-topbar {
+  background:var(--c2); padding:12px 16px;
+  display:flex; align-items:center; gap:8px;
+  border-bottom:1px solid var(--border3);
+}
+.code-topbar .dot { width:12px; height:12px; border-radius:50%; }
+.code-topbar .dot:nth-child(1){background:#ff5f57}
+.code-topbar .dot:nth-child(2){background:#ffbd2e}
+.code-topbar .dot:nth-child(3){background:#28c940}
+.code-topbar .title {
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+  margin-left:8px; letter-spacing:.06em;
+}
+.code-body { padding:24px 28px; }
+pre {
+  font-family:var(--font-mono); font-size:12.5px;
+  line-height:1.8; color:var(--text2);
+  white-space:pre; overflow-x:auto;
+}
+.kw  { color:#f0a; }
+.fn  { color:var(--amber); }
+.str { color:var(--cyan); }
+.cm  { color:var(--text3); font-style:italic; }
+.nr  { color:#a8ff78; }
+.cls { color:#79b8ff; }
+.pr  { color:#e36209; }
+
+.code-footer {
+  padding:12px 20px; border-top:1px solid var(--border3);
+  background:var(--c2);
+  display:flex; align-items:center; gap:8px;
+}
+.code-footer span { font-family:var(--font-mono); font-size:10px; color:var(--text3); }
+.code-footer .run { color:var(--green); }
+
+/* floating badges */
+.float-badge {
+  position:absolute; background:var(--c2);
+  border:1px solid var(--border2); border-radius:10px;
+  padding:12px 16px; display:flex; align-items:center; gap:10px;
+  font-family:var(--font-mono); font-size:11px;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  animation:float 3s ease-in-out infinite;
+  backdrop-filter:blur(8px);
+}
+.float-badge:nth-child(2){ animation-delay:-.8s; }
+.float-badge:nth-child(3){ animation-delay:-1.6s; }
+.float-badge .icon { font-size:20px; }
+.float-badge .badge-label { color:var(--text3); font-size:10px; margin-bottom:2px; }
+.float-badge .badge-val  { color:var(--text); font-weight:700; }
+@keyframes float {
+  0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)}
+}
+.fb1 { top:-20px; right:-20px; }
+.fb2 { bottom:40px; left:-40px; }
+
+/* ── HERO STATS ── */
+.hero-stats {
+  border-top:1px solid var(--border3);
+  margin-top:72px; padding:40px 52px;
+  display:flex; gap:0; position:relative; z-index:1;
+  background:linear-gradient(to bottom, var(--c0), transparent);
+}
+.stat-item {
+  flex:1; padding:0 40px;
+  border-right:1px solid var(--border3);
+  transition:transform .3s var(--ease);
+}
+.stat-item:hover { transform:translateY(-3px); }
+.stat-item:first-child { padding-left:0; }
+.stat-item:last-child  { border-right:none; }
+.stat-n {
+  font-family:var(--font-head); font-size:48px; font-weight:900;
+  line-height:1; color:var(--text); margin-bottom:6px;
+}
+.stat-n span { color:var(--cyan); }
+.stat-l { font-family:var(--font-mono); font-size:11px; color:var(--text3); letter-spacing:.12em; text-transform:uppercase; }
+
+/* ── SERVICES ── */
+#services { padding:100px 52px; max-width:1300px; margin:0 auto; }
+.services-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+  background:var(--border3); border:1px solid var(--border3);
+  border-radius:2px; overflow:hidden;
+  margin-top:56px;
+}
+.service-card {
+  background:var(--c0); padding:40px 36px;
+  transition:background .3s, transform .3s var(--ease);
+  position:relative; overflow:hidden;
+}
+.service-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .4s var(--ease);
+}
+.service-card:hover::before { transform:scaleX(1); }
+.service-card:hover { background:var(--c1); }
+
+.service-card .service-icon {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:48px; height:48px; border-radius:10px;
+  background:rgba(0,229,192,.07); border:1px solid rgba(0,229,192,.12);
+  font-size:22px; margin-bottom:20px;
+  transition:background .3s, border-color .3s;
+}
+.service-card:hover .service-icon {
+  background:rgba(0,229,192,.12);
+  border-color:rgba(0,229,192,.25);
+}
+
+.service-num {
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+  letter-spacing:.2em; margin-bottom:24px;
+}
+.service-title {
+  font-family:var(--font-head); font-size:20px; font-weight:700;
+  margin-bottom:12px; line-height:1.2;
+}
+.service-desc { font-size:14px; color:var(--text2); line-height:1.8; margin-bottom:20px; }
+.service-tags { display:flex; flex-wrap:wrap; gap:6px; }
+
+/* ── FEATURED WORK ── */
+#featured {
+  padding:100px 52px;
+  background:var(--c1);
+  border-top:1px solid var(--border3);
+  border-bottom:1px solid var(--border3);
+}
+.featured-inner { max-width:1300px; margin:0 auto; }
+.featured-top {
+  display:flex; align-items:flex-end;
+  justify-content:space-between; margin-bottom:56px;
+}
+.featured-grid {
+  display:grid; grid-template-columns:7fr 5fr; gap:16px;
+}
+.feat-main {
+  background:var(--c0); border:1px solid var(--border3);
+  padding:40px; position:relative; overflow:hidden;
+  transition:border-color .3s, box-shadow .3s;
+  display:flex; flex-direction:column;
+  border-radius:4px;
+}
+.feat-main::after {
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(135deg, rgba(0,229,192,.03) 0%, transparent 60%);
+  pointer-events:none;
+}
+.feat-main:hover {
+  border-color:var(--border2);
+  box-shadow:0 16px 48px rgba(0,0,0,.3);
+}
+.feat-side { display:grid; grid-template-rows:1fr 1fr; gap:16px; }
+.feat-small {
+  background:var(--c0); border:1px solid var(--border3);
+  padding:28px; border-radius:4px;
+  transition:border-color .3s, box-shadow .3s, transform .3s var(--ease);
+}
+.feat-small:hover {
+  border-color:var(--border2);
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+  transform:translateY(-2px);
+}
+.feat-num {
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+  letter-spacing:.15em; margin-bottom:24px;
+}
+.feat-tag-row { display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap; }
+.feat-title {
+  font-family:var(--font-head); font-size:clamp(22px,2.5vw,32px);
+  font-weight:800; line-height:1.1; margin-bottom:14px;
+  letter-spacing:-.02em;
+}
+.feat-desc {
+  font-size:13px; color:var(--text2);
+  line-height:1.85; margin-bottom:28px; flex:1;
+}
+.feat-footer { display:flex; align-items:center; justify-content:space-between; }
+.feat-link {
+  font-family:var(--font-mono); font-size:11px;
+  color:var(--text2); text-decoration:none;
+  letter-spacing:.1em; text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:6px;
+  padding:8px 14px; border:1px solid var(--border3);
+  border-radius:6px; transition:color .2s, border-color .2s, background .2s;
+}
+.feat-link::after { content:'↗'; }
+.feat-link:hover {
+  color:var(--cyan);
+  border-color:rgba(0,229,192,.3);
+  background:rgba(0,229,192,.05);
+}
+
+/* pill colour variants */
+.pill.green  { background:rgba(74,222,128,.1); color:#4ade80; border-color:rgba(74,222,128,.25); }
+.pill.amber  { background:rgba(251,191,36,.1); color:#fbbf24; border-color:rgba(251,191,36,.25); }
+.pill.blue   { background:rgba(96,165,250,.1); color:#60a5fa; border-color:rgba(96,165,250,.25); }
+
+/* ── CTA ── */
+#cta {
+  padding:120px 52px; text-align:center;
+  position:relative; overflow:hidden;
+}
+.cta-glow {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:800px; height:500px;
+  background:radial-gradient(ellipse, rgba(0,229,192,.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+.cta-inner { position:relative; max-width:760px; margin:0 auto; }
+.cta-quote {
+  font-family:var(--font-serif); font-style:italic;
+  font-size:clamp(26px,4vw,44px); color:var(--text);
+  line-height:1.3; margin-bottom:48px;
+}
+.cta-quote em { color:var(--cyan); font-style:normal; }
+.cta-actions { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+
+/* ── AVAILABILITY BANNER ── */
+.avail-banner {
+  background:rgba(74,222,128,.05);
+  border:1px solid rgba(74,222,128,.15);
+  border-radius:8px; padding:14px 20px;
+  display:flex; align-items:center; gap:12px;
+  max-width:760px; margin:0 auto 48px;
+  font-size:13px; color:var(--text2);
+}
+.avail-banner .av-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--green); flex-shrink:0;
+  animation:pulse-dot2 2s infinite;
+}
+.avail-banner strong { color:var(--green); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  #hero { grid-template-columns:1fr; min-height:auto; padding-top:100px; padding-bottom:60px; }
+  .hero-right { display:none; }
+  .hero-left { padding-right:0; }
+  .featured-grid { grid-template-columns:1fr; }
+  .feat-side { grid-template-rows:auto; grid-template-columns:1fr 1fr; }
+  .services-grid { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:700px){
+  #hero,#services,#featured,#cta { padding-left:20px; padding-right:20px; }
+  .hero-stats { padding:32px 20px; flex-wrap:wrap; }
+  .stat-item { border-right:none; padding:12px 0; flex:0 0 50%; }
+  .services-grid { grid-template-columns:1fr; }
+  .feat-side { grid-template-columns:1fr; }
+  .featured-top { flex-direction:column; align-items:flex-start; gap:20px; }
+}
+
+@keyframes fadeUp  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+@keyframes blink   { 0%,100%{opacity:1} 50%{opacity:0} }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+<div id="page-transition"></div>
+<div id="pt-label"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-bracket">[</span>AK<span class="logo-bracket">]</span>
+    <div class="logo-dot"></div>
+  </a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-avail">Available</span>
+    <a href="contact.html" class="nav-hire">Hire Me</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="work.html">Work</a>
+  <a href="skills.html">Skills</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+
+  <div class="hero-left">
+    <div class="hero-status">
+      <span class="dot"></span>Open to work · Pan India &amp; Remote
+    </div>
+    <div class="hero-eyebrow">Full-Stack Developer · 3+ Years</div>
+    <h1 class="hero-name">
+      <span class="first">Ashwani</span>
+      <span class="last" data-text="Kumar">Kumar</span>
+    </h1>
+    <div class="hero-role">I engineer <span id="tw"></span></div>
+    <p class="hero-desc">
+      Backend-specialized developer building scalable Django &amp; FastAPI systems,
+      REST APIs, real-time applications, and AI-powered features.
+      From municipal e-governance APIs to live freelance platforms —
+      I ship things that work.
+    </p>
+    <div class="hero-actions">
+      <a href="work.html" class="btn btn-fill" data-magnetic>
+        View My Work
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="contact.html" class="btn btn-outline" data-magnetic>Let's Talk</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="code-window">
+      <div class="code-topbar">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <span class="title">ashwani_portfolio.py</span>
+      </div>
+      <div class="code-body">
+<pre><span class="cm"># Full-Stack Developer Profile</span>
+
+<span class="kw">from</span> <span class="cls">engineer</span> <span class="kw">import</span> <span class="fn">Ashwani</span>
+
+<span class="kw">class</span> <span class="cls">AshwaniKumar</span>(<span class="cls">Ashwani</span>):
+    name     = <span class="str">"Ashwani Kumar"</span>
+    role     = <span class="str">"Full-Stack Developer"</span>
+    exp      = <span class="nr">3</span>  <span class="cm"># years</span>
+    location = <span class="str">"New Delhi, India"</span>
+
+    stack = {
+        <span class="str">"backend"</span>: [<span class="str">"Django"</span>, <span class="str">"FastAPI"</span>],
+        <span class="str">"db"</span>:      [<span class="str">"PostgreSQL"</span>, <span class="str">"Redis"</span>],
+        <span class="str">"infra"</span>:   [<span class="str">"Docker"</span>, <span class="str">"Railway"</span>],
+        <span class="str">"ai"</span>:      [<span class="str">"OpenAI API"</span>, <span class="str">"Gemini"</span>],
+    }
+
+    <span class="kw">def</span> <span class="fn">build</span>(<span class="pr">self</span>, idea):
+        <span class="kw">return</span> <span class="str">f"🚀 Shipped: {idea}"</span>
+
+<span class="cm"># currently building...</span>
+<span class="fn">print</span>(AshwaniKumar().<span class="fn">build</span>(<span class="str">"your next project"</span>))</pre>
+      </div>
+      <div class="code-footer">
+        <span class="run">● Python 3.12</span>
+        <span style="margin-left:auto">Django 5.1 · FastAPI 0.115</span>
+      </div>
+    </div>
+
+    <div class="float-badge fb1">
+      <span class="icon">⚡</span>
+      <div>
+        <div class="badge-label">Delivery Speed</div>
+        <div class="badge-val">Fast</div>
+      </div>
+    </div>
+    <div class="float-badge fb2">
+      <span class="icon">📦</span>
+      <div>
+        <div class="badge-label">Projects Shipped</div>
+        <div class="badge-val" data-count="10" data-suffix="+">10+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="hero-stats">
+  <div class="stat-item reveal">
+    <div class="stat-n"><span data-count="3" data-suffix="+">3+</span></div>
+    <div class="stat-l">Years Experience</div>
+  </div>
+  <div class="stat-item reveal" data-delay="100">
+    <div class="stat-n"><span data-count="10" data-suffix="+">10+</span></div>
+    <div class="stat-l">Projects Delivered</div>
+  </div>
+  <div class="stat-item reveal" data-delay="200">
+    <div class="stat-n"><span data-count="5" data-suffix="+">5+</span></div>
+    <div class="stat-l">Municipal Clients</div>
+  </div>
+  <div class="stat-item reveal" data-delay="300">
+    <div class="stat-n"><span data-count="50" data-suffix="k+">50k+</span></div>
+    <div class="stat-l">API Requests / Day</div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-tag reveal">What I Do</div>
+  <h2 class="big-title reveal" data-delay="80">Services I <span class="c">Offer</span></h2>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon">🔧</div>
+      <div class="service-title">Backend API Development</div>
+      <p class="service-desc">Production-grade REST APIs with Django/FastAPI, JWT auth, rate limiting, task queues, and full test coverage.</p>
+      <div class="service-tags">
+        <span class="pill">Django</span><span class="pill">FastAPI</span>
+        <span class="pill">DRF</span><span class="pill">JWT</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal" data-delay="80">
+      <div class="service-num">02</div>
+      <div class="service-icon">🌐</div>
+      <div class="service-title">Full-Stack Web Apps</div>
+      <p class="service-desc">End-to-end web applications from database design to React frontends — deployed, monitored, and maintained.</p>
+      <div class="service-tags">
+        <span class="pill">React</span><span class="pill">PostgreSQL</span>
+        <span class="pill">Docker</span><span class="pill">Railway</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal" data-delay="160">
+      <div class="service-num">03</div>
+      <div class="service-icon">🤖</div>
+      <div class="service-title">AI API Integration</div>
+      <p class="service-desc">Plug AI capabilities into your existing Django backend — GPT-powered features, smart content generation, and automated workflows via OpenAI and Gemini APIs.</p>
+      <div class="service-tags">
+        <span class="pill">OpenAI</span><span class="pill">Gemini</span>
+        <span class="pill">Django</span><span class="pill">REST APIs</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal" data-delay="80">
+      <div class="service-num">04</div>
+      <div class="service-icon">📡</div>
+      <div class="service-title">Real-Time Systems</div>
+      <p class="service-desc">WebSocket-based real-time features: live dashboards, notifications, chat, and collaborative tools.</p>
+      <div class="service-tags">
+        <span class="pill">WebSockets</span><span class="pill">Channels</span>
+        <span class="pill">Redis</span><span class="pill">Celery</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal" data-delay="160">
+      <div class="service-num">05</div>
+      <div class="service-icon">🐋</div>
+      <div class="service-title">DevOps &amp; Deployment</div>
+      <p class="service-desc">Containerized deployments with Docker, CI/CD pipelines via GitHub Actions, and cloud setup on Railway/Supabase.</p>
+      <div class="service-tags">
+        <span class="pill">Docker</span><span class="pill">CI/CD</span>
+        <span class="pill">GitHub Actions</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal" data-delay="240">
+      <div class="service-num">06</div>
+      <div class="service-icon">📊</div>
+      <div class="service-title">Database Architecture</div>
+      <p class="service-desc">Schema design, query optimization, migrations, and performance tuning for PostgreSQL — with deep SQL experience from day one.</p>
+      <div class="service-tags">
+        <span class="pill">PostgreSQL</span><span class="pill">Redis</span>
+        <span class="pill">Supabase</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURED WORK -->
+<section id="featured">
+  <div class="featured-inner">
+    <div class="featured-top reveal">
+      <div>
+        <div class="section-tag">Selected Work</div>
+        <h2 class="big-title">Recent <span class="c">Projects</span></h2>
+      </div>
+      <a href="work.html" class="btn btn-outline">View All Work</a>
+    </div>
+
+    <div class="featured-grid">
+
+      <!-- MAIN PROJECT -->
+      <div class="feat-main reveal">
+        <div class="feat-num">01 — Featured</div>
+        <div class="feat-tag-row">
+          <span class="pill green">Live</span>
+          <span class="pill">Django</span>
+          <span class="pill">PostgreSQL</span>
+          <span class="pill">Cloudinary</span>
+          <span class="pill">Railway</span>
+        </div>
+        <div class="feat-title">Skyline Wheels — Bajaj Dealership Platform</div>
+        <p class="feat-desc">
+          Full-stack dealership site for skylinewheels.in — 6 core modules
+          (Bikes, Showrooms, Service Stations, Enquiries, Bookings, Exchange),
+          Cloudinary CDN for media delivery, web push notifications via VAPID,
+          WhatsApp API + SMTP for lead follow-up, Jazzmin admin panel,
+          Redis caching, and a production deployment on Railway + Supabase.
+        </p>
+        <div class="feat-footer">
+          <a href="https://www.skylinewheels.in" class="feat-link" target="_blank" rel="noopener">Live Site</a>
+          <a href="work.html" class="feat-link">Case Study</a>
+        </div>
+      </div>
+
+      <!-- SIDE PROJECTS -->
+      <div class="feat-side">
+
+        <div class="feat-small reveal" data-delay="80">
+          <div class="feat-num">02</div>
+          <div class="feat-tag-row">
+            <span class="pill">Django</span>
+            <span class="pill">React</span>
+            <span class="pill">WebSockets</span>
+            <span class="pill blue">Docker</span>
+          </div>
+          <div class="feat-title" style="font-size:18px">FlowBoard — Real-Time PM Tool</div>
+          <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:16px">
+            Kanban + analytics platform with Django Channels, Celery beat, JWT auth, 
+            React frontend, and full CI/CD via GitHub Actions.
+          </p>
+          <a href="https://github.com/Ashwani1611/flowboard" class="feat-link" target="_blank" rel="noopener">GitHub</a>
+        </div>
+
+        <div class="feat-small reveal" data-delay="160">
+          <div class="feat-num">03</div>
+          <div class="feat-tag-row">
+            <span class="pill amber">Client</span>
+            <span class="pill">Firebase</span>
+            <span class="pill">HTML/CSS/JS</span>
+          </div>
+          <div class="feat-title" style="font-size:18px">Mogli Flow Club — Calisthenics Website</div>
+          <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:16px">
+            Multi-page site for a calisthenics training business in Mayur Vihar, New Delhi —
+            member enrollment, admin panel, Firebase backend, and a custom dark athletic aesthetic.
+          </p>
+          <a href="work.html" class="feat-link">Learn More</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <div class="section-tag reveal" style="justify-content:center">Let's Build Together</div>
+    <p class="cta-quote reveal" data-delay="80">
+      "I don't just write code. I build <em>systems</em> that grow with your business."
+    </p>
+    <div class="avail-banner reveal" data-delay="120">
+      <span class="av-dot"></span>
+      <span><strong>Currently available</strong> for freelance projects and full-time roles — Pan India &amp; Remote.</span>
+    </div>
+    <div class="cta-actions reveal" data-delay="160">
+      <a href="contact.html" class="btn btn-fill" data-magnetic>Start a Project</a>
+      <a href="about.html"   class="btn btn-outline" data-magnetic>Learn About Me</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-left">© 2026 <span>Ashwani Kumar</span></div>
+  <div class="footer-center">Built with <span>♥</span> + 4am discipline</div>
+  <div class="footer-right">
+    <a href="https://github.com/Ashwani1611" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/ashwani-kumar" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="contact.html">Email</a>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+// Typewriter
+initTypewriter(document.getElementById('tw'), [
+  'backends that scale.',
+  'REST APIs that fly.',
+  'full-stack solutions.',
+  'with Django & FastAPI.',
+  'systems that ship.'
+]);
+
+// Ticker
+const techs = [
+  'Django','FastAPI','Python 3.12','PostgreSQL','React.js',
+  'Docker','Redis','Celery','WebSockets','GitHub Actions',
+  'Supabase','Railway','Cloudinary','OpenAI API',
+  'JWT Auth','Bootstrap 5','Linux','IIT Mandi'
+];
+const t = document.getElementById('ticker');
+const html = [...techs,...techs,...techs,...techs]
+  .map(x => `<div class="ticker-item"><span class="sep">→</span>${x}</div>`)
+  .join('');
+t.innerHTML = html + html;
+</script>
+</body>
+</html>

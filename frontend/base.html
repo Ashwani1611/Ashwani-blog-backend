@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!-- ═══════════════════════════════════════════
+  ✏️  EDIT: Page title and description
+═══════════════════════════════════════════ -->
+<title>PAGE TITLE — Ashwani Kumar</title>
+<meta name="description" content="PAGE DESCRIPTION HERE">
+
+<!-- OG / Social -->
+<meta property="og:title" content="PAGE TITLE — Ashwani Kumar">
+<meta property="og:description" content="PAGE DESCRIPTION HERE">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ashwani.dev/PAGE.html">
+
+<!-- Shared stylesheet -->
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* ═══════════════════════════════════════════
+  ✏️  EDIT: Page-specific styles go here
+═══════════════════════════════════════════ */
+main { position: relative; z-index: 1; padding-top: 68px; }
+</style>
+</head>
+<body>
+
+<!-- ── SHARED UI (DO NOT EDIT) ──────────────── -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+<div id="page-transition"></div>
+<div id="pt-label"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- ── NAV (mark the active link with class="active") ── -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-bracket">[</span>AK<span class="logo-bracket">]</span>
+    <div class="logo-dot"></div>
+  </a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-avail">Available</span>
+    <a href="contact.html" class="nav-hire">Hire Me</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div id="mobile-menu">
+  <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+</div>
+
+<!-- ════════════════════════════════════════════
+  ✏️  EDIT: Your page content goes inside <main>
+════════════════════════════════════════════ -->
+<main>
+
+  <!-- PAGE HEADER — copy this block to start every page -->
+  <section style="padding: 80px 52px 60px; max-width: 1300px; margin: 0 auto;">
+    <div class="section-tag reveal">Section Label</div>
+    <h1 class="big-title reveal" data-delay="80">
+      Page <span class="c">Title</span>
+    </h1>
+    <p class="reveal" data-delay="160" style="font-size:15px; color:var(--text2); line-height:1.85; max-width:560px; margin-top:20px;">
+      Page subtitle or intro text goes here.
+    </p>
+  </section>
+
+  <!-- TICKER (optional — remove if not needed) -->
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker"></div>
+  </div>
+
+  <!-- ✏️ YOUR SECTIONS GO HERE -->
+  <!-- 
+    Available utility classes:
+    ─────────────────────────────────────────────
+    Layout:
+      .reveal          → fade up on scroll
+      .reveal-left     → slide in from left
+      .reveal-right    → slide in from right
+      data-delay="100" → delay in ms (add to .reveal elements)
+      .card            → base card style (border + hover lift)
+      .grid-bg         → subtle grid background pattern
+
+    Typography:
+      .big-title       → large display heading
+      .big-title .c    → cyan accent word
+      .big-title .s    → italic serif accent word
+      .section-tag     → small uppercase monospace label
+
+    Buttons:
+      .btn .btn-fill   → solid cyan button
+      .btn .btn-outline → outline button
+      data-magnetic    → add magnetic hover effect
+
+    Tags / Pills:
+      .pill            → cyan pill tag
+      .pill.amber      → amber pill tag
+      .pill.green      → green pill tag
+      .pill.red        → red pill tag
+
+    Counters:
+      data-count="42"        → auto-animates to 42
+      data-suffix="+"        → appends + to number
+
+    Ticker (marquee):
+      populate #ticker via JS (see script below)
+  -->
+
+</main>
+
+<!-- ── FOOTER (DO NOT EDIT) ──────────────────── -->
+<footer>
+  <div class="footer-left">© 2025 <span>Ashwani Kumar</span></div>
+  <div class="footer-center">Built with <span>♥</span> + 4am discipline</div>
+  <div class="footer-right">
+    <a href="https://github.com/Ashwani1611" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/ashwani-kumar" target="_blank">LinkedIn</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<!-- ── SHARED JS (DO NOT EDIT) ───────────────── -->
+<script src="main.js"></script>
+
+<!-- ═══════════════════════════════════════════
+  ✏️  EDIT: Page-specific JS goes here
+═══════════════════════════════════════════ -->
+<script>
+  // Optional: populate the ticker strip
+  const techs = ['Django','FastAPI','PostgreSQL','React','Docker','Celery','Redis','pgvector','OpenAI API'];
+  const ticker = document.getElementById('ticker');
+  if (ticker) {
+    const html = [...techs, ...techs, ...techs, ...techs]
+      .map(x => `<div class="ticker-item"><span class="sep">→</span>${x}</div>`)
+      .join('');
+    ticker.innerHTML = html + html;
+  }
+
+  // Optional: Text scramble on an element
+  // const el = document.querySelector('.scramble-target');
+  // if (el) new TextScramble(el).setText('New Text');
+
+  // Optional: Typewriter
+  // initTypewriter(document.getElementById('tw'), ['word one.', 'word two.']);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin — Ashwani Kumar</title>
+<style>
+:root {
+  --c0: #05080c;
+  --c1: #0d1117;
+  --c2: #161b22;
+  --c3: #21262d;
+  --border1: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --border3: rgba(255,255,255,0.18);
+  --text:  #e6edf3;
+  --text2: #8b949e;
+  --text3: #484f58;
+  --cyan:  #00e5c0;
+  --cyan2: #00b89a;
+  --amber: #f4b942;
+  --red:   #f05f7a;
+  --green: #4ade80;
+  --purple: #a78bfa;
+  --blue:  #60a5fa;
+  --font-head: 'Syne', 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --ease: cubic-bezier(0.16,1,0.3,1);
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--c0);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ── SIDEBAR ── */
+#sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background: var(--c1);
+  border-right: 1px solid var(--border1);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.sb-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border1);
+}
+.sb-logo .logo-text {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -.02em;
+  color: var(--text);
+}
+.sb-logo .logo-text span { color: var(--cyan); }
+.sb-logo .logo-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.sb-nav { padding: 12px 0; flex: 1; }
+.sb-section {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  padding: 14px 20px 6px;
+}
+.sb-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color .15s, background .15s;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  position: relative;
+}
+.sb-link:hover { color: var(--text); background: var(--c2); }
+.sb-link.active { color: var(--cyan); background: rgba(0,229,192,.06); }
+.sb-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--cyan);
+}
+.sb-link .ico {
+  font-size: 15px;
+  opacity: .7;
+  flex-shrink: 0;
+}
+.sb-link.active .ico { opacity: 1; }
+.sb-badge {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  background: rgba(0,229,192,.12);
+  color: var(--cyan);
+  padding: 2px 7px;
+  border-radius: 100px;
+}
+.sb-badge.red { background: rgba(240,95,122,.12); color: var(--red); }
+
+.sb-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border1);
+}
+.sb-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sb-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cyan2), var(--cyan));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c0);
+  font-family: var(--font-head);
+  flex-shrink: 0;
+}
+.sb-user-info { flex: 1; min-width: 0; }
+.sb-user-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sb-user-role {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--cyan);
+  letter-spacing: .1em;
+}
+.sb-logout {
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  font-size: 11px;
+  padding: 4px 9px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: .15s;
+  font-family: var(--font-mono);
+}
+.sb-logout:hover { color: var(--red); border-color: var(--red); }
+
+/* ── MAIN ── */
+#main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--border1);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--c1);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.topbar-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+}
+.topbar-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: .1em;
+}
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 3px rgba(74,222,128,.15);
+  animation: pulse-green 2s infinite;
+}
+@keyframes pulse-green { 0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.3)} 50%{box-shadow:0 0 0 5px rgba(74,222,128,0)} }
+.topbar-api {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+}
+
+.page { display: none; padding: 28px 32px 60px; animation: fadeIn .2s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+/* ── STAT CARDS ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--c1);
+  border: 1px solid var(--border1);
+  border-radius: 10px;
+  padding: 18px 20px;
+  transition: border-color .2s;
+}
+.stat-card:hover { border-color: var(--border2); }
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.stat-value {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1;
+}
+.stat-value.cyan  { color: var(--cyan); }
+.stat-value.amber { color: var(--amber); }
+.stat-value.green { color: var(--green); }
+.stat-value.purple{ color: var(--purple); }
+.stat-delta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--green);
+  margin-top: 5px;
+}
+
+/* ── SECTION HEADER ── */
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.sec-title {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+}
+.sec-head-right { margin-left: auto; display: flex; gap: 8px; }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: none;
+  color: var(--text2);
+  cursor: pointer;
+  transition: .15s;
+  white-space: nowrap;
+}
+.btn:hover { color: var(--text); border-color: var(--border3); background: var(--c2); }
+.btn.primary { background: var(--cyan); color: var(--c0); border-color: var(--cyan); font-weight: 700; }
+.btn.primary:hover { background: var(--cyan2); border-color: var(--cyan2); }
+.btn.danger { color: var(--red); border-color: rgba(240,95,122,.3); }
+.btn.danger:hover { background: rgba(240,95,122,.08); }
+.btn.sm { padding: 5px 10px; font-size: 10px; }
+.btn.success-flash { background: rgba(74,222,128,.1); color: var(--green); border-color: rgba(74,222,128,.3); }
+
+/* ── TABLE ── */
+.table-wrap {
+  background: var(--c1);
+  border: 1px solid var(--border1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+thead th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border1);
+  white-space: nowrap;
+  background: var(--c2);
+}
+tbody tr {
+  border-bottom: 1px solid var(--border1);
+  transition: background .12s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--c2); }
+tbody td {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--text2);
+  vertical-align: middle;
+}
+.cell-title {
+  color: var(--text);
+  font-weight: 500;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 100px;
+  font-weight: 700;
+}
+.badge-django  { background: rgba(0,229,192,.1);    color: var(--cyan); }
+.badge-ai      { background: rgba(167,139,250,.12); color: var(--purple); }
+.badge-dsa     { background: rgba(244,185,66,.1);   color: var(--amber); }
+.badge-system-design { background: rgba(240,95,122,.1); color: var(--red); }
+.badge-devops  { background: rgba(74,222,128,.1);   color: var(--green); }
+.badge-python  { background: rgba(96,165,250,.1);   color: var(--blue); }
+.badge-pending { background: rgba(244,185,66,.1);   color: var(--amber); }
+.badge-approved{ background: rgba(74,222,128,.1);   color: var(--green); }
+.badge-featured{ background: rgba(167,139,250,.12); color: var(--purple); }
+
+.action-row { display: flex; gap: 6px; align-items: center; }
+
+/* ── SEARCH / FILTER BAR ── */
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+input[type="text"], input[type="email"], input[type="search"],
+input[type="number"], input[type="url"], textarea, select {
+  background: var(--c2);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color .15s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: rgba(0,229,192,.4);
+}
+input::placeholder, textarea::placeholder { color: var(--text3); }
+select option { background: var(--c2); }
+.search-box { width: 220px; }
+
+/* ── MODAL ── */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: var(--c1);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  width: 640px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px;
+  animation: modalIn .2s var(--ease);
+}
+@keyframes modalIn { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:none} }
+.modal-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.modal-title { font-family: var(--font-head); font-size: 16px; font-weight: 700; }
+.modal-close {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: .15s;
+}
+.modal-close:hover { color: var(--red); border-color: var(--red); }
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group textarea,
+.form-group select { width: 100%; }
+.form-group textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--c2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text);
+  z-index: 999;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: .3s var(--ease);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 320px;
+}
+#toast.show { transform: none; opacity: 1; }
+#toast.success { border-color: rgba(74,222,128,.3); color: var(--green); }
+#toast.error   { border-color: rgba(240,95,122,.3); color: var(--red); }
+
+/* ── LOGIN ── */
+#login-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--c0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.login-card {
+  background: var(--c1);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 40px 36px;
+  width: 360px;
+  text-align: center;
+}
+.login-logo {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.login-logo span { color: var(--cyan); }
+.login-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: .14em;
+  margin-bottom: 32px;
+}
+.login-card .form-group { text-align: left; }
+.login-card .btn.primary { width: 100%; justify-content: center; margin-top: 4px; font-size: 13px; padding: 11px; }
+.login-error {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--red);
+  margin-top: 12px;
+  display: none;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text3);
+}
+.empty-state .big { font-size: 40px; margin-bottom: 12px; }
+.empty-state p { font-size: 13px; }
+
+/* ── ACTIVITY FEED ── */
+.activity-list { display: flex; flex-direction: column; gap: 0; }
+.activity-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border1);
+  font-size: 13px;
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.activity-text { flex: 1; color: var(--text2); }
+.activity-text strong { color: var(--text); }
+.activity-time {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  flex-shrink: 0;
+}
+
+/* ── QUICK EDITOR ── */
+.body-editor {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  min-height: 220px;
+  line-height: 1.7;
+  background: var(--c0);
+  border-color: var(--border2);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  #sidebar { width: 60px; }
+  .sb-link span, .sb-logo .logo-sub, .sb-logo .logo-text span:not(.bracket),
+  .sb-section, .sb-badge, .sb-user-info, .sb-logout { display: none; }
+  .sb-logo .logo-text { font-size: 14px; }
+  .sb-link { padding: 11px; justify-content: center; }
+  .sb-link .ico { font-size: 18px; }
+  .sb-footer { padding: 12px; }
+  .sb-avatar { width: 36px; height: 36px; }
+  .page { padding: 20px 16px 60px; }
+  .topbar { padding: 12px 16px; }
+  .form-row { grid-template-columns: 1fr; }
+  .filter-row { gap: 8px; }
+  .search-box { width: 100%; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">[<span>AK</span>]</div>
+    <div class="login-sub">Admin Panel &mdash; Portfolio v4</div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" id="l-email" placeholder="admin@email.com" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn primary" id="l-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="l-err">Invalid credentials. Try again.</div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div id="sidebar">
+  <div class="sb-logo">
+    <div class="logo-text">[<span>AK</span>]</div>
+    <div class="logo-sub">Admin Panel</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">Overview</div>
+    <button class="sb-link active" onclick="goto('dashboard')">
+      <span class="ico">📊</span><span>Dashboard</span>
+    </button>
+
+    <div class="sb-section">Content</div>
+    <button class="sb-link" onclick="goto('posts')">
+      <span class="ico">📝</span><span>Posts</span>
+      <span class="sb-badge" id="sb-posts-count">—</span>
+    </button>
+    <button class="sb-link" onclick="goto('comments')">
+      <span class="ico">💬</span><span>Comments</span>
+      <span class="sb-badge red" id="sb-pending-count" style="display:none">!</span>
+    </button>
+
+    <div class="sb-section">Audience</div>
+    <button class="sb-link" onclick="goto('newsletter')">
+      <span class="ico">📧</span><span>Newsletter</span>
+    </button>
+
+    <div class="sb-section">System</div>
+    <button class="sb-link" onclick="goto('api')">
+      <span class="ico">🔌</span><span>API Status</span>
+    </button>
+    <a class="sb-link" href="blog.html" target="_blank">
+      <span class="ico">↗</span><span>View Blog</span>
+    </a>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-avatar">AK</div>
+      <div class="sb-user-info">
+        <div class="sb-user-name">Ashwani Kumar</div>
+        <div class="sb-user-role">Admin</div>
+      </div>
+      <button class="sb-logout" onclick="doLogout()">Out</button>
+    </div>
+  </div>
+</div>
+
+<div id="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-sub" id="topbar-sub">Overview of your portfolio</div>
+    </div>
+    <div class="topbar-right">
+      <div class="status-dot" id="api-dot" title="API Status"></div>
+      <div class="topbar-api" id="api-status-text">Connecting...</div>
+      <button class="btn sm" onclick="refreshAll()">↺ Refresh</button>
+    </div>
+  </div>
+
+  <!-- ══ DASHBOARD ══ -->
+  <div class="page active" id="page-dashboard">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Posts</div>
+        <div class="stat-value cyan" id="stat-posts">—</div>
+        <div class="stat-delta" id="stat-posts-d"></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Likes</div>
+        <div class="stat-value amber" id="stat-likes">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Comments</div>
+        <div class="stat-value purple" id="stat-comments">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Subscribers</div>
+        <div class="stat-value green" id="stat-subs">—</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:20px;">
+      <div>
+        <div class="sec-head">
+          <div class="sec-title">Recent Posts</div>
+          <div class="sec-head-right">
+            <button class="btn sm primary" onclick="openNewPost()">+ New Post</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Likes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dash-posts-tbody">
+              <tr><td colspan="4" style="text-align:center;color:var(--text3);padding:28px">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-head">
+          <div class="sec-title">Activity</div>
+        </div>
+        <div class="table-wrap">
+          <div class="activity-list" id="activity-list">
+            <div class="activity-item"><div class="activity-text" style="color:var(--text3)">Loading activity...</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ POSTS ══ -->
+  <div class="page" id="page-posts">
+    <div class="filter-row">
+      <input type="search" class="search-box" id="post-search" placeholder="Search posts..." oninput="filterPosts()">
+      <select id="post-cat-filter" onchange="filterPosts()">
+        <option value="">All categories</option>
+        <option value="django">Django</option>
+        <option value="ai">AI</option>
+        <option value="dsa">DSA</option>
+        <option value="system-design">System Design</option>
+        <option value="devops">DevOps</option>
+        <option value="python">Python</option>
+      </select>
+      <div class="sec-head-right" style="margin-left:auto">
+        <button class="btn primary" onclick="openNewPost()">+ New Post</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:36%">Title</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Read</th>
+            <th>Likes</th>
+            <th>Tags</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="posts-tbody">
+          <tr><td colspan="7" style="text-align:center;color:var(--text3);padding:28px">Loading posts...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ COMMENTS ══ -->
+  <div class="page" id="page-comments">
+    <div class="filter-row">
+      <input type="search" class="search-box" id="comment-search" placeholder="Search comments..." oninput="filterComments()">
+      <select id="comment-post-filter" onchange="filterComments()">
+        <option value="">All posts</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Author</th>
+            <th style="width:35%">Comment</th>
+            <th>Post</th>
+            <th>Date</th>
+            <th>Likes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="comments-tbody">
+          <tr><td colspan="6" style="text-align:center;color:var(--text3);padding:28px">Loading comments...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ NEWSLETTER ══ -->
+  <div class="page" id="page-newsletter">
+    <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);max-width:500px;margin-bottom:24px">
+      <div class="stat-card">
+        <div class="stat-label">Subscribers</div>
+        <div class="stat-value green" id="nl-count">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">This Month</div>
+        <div class="stat-value cyan" id="nl-month">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Open Rate</div>
+        <div class="stat-value amber">—</div>
+      </div>
+    </div>
+
+    <div class="sec-head">
+      <div class="sec-title">Subscribers</div>
+      <div class="sec-head-right">
+        <button class="btn sm" onclick="exportNL()">↓ Export CSV</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Email</th><th>Subscribed</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="nl-tbody">
+          <tr><td colspan="4" style="text-align:center;color:var(--text3);padding:28px">Loading subscribers...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ API STATUS ══ -->
+  <div class="page" id="page-api">
+    <div class="stats-grid" style="grid-template-columns:repeat(2,1fr);max-width:460px;margin-bottom:24px">
+      <div class="stat-card">
+        <div class="stat-label">Backend</div>
+        <div class="stat-value" id="api-backend-status" style="font-size:18px">Checking...</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Base URL</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan);margin-top:8px;word-break:break-all" id="api-base-display">http://localhost:8000/api/v1</div>
+      </div>
+    </div>
+
+    <div class="sec-head"><div class="sec-title">Endpoint Health</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Method</th><th>Endpoint</th><th>Description</th><th>Auth</th><th>Status</th></tr>
+        </thead>
+        <tbody id="api-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODALS ── -->
+
+<!-- New / Edit Post Modal -->
+<div class="modal-backdrop" id="post-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="post-modal-title">New Post</div>
+      <button class="modal-close" onclick="closeModal('post-modal')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input type="text" id="pm-title" placeholder="Post title">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Slug (ID) *</label>
+        <input type="text" id="pm-slug" placeholder="my-post-slug">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Excerpt *</label>
+      <textarea id="pm-excerpt" rows="2" placeholder="1-2 sentence summary shown on blog grid..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Category *</label>
+        <select id="pm-cat">
+          <option value="django">Django</option>
+          <option value="ai">AI</option>
+          <option value="dsa">DSA</option>
+          <option value="system-design">System Design</option>
+          <option value="devops">DevOps</option>
+          <option value="python">Python</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Layout</label>
+        <select id="pm-layout">
+          <option value="third">Third (small)</option>
+          <option value="half">Half (medium)</option>
+          <option value="side">Side (narrow tall)</option>
+          <option value="featured">Featured (big)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Tags (comma separated)</label>
+        <input type="text" id="pm-tags" placeholder="Django, ORM, PostgreSQL">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Read Time</label>
+        <input type="text" id="pm-read" placeholder="6 min read">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Body HTML *</label>
+      <textarea id="pm-body" class="body-editor" placeholder="<h2>Section</h2><p>Content...</p>"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Table of Contents (one per line)</label>
+        <textarea id="pm-toc" rows="3" placeholder="The N+1 Problem&#10;Finding It&#10;The Fix"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label" style="display:flex;align-items:center;gap:8px">
+          <input type="checkbox" id="pm-featured" style="width:auto">
+          Mark as Featured
+        </label>
+        <label class="form-label" style="display:flex;align-items:center;gap:8px;margin-top:12px">
+          <input type="checkbox" id="pm-published" style="width:auto" checked>
+          Published
+        </label>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="closeModal('post-modal')">Cancel</button>
+      <button class="btn primary" id="pm-save-btn" onclick="savePost()">Save Post →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal-backdrop" id="delete-modal">
+  <div class="modal" style="max-width:400px;text-align:center">
+    <div style="font-size:32px;margin-bottom:12px">⚠️</div>
+    <div class="modal-title" style="margin-bottom:8px">Delete this post?</div>
+    <p style="color:var(--text2);font-size:13px;margin-bottom:24px" id="del-post-name">This action cannot be undone.</p>
+    <div class="form-actions" style="justify-content:center">
+      <button class="btn" onclick="closeModal('delete-modal')">Cancel</button>
+      <button class="btn danger" id="del-confirm-btn">Delete →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+const API_BASE = '/api/v1';
+
+const Auth = {
+  getToken()    { try { return localStorage.getItem('ak_token'); } catch { return null; } },
+  setToken(t)   { try { localStorage.setItem('ak_token', t); } catch {} },
+  setRefresh(t) { try { localStorage.setItem('ak_refresh', t); } catch {} },
+  clear()       { try { localStorage.removeItem('ak_token'); localStorage.removeItem('ak_refresh'); } catch {} },
+  headers()     { const t = this.getToken(); return t ? { 'Authorization': `Bearer ${t}` } : {}; },
+};
+
+async function api(endpoint, opts = {}) {
+  try {
+    const res = await fetch(API_BASE + endpoint, {
+      headers: { 'Content-Type': 'application/json', ...Auth.headers(), ...opts.headers },
+      ...opts,
+    });
+    if (res.status === 204) return { ok: true };
+    const data = await res.json().catch(() => ({}));
+    return { ok: res.ok, status: res.status, data };
+  } catch (e) {
+    return { ok: false, status: 0, data: {}, error: e.message };
+  }
+}
+
+let allPosts = [];
+let allComments = [];
+let allSubscribers = [];
+let editingSlug = null;
+
+function toast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = (type === 'success' ? '✓ ' : '✕ ') + msg;
+  t.className = 'show ' + type;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+
+const pages = {
+  dashboard: 'Dashboard',
+  posts: 'Posts',
+  comments: 'Comments',
+  newsletter: 'Newsletter',
+  api: 'API Status',
+};
+const subs = {
+  dashboard: 'Overview of your portfolio',
+  posts: 'Manage all blog posts',
+  comments: 'Moderate reader comments',
+  newsletter: 'Manage email subscribers',
+  api: 'Backend endpoint health',
+};
+
+function goto(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.sb-link').forEach(l => {
+    if (l.getAttribute('onclick') === `goto('${id}')`) l.classList.add('active');
+  });
+  document.getElementById('topbar-title').textContent = pages[id];
+  document.getElementById('topbar-sub').textContent = subs[id];
+
+  if (id === 'posts')      renderPostsTable();
+  if (id === 'comments')   renderCommentsTable();
+  if (id === 'newsletter') renderNewsletter();
+  if (id === 'api')        renderAPIStatus();
+}
+
+async function doLogin() {
+  const email = document.getElementById('l-email').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+  const err   = document.getElementById('l-err');
+  const btn   = document.getElementById('l-btn');
+
+  err.style.display = 'none';
+  btn.textContent = 'Signing in...';
+  btn.disabled = true;
+
+  const r = await api('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ email, password: pass }),
+  });
+
+  btn.textContent = 'Sign In →';
+  btn.disabled = false;
+
+  if (r.ok && r.data.access_token) {
+    Auth.setToken(r.data.access_token);
+    if (r.data.refresh_token) Auth.setRefresh(r.data.refresh_token);
+    document.getElementById('login-screen').style.display = 'none';
+    refreshAll();
+  } else {
+    err.style.display = 'block';
+    err.textContent = r.data?.detail || 'Invalid credentials. Try again.';
+  }
+}
+
+document.getElementById('l-pass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogout() {
+  Auth.clear();
+  location.reload();
+}
+
+async function refreshAll() {
+  await Promise.all([loadPosts(), checkAPIStatus()]);
+  renderDashboard();
+}
+
+async function loadPosts() {
+  const r = await api('/posts?limit=100');
+  if (r.ok) {
+    allPosts = Array.isArray(r.data) ? r.data : (r.data.posts || r.data.results || []);
+    document.getElementById('sb-posts-count').textContent = allPosts.length;
+  } else {
+    allPosts = typeof FALLBACK_POSTS !== 'undefined' ? FALLBACK_POSTS : [];
+    document.getElementById('sb-posts-count').textContent = allPosts.length;
+  }
+}
+
+function renderDashboard() {
+  const totalLikes = allPosts.reduce((s, p) => s + (p.like_count ?? p.likes ?? 0), 0);
+  document.getElementById('stat-posts').textContent = allPosts.length;
+  document.getElementById('stat-likes').textContent = totalLikes;
+  document.getElementById('stat-comments').textContent = allPosts.reduce((s, p) => s + (p.comment_count ?? p.comments ?? 0), 0);
+  document.getElementById('stat-subs').textContent = allSubscribers.length || '—';
+
+  const tbody = document.getElementById('dash-posts-tbody');
+  if (!allPosts.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:28px">No posts found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = allPosts.slice(0, 6).map(p => `
+    <tr>
+      <td class="cell-title">${p.title}</td>
+      <td><span class="badge badge-${p.cat}">${p.cat}</span></td>
+      <td style="color:var(--amber)">♥ ${p.like_count ?? p.likes ?? 0}</td>
+      <td class="action-row">
+        <button class="btn sm" onclick="openEditPost('${p.slug ?? p.id}')">Edit</button>
+        <button class="btn sm danger" onclick="confirmDelete('${p.slug ?? p.id}','${escHtml(p.title)}')">Del</button>
+      </td>
+    </tr>`).join('');
+
+  const activities = allPosts.slice(0, 8).map((p, i) => ({
+    text: `Post <strong>${escHtml(p.title.slice(0, 36))}...</strong> published`,
+    time: p.date || p.created_at || 'Recently',
+    color: ['var(--cyan)', 'var(--purple)', 'var(--amber)', 'var(--green)'][i % 4],
+  }));
+  document.getElementById('activity-list').innerHTML = activities.map(a => `
+    <div class="activity-item">
+      <div class="activity-dot" style="background:${a.color}"></div>
+      <div class="activity-text">${a.text}</div>
+      <div class="activity-time">${a.time}</div>
+    </div>`).join('');
+}
+
+function filterPosts() {
+  renderPostsTable();
+}
+
+function renderPostsTable() {
+  const q    = (document.getElementById('post-search')?.value || '').toLowerCase();
+  const cat  = document.getElementById('post-cat-filter')?.value || '';
+  const list = allPosts.filter(p =>
+    (!q   || p.title.toLowerCase().includes(q) || (p.excerpt || '').toLowerCase().includes(q)) &&
+    (!cat || p.cat === cat)
+  );
+
+  const tbody = document.getElementById('posts-tbody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:40px">No posts found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(p => `
+    <tr>
+      <td>
+        <div class="cell-title">${escHtml(p.title)}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px;font-family:var(--font-mono)">${p.slug ?? p.id}</div>
+      </td>
+      <td><span class="badge badge-${p.cat}">${p.cat}</span></td>
+      <td style="font-family:var(--font-mono);font-size:11px">${p.date || formatDate(p.created_at)}</td>
+      <td style="font-family:var(--font-mono);font-size:11px">${p.read_time ?? p.read ?? '—'}</td>
+      <td style="color:var(--amber)">♥ ${p.like_count ?? p.likes ?? 0}</td>
+      <td>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;max-width:160px">
+          ${(p.tags || []).slice(0, 2).map(t => `<span style="font-family:var(--font-mono);font-size:9px;background:var(--c2);border:1px solid var(--border2);color:var(--text3);padding:2px 7px;border-radius:100px">${escHtml(t)}</span>`).join('')}
+        </div>
+      </td>
+      <td class="action-row">
+        <a class="btn sm" href="blog-post.html?id=${p.slug ?? p.id}" target="_blank">View</a>
+        <button class="btn sm" onclick="openEditPost('${p.slug ?? p.id}')">Edit</button>
+        <button class="btn sm danger" onclick="confirmDelete('${p.slug ?? p.id}','${escHtml(p.title)}')">Del</button>
+      </td>
+    </tr>`).join('');
+}
+
+function openNewPost() {
+  editingSlug = null;
+  document.getElementById('post-modal-title').textContent = 'New Post';
+  document.getElementById('pm-save-btn').textContent = 'Create Post →';
+  ['pm-title','pm-slug','pm-excerpt','pm-tags','pm-read','pm-body','pm-toc'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('pm-cat').value = 'django';
+  document.getElementById('pm-layout').value = 'third';
+  document.getElementById('pm-featured').checked = false;
+  document.getElementById('pm-published').checked = true;
+  openModal('post-modal');
+}
+
+function openEditPost(slug) {
+  const p = allPosts.find(x => (x.slug ?? x.id) === slug);
+  if (!p) return toast('Post not found', 'error');
+  editingSlug = slug;
+  document.getElementById('post-modal-title').textContent = 'Edit Post';
+  document.getElementById('pm-save-btn').textContent = 'Update Post →';
+  document.getElementById('pm-title').value   = p.title || '';
+  document.getElementById('pm-slug').value    = p.slug ?? p.id ?? '';
+  document.getElementById('pm-excerpt').value = p.excerpt || '';
+  document.getElementById('pm-cat').value     = p.cat || 'django';
+  document.getElementById('pm-layout').value  = p.layout || 'third';
+  document.getElementById('pm-tags').value    = (p.tags || []).join(', ');
+  document.getElementById('pm-read').value    = p.read_time ?? p.read ?? '';
+  document.getElementById('pm-body').value    = p.body || '';
+  document.getElementById('pm-toc').value     = (p.toc || []).join('\n');
+  document.getElementById('pm-featured').checked  = !!(p.featured);
+  document.getElementById('pm-published').checked = p.is_published !== false;
+  openModal('post-modal');
+}
+
+async function savePost() {
+  const btn = document.getElementById('pm-save-btn');
+  const title = document.getElementById('pm-title').value.trim();
+  const slug  = document.getElementById('pm-slug').value.trim();
+  if (!title || !slug) {
+    toast('Title and Slug are required', 'error');
+    return;
+  }
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
+
+  const payload = {
+    title,
+    slug,
+    excerpt:      document.getElementById('pm-excerpt').value.trim(),
+    cat:          document.getElementById('pm-cat').value,
+    layout:       document.getElementById('pm-layout').value,
+    tags:         document.getElementById('pm-tags').value.split(',').map(s => s.trim()).filter(Boolean),
+    read_time:    document.getElementById('pm-read').value.trim(),
+    body:         document.getElementById('pm-body').value,
+    toc:          document.getElementById('pm-toc').value.split('\n').map(s => s.trim()).filter(Boolean),
+    featured:     document.getElementById('pm-featured').checked,
+    is_published: document.getElementById('pm-published').checked,
+  };
+
+  let r;
+  if (editingSlug) {
+    r = await api(`/posts/${editingSlug}`, { method: 'PUT', body: JSON.stringify(payload) });
+  } else {
+    r = await api('/posts', { method: 'POST', body: JSON.stringify(payload) });
+  }
+
+  btn.textContent = editingSlug ? 'Update Post →' : 'Create Post →';
+  btn.disabled = false;
+
+  if (r.ok) {
+    toast(editingSlug ? 'Post updated!' : 'Post created!');
+    closeModal('post-modal');
+    await loadPosts();
+    renderPostsTable();
+    renderDashboard();
+  } else {
+    toast(r.data?.detail || 'Save failed', 'error');
+  }
+}
+
+let deleteTarget = null;
+function confirmDelete(slug, title) {
+  deleteTarget = slug;
+  document.getElementById('del-post-name').textContent = `"${title}" — this cannot be undone.`;
+  document.getElementById('del-confirm-btn').onclick = async () => {
+    const r = await api(`/posts/${deleteTarget}`, { method: 'DELETE' });
+    if (r.ok || r.status === 204) {
+      toast('Post deleted');
+      closeModal('delete-modal');
+      allPosts = allPosts.filter(p => (p.slug ?? p.id) !== deleteTarget);
+      renderPostsTable();
+      renderDashboard();
+    } else {
+      toast('Delete failed', 'error');
+    }
+  };
+  openModal('delete-modal');
+}
+
+async function renderCommentsTable() {
+  const tbody = document.getElementById('comments-tbody');
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:28px">Loading...</td></tr>';
+
+  const allCommentData = [];
+  for (const p of allPosts.slice(0, 20)) {
+    const slug = p.slug ?? p.id;
+    const r = await api(`/posts/${slug}/comments`);
+    if (r.ok && Array.isArray(r.data)) {
+      r.data.forEach(c => allCommentData.push({ ...c, postSlug: slug, postTitle: p.title }));
+    }
+  }
+  allComments = allCommentData;
+
+  const postFilter = document.getElementById('comment-post-filter');
+  const current = postFilter.value;
+  postFilter.innerHTML = '<option value="">All posts</option>' +
+    allPosts.map(p => `<option value="${p.slug ?? p.id}">${escHtml(p.title.slice(0, 40))}</option>`).join('');
+  if (current) postFilter.value = current;
+
+  const pending = allComments.filter(c => !c.is_approved).length;
+  const el = document.getElementById('sb-pending-count');
+  if (pending > 0) { el.style.display = ''; el.textContent = pending; }
+
+  renderCommentsRows();
+}
+
+function filterComments() { renderCommentsRows(); }
+
+function renderCommentsRows() {
+  const q    = (document.getElementById('comment-search')?.value || '').toLowerCase();
+  const post = document.getElementById('comment-post-filter')?.value || '';
+  const list = allComments.filter(c =>
+    (!q    || (c.body || c.text || '').toLowerCase().includes(q) || (c.display_name || c.name || '').toLowerCase().includes(q)) &&
+    (!post || c.postSlug === post)
+  );
+
+  const tbody = document.getElementById('comments-tbody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:40px">No comments found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(c => {
+    const name = c.display_name || c.name || 'Guest';
+    const body = (c.body || c.text || '').slice(0, 80) + (((c.body||c.text||'').length > 80) ? '…' : '');
+    const date = c.created_at ? formatDate(c.created_at) : (c.date || '—');
+    const approved = c.is_approved !== false;
+    return `
+      <tr>
+        <td>
+          <div style="font-weight:500;color:var(--text)">${escHtml(name)}</div>
+          ${c.guest_email ? `<div style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">${escHtml(c.guest_email)}</div>` : ''}
+        </td>
+        <td style="color:var(--text2);max-width:240px">${escHtml(body)}</td>
+        <td style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">${escHtml((c.postTitle||'').slice(0,30))}...</td>
+        <td style="font-family:var(--font-mono);font-size:11px">${date}</td>
+        <td style="color:var(--red)">♥ ${c.like_count ?? c.likes ?? 0}</td>
+        <td class="action-row">
+          <span class="badge ${approved ? 'badge-approved' : 'badge-pending'}">${approved ? 'OK' : 'Pending'}</span>
+          <button class="btn sm danger" onclick="deleteComment(${c.id})">Del</button>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+async function deleteComment(id) {
+  const r = await api(`/comments/${id}`, { method: 'DELETE' });
+  if (r.ok || r.status === 204) {
+    allComments = allComments.filter(c => c.id !== id);
+    toast('Comment deleted');
+    renderCommentsRows();
+  } else {
+    toast('Could not delete comment', 'error');
+  }
+}
+
+async function renderNewsletter() {
+  const r = await api('/newsletter/subscribers');
+  if (r.ok) {
+    allSubscribers = Array.isArray(r.data) ? r.data : (r.data.subscribers || r.data.results || []);
+  } else {
+    allSubscribers = [];
+  }
+  document.getElementById('nl-count').textContent = allSubscribers.length;
+  const thisMonth = allSubscribers.filter(s => {
+    const d = new Date(s.created_at || s.subscribed_at || 0);
+    const now = new Date();
+    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  }).length;
+  document.getElementById('nl-month').textContent = thisMonth;
+  document.getElementById('stat-subs').textContent = allSubscribers.length;
+
+  const tbody = document.getElementById('nl-tbody');
+  if (!allSubscribers.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:40px">No subscribers yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = allSubscribers.map(s => `
+    <tr>
+      <td style="font-family:var(--font-mono);color:var(--cyan)">${escHtml(s.email)}</td>
+      <td style="font-family:var(--font-mono);font-size:11px">${formatDate(s.created_at || s.subscribed_at)}</td>
+      <td><span class="badge badge-approved">Active</span></td>
+      <td><button class="btn sm danger" onclick="unsubscribe('${escHtml(s.email)}')">Remove</button></td>
+    </tr>`).join('');
+}
+
+async function unsubscribe(email) {
+  const r = await api('/newsletter/unsubscribe', { method: 'POST', body: JSON.stringify({ email }) });
+  if (r.ok) {
+    allSubscribers = allSubscribers.filter(s => s.email !== email);
+    toast('Unsubscribed ' + email);
+    renderNewsletter();
+  } else {
+    toast('Could not unsubscribe', 'error');
+  }
+}
+
+function exportNL() {
+  if (!allSubscribers.length) { toast('No subscribers to export', 'error'); return; }
+  const csv = 'email,subscribed\n' + allSubscribers.map(s => `${s.email},${s.created_at || ''}`).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'subscribers.csv';
+  a.click();
+  toast('CSV exported');
+}
+
+const ENDPOINTS = [
+  { method: 'POST', path: '/auth/register',            desc: 'Create account',              auth: false },
+  { method: 'POST', path: '/auth/login',               desc: 'Get tokens',                  auth: false },
+  { method: 'POST', path: '/auth/refresh',             desc: 'Refresh access token',        auth: false },
+  { method: 'GET',  path: '/posts',                    desc: 'List / filter posts',         auth: false },
+  { method: 'GET',  path: '/posts/{slug}',             desc: 'Single post + view count++',  auth: false },
+  { method: 'POST', path: '/posts',                    desc: 'Create post',                 auth: true  },
+  { method: 'PUT',  path: '/posts/{slug}',             desc: 'Update post',                 auth: true  },
+  { method: 'DELETE', path: '/posts/{slug}',           desc: 'Delete post',                 auth: true  },
+  { method: 'GET',  path: '/posts/{slug}/comments',    desc: 'Get comments for post',       auth: false },
+  { method: 'POST', path: '/posts/{slug}/comments',    desc: 'Add comment',                 auth: false },
+  { method: 'POST', path: '/posts/{slug}/like',        desc: 'Toggle post like',            auth: false },
+  { method: 'POST', path: '/comments/{id}/like',       desc: 'Toggle comment like',         auth: false },
+  { method: 'POST', path: '/newsletter/subscribe',     desc: 'Subscribe email',             auth: false },
+  { method: 'POST', path: '/ai/chat',                  desc: 'Chat with Gemini',            auth: false },
+];
+
+const methodColor = { GET: 'var(--green)', POST: 'var(--cyan)', PUT: 'var(--amber)', DELETE: 'var(--red)' };
+
+async function checkAPIStatus() {
+  const r = await api('/posts?limit=1');
+  const ok = r.ok;
+  const dot = document.getElementById('api-dot');
+  const txt = document.getElementById('api-status-text');
+  dot.style.background = ok ? 'var(--green)' : 'var(--red)';
+  dot.style.boxShadow  = ok ? '0 0 0 3px rgba(74,222,128,.15)' : '0 0 0 3px rgba(240,95,122,.15)';
+  txt.textContent = ok ? 'API Online' : 'API Offline';
+  txt.style.color = ok ? 'var(--green)' : 'var(--red)';
+  return ok;
+}
+
+async function renderAPIStatus() {
+  const ok = await checkAPIStatus();
+  document.getElementById('api-backend-status').textContent = ok ? '🟢 Online' : '🔴 Offline';
+  document.getElementById('api-backend-status').style.color = ok ? 'var(--green)' : 'var(--red)';
+  document.getElementById('api-base-display').textContent = API_BASE;
+
+  document.getElementById('api-tbody').innerHTML = ENDPOINTS.map(e => `
+    <tr>
+      <td><span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:${methodColor[e.method]||'var(--text)'}">${e.method}</span></td>
+      <td><code style="font-family:var(--font-mono);font-size:11px;color:var(--text2)">/api/v1${e.path}</code></td>
+      <td style="color:var(--text2)">${e.desc}</td>
+      <td>${e.auth ? '<span class="badge badge-featured">Admin</span>' : '<span style="color:var(--text3);font-size:11px">Public</span>'}</td>
+      <td><span style="font-family:var(--font-mono);font-size:10px;color:${ok ? 'var(--green)':'var(--text3)'}">${ok ? '200 OK' : '—'}</span></td>
+    </tr>`).join('');
+}
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  try {
+    return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  } catch { return iso; }
+}
+
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+document.querySelectorAll('.modal-backdrop').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+document.getElementById('pm-title').addEventListener('input', function() {
+  if (!editingSlug) {
+    document.getElementById('pm-slug').value = this.value.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+  }
+});
+
+(function init() {
+  if (Auth.getToken()) {
+    document.getElementById('login-screen').style.display = 'none';
+    refreshAll();
+  }
+})();
+</script>
+</body>
+</html>
