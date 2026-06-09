@@ -187,51 +187,48 @@ pre {
 .stat-n span { color:var(--cyan); }
 .stat-l { font-family:var(--font-mono); font-size:11px; color:var(--text3); letter-spacing:.12em; text-transform:uppercase; }
 
-/* ── SERVICES ── */
-#services { padding:100px 52px; max-width:1300px; margin:0 auto; }
-.services-grid {
+/* ── EXPERTISE ── */
+#expertise { padding:100px 52px; max-width:1300px; margin:0 auto; }
+
+.expertise-grid {
   display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
   background:var(--border3); border:1px solid var(--border3);
   border-radius:2px; overflow:hidden;
   margin-top:56px;
 }
-.service-card {
+.expertise-card {
   background:var(--c0); padding:40px 36px;
   transition:background .3s, transform .3s var(--ease);
   position:relative; overflow:hidden;
 }
-.service-card::before {
+.expertise-card::before {
   content:'';
   position:absolute; top:0; left:0; right:0; height:2px;
   background:linear-gradient(90deg, transparent, var(--cyan), transparent);
   transform:scaleX(0); transform-origin:left;
   transition:transform .4s var(--ease);
 }
-.service-card:hover::before { transform:scaleX(1); }
-.service-card:hover { background:var(--c1); }
+.expertise-card:hover::before { transform:scaleX(1); }
+.expertise-card:hover { background:var(--c1); }
 
-.service-card .service-icon {
+.expertise-card .expertise-icon {
   display:inline-flex; align-items:center; justify-content:center;
   width:48px; height:48px; border-radius:10px;
   background:rgba(0,229,192,.07); border:1px solid rgba(0,229,192,.12);
   font-size:22px; margin-bottom:20px;
   transition:background .3s, border-color .3s;
 }
-.service-card:hover .service-icon {
+.expertise-card:hover .expertise-icon {
   background:rgba(0,229,192,.12);
   border-color:rgba(0,229,192,.25);
 }
 
-.service-num {
-  font-family:var(--font-mono); font-size:11px; color:var(--text3);
-  letter-spacing:.2em; margin-bottom:24px;
-}
-.service-title {
+.expertise-title {
   font-family:var(--font-head); font-size:20px; font-weight:700;
   margin-bottom:12px; line-height:1.2;
 }
-.service-desc { font-size:14px; color:var(--text2); line-height:1.8; margin-bottom:20px; }
-.service-tags { display:flex; flex-wrap:wrap; gap:6px; }
+.expertise-desc { font-size:14px; color:var(--text2); line-height:1.8; margin-bottom:20px; }
+.expertise-tags { display:flex; flex-wrap:wrap; gap:6px; }
 
 /* ── FEATURED WORK ── */
 #featured {
@@ -310,6 +307,25 @@ pre {
 .pill.green  { background:rgba(74,222,128,.1); color:#4ade80; border-color:rgba(74,222,128,.25); }
 .pill.amber  { background:rgba(251,191,36,.1); color:#fbbf24; border-color:rgba(251,191,36,.25); }
 .pill.blue   { background:rgba(96,165,250,.1); color:#60a5fa; border-color:rgba(96,165,250,.25); }
+.pill.purple { background:rgba(167,139,250,.1); color:#a78bfa; border-color:rgba(167,139,250,.25); }
+
+/* impact metric strip inside feat-main */
+.feat-impact {
+  display:flex; gap:24px; flex-wrap:wrap;
+  margin-bottom:24px; padding:16px 0;
+  border-top:1px solid var(--border3);
+  border-bottom:1px solid var(--border3);
+}
+.impact-item { text-align:left; }
+.impact-n {
+  font-family:var(--font-head); font-size:22px; font-weight:800;
+  color:var(--cyan); line-height:1;
+}
+.impact-l {
+  font-family:var(--font-mono); font-size:10px;
+  color:var(--text3); letter-spacing:.1em;
+  text-transform:uppercase; margin-top:3px;
+}
 
 /* ── CTA ── */
 #cta {
@@ -355,15 +371,16 @@ pre {
   .hero-left { padding-right:0; }
   .featured-grid { grid-template-columns:1fr; }
   .feat-side { grid-template-rows:auto; grid-template-columns:1fr 1fr; }
-  .services-grid { grid-template-columns:1fr 1fr; }
+  .expertise-grid { grid-template-columns:1fr 1fr; }
 }
 @media(max-width:700px){
-  #hero,#services,#featured,#cta { padding-left:20px; padding-right:20px; }
+  #hero,#expertise,#featured,#cta { padding-left:20px; padding-right:20px; }
   .hero-stats { padding:32px 20px; flex-wrap:wrap; }
   .stat-item { border-right:none; padding:12px 0; flex:0 0 50%; }
-  .services-grid { grid-template-columns:1fr; }
+  .expertise-grid { grid-template-columns:1fr; }
   .feat-side { grid-template-columns:1fr; }
   .featured-top { flex-direction:column; align-items:flex-start; gap:20px; }
+  .feat-impact { gap:16px; }
 }
 
 @keyframes fadeUp  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
@@ -421,17 +438,17 @@ pre {
     <div class="hero-status">
       <span class="dot"></span>Open to work · Pan India &amp; Remote
     </div>
-    <div class="hero-eyebrow">Full-Stack Developer · 3+ Years</div>
+    <div class="hero-eyebrow">Senior Python Developer · 3+ Years</div>
     <h1 class="hero-name">
       <span class="first">Ashwani</span>
       <span class="last" data-text="Kumar">Kumar</span>
     </h1>
     <div class="hero-role">I engineer <span id="tw"></span></div>
     <p class="hero-desc">
-      Backend-specialized developer building scalable Django &amp; FastAPI systems,
-      REST APIs, real-time applications, and AI-powered features.
-      From municipal e-governance APIs to live freelance platforms —
-      I ship things that work.
+      Backend-specialized developer owning scalable REST APIs, multi-tenant architectures,
+      and full-stack systems serving 10K+ concurrent users. Deep expertise in Django/DRF,
+      PostgreSQL, Docker, and CI/CD — from e-governance platforms across 5+ states
+      to live dealership and BI systems. I ship production-grade things that work.
     </p>
     <div class="hero-actions">
       <a href="work.html" class="btn btn-fill" data-magnetic>
@@ -451,22 +468,24 @@ pre {
         <span class="title">ashwani_portfolio.py</span>
       </div>
       <div class="code-body">
-<pre><span class="cm"># Full-Stack Developer Profile</span>
+<pre><span class="cm"># Senior Python Developer Profile</span>
 
 <span class="kw">from</span> <span class="cls">engineer</span> <span class="kw">import</span> <span class="fn">Ashwani</span>
 
 <span class="kw">class</span> <span class="cls">AshwaniKumar</span>(<span class="cls">Ashwani</span>):
     name     = <span class="str">"Ashwani Kumar"</span>
-    role     = <span class="str">"Full-Stack Developer"</span>
+    role     = <span class="str">"Senior Python Developer"</span>
     exp      = <span class="nr">3</span>  <span class="cm"># years</span>
     location = <span class="str">"New Delhi, India"</span>
 
     stack = {
-        <span class="str">"backend"</span>: [<span class="str">"Django"</span>, <span class="str">"FastAPI"</span>],
-        <span class="str">"db"</span>:      [<span class="str">"PostgreSQL"</span>, <span class="str">"Redis"</span>],
-        <span class="str">"infra"</span>:   [<span class="str">"Docker"</span>, <span class="str">"Railway"</span>],
+        <span class="str">"backend"</span>: [<span class="str">"Django"</span>, <span class="str">"FastAPI"</span>, <span class="str">"DRF"</span>],
+        <span class="str">"db"</span>:      [<span class="str">"PostgreSQL"</span>, <span class="str">"Redis"</span>, <span class="str">"MSSQL"</span>],
+        <span class="str">"infra"</span>:   [<span class="str">"Docker"</span>, <span class="str">"AWS"</span>, <span class="str">"Railway"</span>],
         <span class="str">"ai"</span>:      [<span class="str">"OpenAI API"</span>, <span class="str">"Gemini"</span>],
     }
+    users_served = <span class="str">"10K+ concurrent"</span>
+    apis_shipped = <span class="nr">50</span>
 
     <span class="kw">def</span> <span class="fn">build</span>(<span class="pr">self</span>, idea):
         <span class="kw">return</span> <span class="str">f"🚀 Shipped: {idea}"</span>
@@ -483,15 +502,15 @@ pre {
     <div class="float-badge fb1">
       <span class="icon">⚡</span>
       <div>
-        <div class="badge-label">Delivery Speed</div>
-        <div class="badge-val">Fast</div>
+        <div class="badge-label">Concurrent Users</div>
+        <div class="badge-val">10K+</div>
       </div>
     </div>
     <div class="float-badge fb2">
       <span class="icon">📦</span>
       <div>
-        <div class="badge-label">Projects Shipped</div>
-        <div class="badge-val" data-count="10" data-suffix="+">10+</div>
+        <div class="badge-label">APIs Shipped</div>
+        <div class="badge-val" data-count="50" data-suffix="+">50+</div>
       </div>
     </div>
   </div>
@@ -504,16 +523,16 @@ pre {
     <div class="stat-l">Years Experience</div>
   </div>
   <div class="stat-item reveal" data-delay="100">
-    <div class="stat-n"><span data-count="10" data-suffix="+">10+</span></div>
-    <div class="stat-l">Projects Delivered</div>
+    <div class="stat-n"><span data-count="50" data-suffix="+">50+</span></div>
+    <div class="stat-l">REST APIs Shipped</div>
   </div>
   <div class="stat-item reveal" data-delay="200">
-    <div class="stat-n"><span data-count="5" data-suffix="+">5+</span></div>
-    <div class="stat-l">Municipal Clients</div>
+    <div class="stat-n"><span data-count="10" data-suffix="K+">10K+</span></div>
+    <div class="stat-l">Concurrent Users</div>
   </div>
   <div class="stat-item reveal" data-delay="300">
-    <div class="stat-n"><span data-count="50" data-suffix="k+">50k+</span></div>
-    <div class="stat-l">API Requests / Day</div>
+    <div class="stat-n"><span data-count="5" data-suffix="+">5+</span></div>
+    <div class="stat-l">States Deployed</div>
   </div>
 </div>
 
@@ -522,75 +541,69 @@ pre {
   <div class="ticker-track" id="ticker"></div>
 </div>
 
-<!-- SERVICES -->
-<section id="services">
-  <div class="section-tag reveal">What I Do</div>
-  <h2 class="big-title reveal" data-delay="80">Services I <span class="c">Offer</span></h2>
-  <div class="services-grid">
+<!-- MY EXPERTISE -->
+<section id="expertise">
+  <div class="section-tag reveal">My Expertise</div>
+  <h2 class="big-title reveal" data-delay="80">What I <span class="c">Bring</span></h2>
+  <div class="expertise-grid">
 
-    <div class="service-card reveal">
-      <div class="service-num">01</div>
-      <div class="service-icon">🔧</div>
-      <div class="service-title">Backend API Development</div>
-      <p class="service-desc">Production-grade REST APIs with Django/FastAPI, JWT auth, rate limiting, task queues, and full test coverage.</p>
-      <div class="service-tags">
-        <span class="pill">Django</span><span class="pill">FastAPI</span>
-        <span class="pill">DRF</span><span class="pill">JWT</span>
+    <div class="expertise-card reveal">
+      <div class="expertise-icon">🔧</div>
+      <div class="expertise-title">Production-Grade API Development</div>
+      <p class="expertise-desc">REST APIs built to last — JWT/RBAC auth, rate limiting, task queues, full test coverage, and clean API contracts. Owned delivery of 50+ endpoints across e-governance platforms serving 5+ Indian states.</p>
+      <div class="expertise-tags">
+        <span class="pill">Django DRF</span><span class="pill">FastAPI</span>
+        <span class="pill">JWT / RBAC</span><span class="pill">Celery</span>
       </div>
     </div>
 
-    <div class="service-card reveal" data-delay="80">
-      <div class="service-num">02</div>
-      <div class="service-icon">🌐</div>
-      <div class="service-title">Full-Stack Web Apps</div>
-      <p class="service-desc">End-to-end web applications from database design to React frontends — deployed, monitored, and maintained.</p>
-      <div class="service-tags">
-        <span class="pill">React</span><span class="pill">PostgreSQL</span>
-        <span class="pill">Docker</span><span class="pill">Railway</span>
+    <div class="expertise-card reveal" data-delay="80">
+      <div class="expertise-icon">🗄️</div>
+      <div class="expertise-title">Advanced PostgreSQL Engineering</div>
+      <p class="expertise-desc">Schema design, multi-table JOINs, CTEs, window functions, stored procedures, and execution plan tuning on 1M+ record datasets. Delivered 35% query speed improvement on a live government platform.</p>
+      <div class="expertise-tags">
+        <span class="pill">PostgreSQL</span><span class="pill">CTEs</span>
+        <span class="pill">Indexing</span><span class="pill">MSSQL</span>
       </div>
     </div>
 
-    <div class="service-card reveal" data-delay="160">
-      <div class="service-num">03</div>
-      <div class="service-icon">🤖</div>
-      <div class="service-title">AI API Integration</div>
-      <p class="service-desc">Plug AI capabilities into your existing Django backend — GPT-powered features, smart content generation, and automated workflows via OpenAI and Gemini APIs.</p>
-      <div class="service-tags">
-        <span class="pill">OpenAI</span><span class="pill">Gemini</span>
-        <span class="pill">Django</span><span class="pill">REST APIs</span>
+    <div class="expertise-card reveal" data-delay="160">
+      <div class="expertise-icon">🏗️</div>
+      <div class="expertise-title">Multi-Tenant Architecture</div>
+      <p class="expertise-desc">Designed and delivered complete per-tenant data isolation across 20+ municipalities — JWT + RBAC across 6 roles and 20+ endpoints with zero privilege escalation recorded in production lifetime.</p>
+      <div class="expertise-tags">
+        <span class="pill">Multi-tenant</span><span class="pill">RBAC</span>
+        <span class="pill">Security</span><span class="pill">Django</span>
       </div>
     </div>
 
-    <div class="service-card reveal" data-delay="80">
-      <div class="service-num">04</div>
-      <div class="service-icon">📡</div>
-      <div class="service-title">Real-Time Systems</div>
-      <p class="service-desc">WebSocket-based real-time features: live dashboards, notifications, chat, and collaborative tools.</p>
-      <div class="service-tags">
+    <div class="expertise-card reveal" data-delay="80">
+      <div class="expertise-icon">📡</div>
+      <div class="expertise-title">Real-Time Systems</div>
+      <p class="expertise-desc">WebSocket-powered live dashboards, notifications, and collaborative tools with Django Channels and Redis pub/sub. Celery beat for background jobs, periodic tasks, and async pipelines.</p>
+      <div class="expertise-tags">
         <span class="pill">WebSockets</span><span class="pill">Channels</span>
         <span class="pill">Redis</span><span class="pill">Celery</span>
       </div>
     </div>
 
-    <div class="service-card reveal" data-delay="160">
-      <div class="service-num">05</div>
-      <div class="service-icon">🐋</div>
-      <div class="service-title">DevOps &amp; Deployment</div>
-      <p class="service-desc">Containerized deployments with Docker, CI/CD pipelines via GitHub Actions, and cloud setup on Railway/Supabase.</p>
-      <div class="service-tags">
-        <span class="pill">Docker</span><span class="pill">CI/CD</span>
-        <span class="pill">GitHub Actions</span>
+    <div class="expertise-card reveal" data-delay="160">
+      <div class="expertise-icon">🐋</div>
+      <div class="expertise-title">DevOps &amp; Cloud Infrastructure</div>
+      <p class="expertise-desc">Containerized deployments with Docker Compose, CI/CD via GitHub Actions, and cloud setup across AWS (EC2, S3, RDS), Railway, and Supabase. Cloudflare DNS, SSL/TLS, and full production security hardening.</p>
+      <div class="expertise-tags">
+        <span class="pill">Docker</span><span class="pill">AWS</span>
+        <span class="pill">GitHub Actions</span><span class="pill">Railway</span>
       </div>
     </div>
 
-    <div class="service-card reveal" data-delay="240">
-      <div class="service-num">06</div>
-      <div class="service-icon">📊</div>
-      <div class="service-title">Database Architecture</div>
-      <p class="service-desc">Schema design, query optimization, migrations, and performance tuning for PostgreSQL — with deep SQL experience from day one.</p>
-      <div class="service-tags">
-        <span class="pill">PostgreSQL</span><span class="pill">Redis</span>
-        <span class="pill">Supabase</span>
+    <div class="expertise-card reveal" data-delay="240">
+      <div class="expertise-icon">🤖</div>
+      <div class="expertise-title">AI Integration &amp; Full-Stack</div>
+      <p class="expertise-desc">Plug AI into existing backends — GPT and Gemini-powered features, smart automation, and AI chat interfaces. End-to-end delivery from database schema to React frontend, deployed and maintained.</p>
+      <div class="expertise-tags">
+        <span class="pill">OpenAI</span><span class="pill">Gemini</span>
+        <span class="pill">React</span><span class="pill">FastAPI</span>
       </div>
     </div>
 
@@ -617,17 +630,32 @@ pre {
           <span class="pill green">Live</span>
           <span class="pill">Django</span>
           <span class="pill">PostgreSQL</span>
-          <span class="pill">Cloudinary</span>
+          <span class="pill">Redis</span>
           <span class="pill">Railway</span>
         </div>
         <div class="feat-title">Skyline Wheels — Bajaj Dealership Platform</div>
         <p class="feat-desc">
-          Full-stack dealership site for skylinewheels.in — 6 core modules
-          (Bikes, Showrooms, Service Stations, Enquiries, Bookings, Exchange),
-          Cloudinary CDN for media delivery, web push notifications via VAPID,
-          WhatsApp API + SMTP for lead follow-up, Jazzmin admin panel,
-          Redis caching, and a production deployment on Railway + Supabase.
+          Independently architected and launched a full-featured Django dealership website
+          for an authorized Bajaj dealer (skylinewheels.in) — 5 core modules
+          (Motorcycles, Chetak, Service, Exchange, Showrooms), Redis caching for ~40% page load
+          improvement, 8 production security controls (HSTS, SSL redirect, secure cookies,
+          X-Frame-Options, CSRF), GA4 + JSON-LD local SEO schema, web push notifications via VAPID,
+          and CI/CD deployment on Railway with Cloudflare SSL/TLS.
         </p>
+        <div class="feat-impact">
+          <div class="impact-item">
+            <div class="impact-n">~40%</div>
+            <div class="impact-l">Page Load Improvement</div>
+          </div>
+          <div class="impact-item">
+            <div class="impact-n">8</div>
+            <div class="impact-l">Security Controls</div>
+          </div>
+          <div class="impact-item">
+            <div class="impact-n">CI/CD</div>
+            <div class="impact-l">Auto Deploy</div>
+          </div>
+        </div>
         <div class="feat-footer">
           <a href="https://www.skylinewheels.in" class="feat-link" target="_blank" rel="noopener">Live Site</a>
           <a href="work.html" class="feat-link">Case Study</a>
@@ -638,7 +666,34 @@ pre {
       <div class="feat-side">
 
         <div class="feat-small reveal" data-delay="80">
-          <div class="feat-num">02</div>
+          <div class="feat-num">02 — Client Project</div>
+          <div class="feat-tag-row">
+            <span class="pill amber">Deployed</span>
+            <span class="pill">Django</span>
+            <span class="pill">PostgreSQL</span>
+            <span class="pill purple">BI / Analytics</span>
+          </div>
+          <div class="feat-title" style="font-size:18px">Bajaj Analytics — Financial BI Dashboard</div>
+          <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:12px">
+            P&amp;L dashboard tracking 5–10 expense categories across daily, monthly, and quarterly
+            periods with Tally → PostgreSQL sync, Excel import/validation pipeline, and on-demand
+            PDF/Excel report generation. Cut report preparation time from 12 hours to under a minute.
+          </p>
+          <div style="display:flex;gap:16px;margin-bottom:14px">
+            <div class="impact-item">
+              <div class="impact-n" style="font-size:16px">98%</div>
+              <div class="impact-l">Reporting Time Saved</div>
+            </div>
+            <div class="impact-item">
+              <div class="impact-n" style="font-size:16px">3+ yrs</div>
+              <div class="impact-l">Data Consolidated</div>
+            </div>
+          </div>
+          <a href="work.html" class="feat-link">Case Study</a>
+        </div>
+
+        <div class="feat-small reveal" data-delay="160">
+          <div class="feat-num">03 — Open Source</div>
           <div class="feat-tag-row">
             <span class="pill">Django</span>
             <span class="pill">React</span>
@@ -647,25 +702,11 @@ pre {
           </div>
           <div class="feat-title" style="font-size:18px">FlowBoard — Real-Time PM Tool</div>
           <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:16px">
-            Kanban + analytics platform with Django Channels, Celery beat, JWT auth, 
-            React frontend, and full CI/CD via GitHub Actions.
+            Kanban + analytics platform with Django Channels, Celery beat, JWT auth, React + Vite +
+            TailwindCSS frontend, DSA-backed features (Min-Heap, Binary Search, Stack, Sliding Window),
+            and full CI/CD via GitHub Actions.
           </p>
           <a href="https://github.com/Ashwani1611/flowboard" class="feat-link" target="_blank" rel="noopener">GitHub</a>
-        </div>
-
-        <div class="feat-small reveal" data-delay="160">
-          <div class="feat-num">03</div>
-          <div class="feat-tag-row">
-            <span class="pill amber">Client</span>
-            <span class="pill">Firebase</span>
-            <span class="pill">HTML/CSS/JS</span>
-          </div>
-          <div class="feat-title" style="font-size:18px">Mogli Flow Club — Calisthenics Website</div>
-          <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:16px">
-            Multi-page site for a calisthenics training business in Mayur Vihar, New Delhi —
-            member enrollment, admin panel, Firebase backend, and a custom dark athletic aesthetic.
-          </p>
-          <a href="work.html" class="feat-link">Learn More</a>
         </div>
 
       </div>
@@ -710,17 +751,17 @@ pre {
 initTypewriter(document.getElementById('tw'), [
   'backends that scale.',
   'REST APIs that fly.',
-  'full-stack solutions.',
+  'multi-tenant systems.',
   'with Django & FastAPI.',
   'systems that ship.'
 ]);
 
 // Ticker
 const techs = [
-  'Django','FastAPI','Python 3.12','PostgreSQL','React.js',
+  'Django','FastAPI','Python 3.12','PostgreSQL','DRF',
   'Docker','Redis','Celery','WebSockets','GitHub Actions',
-  'Supabase','Railway','Cloudinary','OpenAI API',
-  'JWT Auth','Bootstrap 5','Linux','IIT Mandi'
+  'AWS EC2 / S3','Railway','Cloudinary','OpenAI API',
+  'JWT / RBAC','Multi-tenant','React','IIT Mandi'
 ];
 const t = document.getElementById('ticker');
 const html = [...techs,...techs,...techs,...techs]
@@ -730,4 +771,3 @@ t.innerHTML = html + html;
 </script>
 </body>
 </html>
-
