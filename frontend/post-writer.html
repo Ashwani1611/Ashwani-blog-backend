@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Post Writer — Ashwani Kumar Admin</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#05080c;--bg1:#0d1117;--bg2:#161b22;--bg3:#1e242e;
+  --text:#e6edf3;--text2:#8b949e;--text3:#484f58;
+  --cyan:#00e5c0;--cyan2:#00b89a;
+  --green:#4ade80;--amber:#f4b942;--red:#f05f7a;
+  --border1:rgba(255,255,255,.1);--border2:rgba(255,255,255,.07);--border3:rgba(255,255,255,.04);
+  --font-mono:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
+  --font-head:'Inter','Segoe UI',sans-serif;
+}
+body{background:var(--bg0);color:var(--text);font-family:var(--font-head);font-size:14px;line-height:1.6;min-height:100vh}
+input,select,textarea{font-family:var(--font-head);font-size:13px;background:var(--bg2);color:var(--text);border:1px solid var(--border1);border-radius:8px;padding:9px 13px;width:100%;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan)}
+input::placeholder,textarea::placeholder{color:var(--text3)}
+select option{background:var(--bg2)}
+textarea{resize:vertical;line-height:1.7}
+button{font-family:var(--font-head);font-size:13px;border-radius:8px;padding:9px 18px;border:1px solid var(--border1);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+button:hover{background:var(--bg3);color:var(--text);border-color:rgba(255,255,255,.18)}
+button:active{transform:scale(0.98)}
+button.primary{background:var(--cyan);color:var(--bg0);border-color:var(--cyan);font-weight:600}
+button.primary:hover{background:#00c9a8;border-color:#00c9a8}
+button:disabled{opacity:.4;cursor:not-allowed;transform:none}
+label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:5px}
+.card{background:var(--bg1);border:1px solid var(--border2);border-radius:12px;padding:24px;position:relative}
+.card+.card{margin-top:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:5px}
+.status{font-size:12px;padding:8px 14px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);letter-spacing:.06em}
+.status.ok{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2)}
+.status.err{background:rgba(240,95,122,.1);color:var(--red);border:1px solid rgba(240,95,122,.2)}
+.status.info{background:rgba(0,229,192,.08);color:var(--cyan);border:1px solid rgba(0,229,192,.2)}
+.step-bar{display:flex;gap:0;margin-bottom:24px;border:1px solid var(--border2);border-radius:10px;overflow:hidden}
+.step{flex:1;padding:11px 8px;text-align:center;font-size:11px;color:var(--text3);background:var(--bg1);border-right:1px solid var(--border2);font-family:var(--font-mono);letter-spacing:.08em;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s}
+.step:last-child{border-right:none}
+.step.active{background:var(--bg2);color:var(--text)}
+.step.done{background:rgba(74,222,128,.06);color:var(--green)}
+.step-num{width:20px;height:20px;border-radius:50%;background:var(--bg3);color:var(--text3);font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border1)}
+.step.active .step-num{background:var(--cyan);color:var(--bg0);border-color:var(--cyan)}
+.step.done .step-num{background:var(--green);color:var(--bg0);border-color:var(--green)}
+.pill-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;min-height:28px}
+.pill{display:inline-flex;align-items:center;gap:5px;background:rgba(0,229,192,.08);border:1px solid rgba(0,229,192,.18);border-radius:100px;padding:4px 12px;font-size:12px;color:var(--cyan);font-family:var(--font-mono)}
+.pill button{background:none;border:none;padding:0;width:14px;height:14px;font-size:10px;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:color .15s}
+.pill button:hover{color:var(--red);background:none;transform:none}
+.tag-inp-row{display:flex;gap:8px}
+.toc-item-row{display:flex;gap:7px;align-items:center;margin-bottom:8px}
+.toc-item-row input:first-of-type{flex:1}
+.toc-item-row .anchor-inp{width:180px;flex-shrink:0;font-family:var(--font-mono);font-size:11px}
+.toc-item-row select{width:72px;flex-shrink:0}
+.toc-item-row .del-btn{width:30px;padding:0;justify-content:center;flex-shrink:0;color:var(--text3)}
+.toc-item-row .del-btn:hover{color:var(--red)}
+.section-label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border3)}
+.preview-body{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:20px;font-size:14px;line-height:1.85;color:var(--text2);max-height:400px;overflow-y:auto}
+.preview-body h2{font-size:18px;font-weight:700;color:var(--text);margin:24px 0 10px}
+.preview-body h3{font-size:15px;font-weight:600;color:var(--text);margin:18px 0 8px}
+.preview-body p{margin-bottom:14px}
+.preview-body pre{background:var(--bg0);border:1px solid var(--border2);border-radius:8px;padding:16px;font-size:12px;overflow-x:auto;margin:12px 0;font-family:var(--font-mono)}
+.preview-body code{font-family:var(--font-mono);font-size:12px;background:var(--bg2);color:var(--cyan);padding:2px 6px;border-radius:4px}
+.preview-body pre code{background:none;padding:0;color:var(--text)}
+.preview-body .callout{background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.18);padding:16px 20px;border-radius:8px;margin:16px 0;display:flex;gap:10px}
+.preview-body strong{color:var(--text)}
+.dot-anim{display:flex;align-items:center;gap:4px}
+.dot-anim span{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:dotbounce 1.2s infinite}
+.dot-anim span:nth-child(2){animation-delay:.2s}
+.dot-anim span:nth-child(3){animation-delay:.4s}
+@keyframes dotbounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-7px);opacity:1}}
+.gen-wrap{text-align:center;padding:60px 20px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.gen-wrap .big-icon{font-size:40px}
+.pub-success{text-align:center;padding:50px 20px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.pub-success .tick{font-size:48px;color:var(--green)}
+.nav-bar{background:var(--bg1);border-bottom:1px solid var(--border2);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.nav-title{font-family:var(--font-mono);font-size:13px;letter-spacing:.12em;color:var(--text2)}
+.nav-title span{color:var(--cyan)}
+.wrap{max-width:800px;margin:0 auto;padding:32px 24px 80px}
+@media(max-width:600px){.row,.row3{grid-template-columns:1fr}.step .step-num{display:none}.step{font-size:9px;padding:8px 4px}}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <div class="nav-title">[<span>AK</span>] Post Writer</div>
+  <div id="auth-status"></div>
+</div>
+
+<div class="wrap">
+
+  <div class="step-bar" id="step-bar">
+    <div class="step active" id="step-1"><span class="step-num">1</span>Login</div>
+    <div class="step" id="step-2"><span class="step-num">2</span>Brief</div>
+    <div class="step" id="step-3"><span class="step-num">3</span>Generate</div>
+    <div class="step" id="step-4"><span class="step-num">4</span>Review</div>
+    <div class="step" id="step-5"><span class="step-num">5</span>Publish</div>
+  </div>
+
+  <!-- STEP 1: LOGIN -->
+  <div id="pane-1">
+    <div class="card">
+      <div class="section-label">Admin Login</div>
+      <div style="display:flex;flex-direction:column;gap:14px;max-width:400px">
+        <div class="field"><label>Email</label><input id="l-email" type="email" placeholder="your@email.com"></div>
+        <div class="field"><label>Password</label><input id="l-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+        <div id="l-err" style="display:none" class="status err"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="primary" id="l-btn" onclick="doLogin()">🔒 Login</button>
+          <button onclick="useStoredToken()">⚡ Use stored token</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: BRIEF -->
+  <div id="pane-2" style="display:none">
+    <div class="card">
+      <div class="section-label">What should Gemini write about?</div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="field">
+          <label>Topic / Working Title *</label>
+          <input id="b-topic" placeholder="e.g. How I fixed a Django N+1 query bug on a government API">
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Category *</label>
+            <select id="b-cat">
+              <option value="django">Django</option>
+              <option value="python">Python</option>
+              <option value="dsa">DSA</option>
+              <option value="devops">DevOps</option>
+              <option value="system-design">System Design</option>
+              <option value="ai">AI</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Layout</label>
+            <select id="b-layout">
+              <option value="half">Half</option>
+              <option value="featured">Featured</option>
+              <option value="side">Side</option>
+              <option value="third">Third</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Key points to cover (optional)</label>
+          <textarea id="b-points" rows="4" placeholder="e.g.&#10;- explain what N+1 is&#10;- show select_related fix with real code&#10;- include before/after query counts&#10;- end with manager pattern"></textarea>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Tone</label>
+            <select id="b-tone">
+              <option value="technical and direct">Technical & direct</option>
+              <option value="friendly and educational">Friendly & educational</option>
+              <option value="concise and code-heavy">Concise & code-heavy</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Length</label>
+            <select id="b-len">
+              <option value="short (4-5 min read)">Short (4–5 min)</option>
+              <option value="medium (7-8 min read)" selected>Medium (7–8 min)</option>
+              <option value="long (10-12 min read)">Long (10–12 min)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Featured post?</label>
+          <select id="b-featured">
+            <option value="false">No</option>
+            <option value="true">Yes — show in hero</option>
+          </select>
+        </div>
+        <div>
+          <button class="primary" onclick="goGenerate()">✦ Generate with Gemini →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: GENERATING -->
+  <div id="pane-3" style="display:none">
+    <div class="card">
+      <div class="gen-wrap">
+        <div class="big-icon">✦</div>
+        <div class="dot-anim"><span></span><span></span><span></span></div>
+        <div id="gen-msg" style="font-family:var(--font-mono);font-size:13px;color:var(--text2)">Asking Gemini to write your post...</div>
+        <div style="font-size:12px;color:var(--text3)">Usually takes 10–25 seconds</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: REVIEW -->
+  <div id="pane-4" style="display:none">
+
+    <div class="card">
+      <div class="section-label">Metadata</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="field"><label>Title *</label><input id="r-title"></div>
+        <div class="field"><label>Slug * (URL-safe, auto-generated)</label><input id="r-slug" style="font-family:var(--font-mono);font-size:12px"></div>
+        <div class="field"><label>Excerpt *</label><textarea id="r-excerpt" rows="2"></textarea></div>
+        <div class="row3">
+          <div class="field"><label>Category</label>
+            <select id="r-cat">
+              <option value="django">Django</option><option value="python">Python</option>
+              <option value="dsa">DSA</option><option value="devops">DevOps</option>
+              <option value="system-design">System Design</option><option value="ai">AI</option>
+            </select>
+          </div>
+          <div class="field"><label>Layout</label>
+            <select id="r-layout">
+              <option value="half">Half</option><option value="featured">Featured</option>
+              <option value="side">Side</option><option value="third">Third</option>
+            </select>
+          </div>
+          <div class="field"><label>Read time</label><input id="r-read" placeholder="8 min read"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>Featured</label>
+            <select id="r-featured"><option value="false">No</option><option value="true">Yes</option></select>
+          </div>
+          <div class="field"><label>Status</label>
+            <select id="r-published"><option value="true">Published</option><option value="false">Draft</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Tags</div>
+      <div class="tag-inp-row">
+        <input id="tag-inp" placeholder="Type a tag and press Enter" onkeydown="addTag(event)">
+        <button onclick="addTagBtn()">+ Add</button>
+      </div>
+      <div class="pill-list" id="tags-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Table of Contents</div>
+      <div id="toc-list"></div>
+      <button style="margin-top:4px;font-size:12px" onclick="addTocRow()">+ Add heading</button>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Post Body (HTML) — edit freely</div>
+      <textarea id="r-body" rows="20" style="font-family:var(--font-mono);font-size:12px;line-height:1.7"></textarea>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Rendered Preview</div>
+      <div class="preview-body" id="preview-body"></div>
+      <button style="margin-top:12px;font-size:12px" onclick="refreshPreview()">↻ Refresh preview</button>
+    </div>
+
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:14px">
+      <button onclick="showPane(2)">← Re-brief</button>
+      <button class="primary" onclick="goPublish()">✓ Publish post →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: PUBLISH -->
+  <div id="pane-5" style="display:none">
+    <div class="card" id="pub-card">
+      <div class="gen-wrap">
+        <div class="dot-anim"><span></span><span></span><span></span></div>
+        <div style="font-family:var(--font-mono);font-size:13px;color:var(--text2)">Saving to database...</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API   = '/api/v1';
+let token   = '';
+let tags    = [];
+let tocItems = [];
+
+function showPane(n) {
+  [1,2,3,4,5].forEach(i => {
+    document.getElementById('pane-'+i).style.display = (i===n) ? '' : 'none';
+    const s = document.getElementById('step-'+i);
+    s.className = 'step' + (i===n ? ' active' : i<n ? ' done' : '');
+  });
+}
+
+function setAuthBadge(ok, msg) {
+  document.getElementById('auth-status').innerHTML =
+    `<span class="status ${ok?'ok':'err'}">${msg}</span>`;
+}
+
+function slugify(s) {
+  return s.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g,'').trim()
+    .replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,80);
+}
+
+async function doLogin() {
+  const email = document.getElementById('l-email').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+  const btn   = document.getElementById('l-btn');
+  const err   = document.getElementById('l-err');
+  err.style.display = 'none';
+  if (!email || !pass) { showErr(err,'Enter email and password'); return; }
+  btn.disabled = true; btn.textContent = 'Logging in...';
+  try {
+    const res = await fetch(API+'/auth/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json().catch(()=>({}));
+    if (!res.ok) { showErr(err, data.detail||'Login failed'); return; }
+    token = data.access_token;
+    localStorage.setItem('ak_token', token);
+    setAuthBadge(true, '● Logged in');
+    showPane(2);
+  } catch(e) {
+    showErr(err, 'Network error — is the backend running?');
+  } finally {
+    btn.disabled = false; btn.innerHTML = '🔒 Login';
+  }
+}
+
+function useStoredToken() {
+  const t = localStorage.getItem('ak_token');
+  if (!t) { alert('No stored token found — please log in.'); return; }
+  token = t;
+  setAuthBadge(true, '● Stored token');
+  showPane(2);
+}
+
+function showErr(el, msg) { el.textContent = msg; el.style.display = 'flex'; }
+
+async function goGenerate() {
+  const topic  = document.getElementById('b-topic').value.trim();
+  if (!topic) { alert('Enter a topic first.'); return; }
+
+  const cat    = document.getElementById('b-cat').value;
+  const layout = document.getElementById('b-layout').value;
+  const points = document.getElementById('b-points').value.trim();
+  const tone   = document.getElementById('b-tone').value;
+  const len    = document.getElementById('b-len').value;
+  const feat   = document.getElementById('b-featured').value === 'true';
+
+  showPane(3);
+  document.getElementById('gen-msg').textContent = 'Asking Gemini to write your post...';
+
+  const prompt = `You are writing a technical blog post for Ashwani Kumar's developer portfolio.
+Ashwani is a Full-Stack Developer from New Delhi specialising in Django, FastAPI, PostgreSQL, Docker, AWS. Currently studying at IIT Mandi.
+
+Write a complete blog post with these specs:
+- Topic: ${topic}
+- Category: ${cat}
+- Tone: ${tone}
+- Length: ${len}
+${points ? `- Key points to cover:\n${points}` : ''}
+
+Return ONLY valid JSON — no markdown fences, no extra text, no explanation. Just the raw JSON object:
+{
+  "title": "Full post title",
+  "slug": "url-friendly-slug-max-60-chars",
+  "excerpt": "2-3 sentence compelling excerpt describing what the reader learns",
+  "read_time": "X min read",
+  "tags": ["Tag1","Tag2","Tag3","Tag4"],
+  "toc": [
+    {"title":"Section Heading","anchor":"section-heading","level":2}
+  ],
+  "body": "Full HTML body. Use <h2> for main sections matching toc. Use <pre><code> for all code. Use <div class=\\"callout\\"><div class=\\"callout-icon\\">⚠️</div><div class=\\"callout-text\\">note text</div></div> for warnings. Use <strong> for key terms. Include real, production-quality code examples. Minimum 800 words."
+}`;
+
+  try {
+    const res = await fetch(API+'/ai/chat', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ messages:[{ role:'user', content: prompt }] })
+    });
+    if (!res.ok) {
+      const e = await res.json().catch(()=>({}));
+      throw new Error(e.detail || `AI endpoint error ${res.status}`);
+    }
+    const data = await res.json();
+    document.getElementById('gen-msg').textContent = 'Parsing Gemini response...';
+
+    let parsed;
+    const raw = data.reply || '';
+    try {
+      const clean = raw.replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+      parsed = JSON.parse(clean);
+    } catch {
+      const m = raw.match(/\{[\s\S]*\}/);
+      if (m) parsed = JSON.parse(m[0]);
+      else throw new Error('Could not parse JSON from Gemini. Try again.');
+    }
+
+    tags     = Array.isArray(parsed.tags) ? parsed.tags : [];
+    tocItems = Array.isArray(parsed.toc)  ? parsed.toc  : [];
+    populateReview({ ...parsed, cat, layout, is_featured: feat });
+    showPane(4);
+  } catch(e) {
+    showPane(2);
+    alert('Generation failed: ' + e.message);
+  }
+}
+
+function populateReview(p) {
+  document.getElementById('r-title').value    = p.title    || '';
+  document.getElementById('r-slug').value     = p.slug     || slugify(p.title||'');
+  document.getElementById('r-excerpt').value  = p.excerpt  || '';
+  document.getElementById('r-read').value     = p.read_time|| '7 min read';
+  document.getElementById('r-cat').value      = p.cat      || 'django';
+  document.getElementById('r-layout').value   = p.layout   || 'half';
+  document.getElementById('r-featured').value = p.is_featured ? 'true' : 'false';
+  document.getElementById('r-body').value     = p.body     || '';
+  renderTags(); renderToc(); refreshPreview();
+
+  document.getElementById('r-title').oninput = e => {
+    document.getElementById('r-slug').value = slugify(e.target.value);
+  };
+  document.getElementById('r-body').oninput = () => refreshPreview();
+}
+
+function renderTags() {
+  document.getElementById('tags-list').innerHTML = tags.map((t,i) =>
+    `<span class="pill">${t}<button onclick="removeTag(${i})" title="Remove">✕</button></span>`
+  ).join('');
+}
+function removeTag(i) { tags.splice(i,1); renderTags(); }
+function addTag(e) { if(e.key==='Enter'){ e.preventDefault(); addTagBtn(); } }
+function addTagBtn() {
+  const inp = document.getElementById('tag-inp');
+  const v = inp.value.trim();
+  if (v && !tags.includes(v)) { tags.push(v); renderTags(); }
+  inp.value = '';
+}
+
+function renderToc() {
+  document.getElementById('toc-list').innerHTML = tocItems.map((t,i) => `
+    <div class="toc-item-row">
+      <select onchange="tocItems[${i}].level=parseInt(this.value)">
+        <option value="2" ${t.level!==3?'selected':''}>H2</option>
+        <option value="3" ${t.level===3?'selected':''}>H3</option>
+      </select>
+      <input value="${escHtml(t.title)}"
+        oninput="tocItems[${i}].title=this.value;tocItems[${i}].anchor=slugify(this.value)"
+        placeholder="Section title">
+      <input class="anchor-inp" value="${escHtml(t.anchor)}"
+        oninput="tocItems[${i}].anchor=this.value"
+        placeholder="anchor-id">
+      <button class="del-btn" onclick="tocItems.splice(${i},1);renderToc()" title="Remove">✕</button>
+    </div>`).join('');
+}
+function addTocRow() {
+  tocItems.push({ title:'New Section', anchor:'new-section', level:2 });
+  renderToc();
+}
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function refreshPreview() {
+  document.getElementById('preview-body').innerHTML =
+    document.getElementById('r-body').value;
+}
+
+async function goPublish() {
+  if (!token) { alert('Not logged in — go back to step 1.'); showPane(1); return; }
+  const title   = document.getElementById('r-title').value.trim();
+  const slug    = document.getElementById('r-slug').value.trim();
+  const excerpt = document.getElementById('r-excerpt').value.trim();
+  const body    = document.getElementById('r-body').value.trim();
+  if (!title||!slug||!excerpt||!body) {
+    alert('Title, slug, excerpt and body are all required.'); return;
+  }
+
+  showPane(5);
+
+  const payload = {
+    title, slug, excerpt,
+    content:      body,
+    cat:          document.getElementById('r-cat').value,
+    layout:       document.getElementById('r-layout').value,
+    tags,
+    toc:          tocItems,
+    read_time:    document.getElementById('r-read').value || '7 min read',
+    is_featured:  document.getElementById('r-featured').value === 'true',
+    is_published: document.getElementById('r-published').value === 'true',
+    cover_image:  null,
+  };
+
+  try {
+    const res = await fetch(API+'/posts', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+token },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json().catch(()=>({}));
+    const card = document.getElementById('pub-card');
+
+    if (res.status === 201) {
+      card.innerHTML = `
+        <div class="pub-success">
+          <div class="tick">✓</div>
+          <div style="font-size:18px;font-weight:700;color:var(--text)">Post published!</div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--text3)">
+            slug: <span style="color:var(--cyan)">${data.slug||slug}</span>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;justify-content:center">
+            <a href="/blog-post.html?id=${encodeURIComponent(data.slug||slug)}" target="_blank">
+              <button>↗ View post</button>
+            </a>
+            <button onclick="startNew()">+ Write another</button>
+          </div>
+        </div>`;
+    } else if (res.status===400 && (data.detail||'').toLowerCase().includes('already')) {
+      card.innerHTML = `<div class="gen-wrap">
+        <div class="status err">Slug "<strong>${slug}</strong>" already exists in DB.</div>
+        <button onclick="showPane(4)">← Edit slug & retry</button>
+      </div>`;
+    } else if (res.status===401) {
+      card.innerHTML = `<div class="gen-wrap">
+        <div class="status err">Token expired or not admin.</div>
+        <button onclick="showPane(1)">← Re-login</button>
+      </div>`;
+    } else {
+      card.innerHTML = `<div class="gen-wrap">
+        <div class="status err">${data.detail||'Error '+res.status}</div>
+        <button onclick="showPane(4)">← Back to edit</button>
+      </div>`;
+    }
+  } catch(e) {
+    document.getElementById('pub-card').innerHTML = `<div class="gen-wrap">
+      <div class="status err">Network error: ${e.message}</div>
+      <button onclick="showPane(4)">← Back to edit</button>
+    </div>`;
+  }
+}
+
+function startNew() {
+  tags=[]; tocItems=[];
+  ['b-topic','b-points'].forEach(id => document.getElementById(id).value='');
+  showPane(2);
+}
+
+const stored = localStorage.getItem('ak_token');
+if (stored) {
+  token = stored;
+  setAuthBadge(true, '● Token cached');
+  document.getElementById('l-email').value = '(token already stored)';
+}
+</script>
+</body>
+</html>
