@@ -4,141 +4,231 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Blog — Ashwani Kumar</title>
-<meta name="description" content="Technical writing on Django, FastAPI, PostgreSQL, System Design, DSA, and AI. Learning in public from a backend developer at IIT Mandi.">
+<meta name="description" content="Technical writing by Ashwani Kumar — real problems from production Django systems, PostgreSQL, DevOps, and DSA applied to actual code.">
+<meta name="keywords" content="Django blog, Python developer blog, backend engineering India, PostgreSQL tips, Django ORM performance, IIT Mandi developer">
+<meta name="author" content="Ashwani Kumar">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ashwani.dev/blog.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blog — Ashwani Kumar | Django · PostgreSQL · DSA · DevOps">
+<meta property="og:description" content="Real problems from production systems. No filler, no tutorials you've read before.">
+<meta property="og:url" content="https://ashwani.dev/blog.html">
+<meta property="og:image" content="https://ashwani.dev/og-image.png">
 <link rel="stylesheet" href="style.css">
 <style>
 main { position:relative; z-index:1; padding-top:68px; }
 
-/* ── HERO ── */
+/* ── BLOG HERO ── */
 #blog-hero {
-  padding:72px 52px 60px;
+  padding:80px 52px 72px;
   max-width:1300px; margin:0 auto;
-  display:grid; grid-template-columns:1fr 380px; gap:64px; align-items:start;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:64px; align-items:center;
 }
-.bh-left { }
-.bh-left h1 {
-  font-family:var(--font-head); font-size:clamp(40px,5.5vw,72px);
-  font-weight:900; line-height:.95; letter-spacing:-.04em;
-  margin-bottom:20px;
-  opacity:0; animation:fadeUp .7s .15s forwards;
+.blog-hero-left .eyebrow {
+  font-family:var(--font-mono); font-size:11px; color:var(--cyan);
+  letter-spacing:.22em; text-transform:uppercase;
+  margin-bottom:18px;
+  opacity:0; animation:fadeUp .6s .1s forwards;
 }
-.bh-left .bh-sub {
-  font-size:15px; color:var(--text2); line-height:1.85; max-width:480px;
-  margin-bottom:32px;
-  opacity:0; animation:fadeUp .7s .3s forwards;
+.blog-hero-left h1 {
+  font-family:var(--font-head); font-size:clamp(44px,5.5vw,72px);
+  font-weight:900; line-height:.95; letter-spacing:-.03em;
+  margin-bottom:24px;
+  opacity:0; animation:fadeUp .7s .2s forwards;
 }
-.bh-stats {
-  display:flex; gap:28px; flex-wrap:wrap;
-  opacity:0; animation:fadeUp .7s .45s forwards;
+.blog-hero-left h1 .s {
+  font-family:var(--font-serif); font-style:italic;
+  font-weight:400; color:var(--text2);
 }
-.bh-stat { }
-.bh-stat-n { font-family:var(--font-head); font-size:28px; font-weight:900; color:var(--cyan); }
-.bh-stat-l { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.12em; text-transform:uppercase; margin-top:2px; }
+.blog-hero-left .lead {
+  font-size:15px; color:var(--text2); line-height:1.9;
+  max-width:440px; margin-bottom:32px;
+  opacity:0; animation:fadeUp .7s .35s forwards;
+}
+.blog-stats {
+  display:flex; gap:32px;
+  opacity:0; animation:fadeUp .7s .5s forwards;
+}
+.blog-stat-n {
+  font-family:var(--font-head); font-size:32px; font-weight:900;
+  color:var(--cyan); line-height:1;
+}
+.blog-stat-l {
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.12em; text-transform:uppercase; margin-top:4px;
+}
 
-/* ── AI SIDEBAR CHAT ── */
-.bh-ai {
+/* ── FEATURED CARD (hero right) ── */
+.blog-featured-card {
   background:var(--c1); border:1px solid var(--border2);
-  border-radius:14px; overflow:hidden;
-  box-shadow:var(--shadow);
-  opacity:0; animation:fadeUp .9s .35s forwards;
-  position:sticky; top:88px;
+  border-radius:12px; overflow:hidden;
+  box-shadow:0 24px 64px rgba(0,0,0,.4);
+  opacity:0; animation:fadeUp .9s .4s forwards;
+  position:relative; cursor:pointer;
+  transition:transform .3s var(--ease), box-shadow .3s;
+  text-decoration:none; display:block;
 }
-.bai-head {
-  padding:14px 18px; background:var(--c2);
+.blog-featured-card:hover {
+  transform:translateY(-4px);
+  box-shadow:0 32px 80px rgba(0,0,0,.5);
+}
+.blog-featured-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--cyan2),var(--cyan));
+}
+.bfc-body { padding:32px 32px 24px; }
+.bfc-meta {
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:16px; flex-wrap:wrap;
+}
+.bfc-title {
+  font-family:var(--font-head); font-size:clamp(18px,2vw,24px);
+  font-weight:800; line-height:1.15; margin-bottom:14px;
+  letter-spacing:-.02em; color:var(--text);
+}
+.bfc-excerpt {
+  font-size:13px; color:var(--text2); line-height:1.8;
+  margin-bottom:20px;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.bfc-footer {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 32px;
+  border-top:1px solid var(--border3);
+  background:var(--c2);
+}
+.bfc-read-cta {
+  font-family:var(--font-mono); font-size:11px;
+  color:var(--cyan); letter-spacing:.1em; text-transform:uppercase;
+}
+
+/* ── ABOUT THE BLOG ── */
+#about-blog {
+  background:var(--c1);
+  border-top:1px solid var(--border3);
   border-bottom:1px solid var(--border3);
+  padding:64px 52px;
+}
+.about-blog-inner {
+  max-width:1300px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1fr 1fr 1fr;
+  gap:1px; background:var(--border3);
+  border:1px solid var(--border3); border-radius:4px; overflow:hidden;
+}
+.abl-item {
+  background:var(--c1); padding:32px 28px;
+  transition:background .3s;
+}
+.abl-item:hover { background:var(--c0); }
+.abl-icon { font-size:28px; margin-bottom:14px; }
+.abl-title {
+  font-family:var(--font-head); font-size:16px; font-weight:800;
+  margin-bottom:8px; letter-spacing:-.01em;
+}
+.abl-desc { font-size:13px; color:var(--text2); line-height:1.75; }
+
+/* ── CONTROLS BAR ── */
+#controls {
+  padding:40px 52px 0;
+  max-width:1300px; margin:0 auto;
+}
+.controls-top {
+  display:flex; align-items:center; gap:16px;
+  margin-bottom:20px; flex-wrap:wrap;
+}
+.blog-search {
+  flex:1; min-width:200px; max-width:320px;
   display:flex; align-items:center; gap:8px;
+  background:var(--c1); border:1px solid var(--border3);
+  border-radius:8px; padding:0 14px;
+  transition:border-color .2s;
 }
-.bai-dot { width:7px; height:7px; background:#a78bfa; border-radius:50%; animation:ai-pulse 2s infinite; }
-@keyframes ai-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(167,139,250,.4)} 50%{box-shadow:0 0 0 4px rgba(167,139,250,0)} }
-.bai-title { font-family:var(--font-head); font-size:13px; font-weight:700; }
-.bai-sub { font-family:var(--font-mono); font-size:9px; color:var(--text3); letter-spacing:.1em; margin-left:auto; }
-.bai-msgs { padding:14px; max-height:240px; overflow-y:auto; display:flex; flex-direction:column; gap:9px; }
-.bai-msgs::-webkit-scrollbar { width:3px; }
-.bai-msgs::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
-.bai-msg { display:flex; gap:7px; align-items:flex-start; }
-.bai-msg.user { flex-direction:row-reverse; }
-.bai-avatar { width:22px; height:22px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; background:var(--c2); border:1px solid var(--border3); }
-.bai-msg.ai-msg .bai-avatar { background:rgba(167,139,250,.15); border-color:rgba(167,139,250,.2); }
-.bai-bubble { max-width:88%; padding:8px 11px; border-radius:9px; font-size:12px; line-height:1.6; }
-.bai-msg.user .bai-bubble { background:var(--cyan); color:var(--c0); border-radius:9px 0 9px 9px; }
-.bai-msg.ai-msg .bai-bubble { background:var(--c2); color:var(--text); border-radius:0 9px 9px 9px; border:1px solid var(--border3); }
-.bai-bubble.typing::after { content:'●●●'; animation:typing 1s infinite; font-size:8px; letter-spacing:2px; }
-@keyframes typing { 0%,100%{opacity:.3} 50%{opacity:1} }
-.bai-qs { padding:0 14px 10px; display:flex; flex-wrap:wrap; gap:5px; }
-.bai-q {
-  font-family:var(--font-mono); font-size:9px; color:var(--text3);
-  border:1px solid var(--border3); background:var(--c0);
-  padding:4px 9px; border-radius:100px; cursor:none; transition:.2s;
+.blog-search:focus-within { border-color:var(--border2); }
+.blog-search svg {
+  width:14px; height:14px; stroke:var(--text3); flex-shrink:0;
 }
-.bai-q:hover { border-color:rgba(167,139,250,.35); color:#a78bfa; }
-.bai-row { padding:10px 14px; border-top:1px solid var(--border3); display:flex; gap:7px; }
-.bai-input {
-  flex:1; background:var(--c0); border:1px solid var(--border3);
-  color:var(--text); font-family:var(--font-body); font-size:12px;
-  padding:7px 11px; border-radius:7px; outline:none; cursor:none; transition:border-color .2s;
+.blog-search input {
+  background:none; border:none; outline:none;
+  font-family:var(--font-mono); font-size:12px; color:var(--text);
+  padding:10px 0; width:100%;
 }
-.bai-input:focus { border-color:rgba(167,139,250,.4); }
-.bai-input::placeholder { color:var(--text3); }
-.bai-send { width:30px; height:30px; background:#a78bfa; border:none; border-radius:7px; cursor:none; display:flex; align-items:center; justify-content:center; transition:background .2s; flex-shrink:0; }
-.bai-send:hover { background:#9061f9; }
-.bai-send svg { width:12px; height:12px; fill:white; }
+.blog-search input::placeholder { color:var(--text3); }
+.sort-select {
+  font-family:var(--font-mono); font-size:11px;
+  background:var(--c1); border:1px solid var(--border3);
+  color:var(--text2); padding:9px 14px; border-radius:8px;
+  cursor:pointer; outline:none; transition:border-color .2s;
+  letter-spacing:.08em;
+}
+.sort-select:focus { border-color:var(--border2); }
+.post-count-label {
+  font-family:var(--font-mono); font-size:11px;
+  color:var(--text3); letter-spacing:.1em;
+  margin-left:auto;
+}
 
-/* ── FILTER BAR ── */
-#filter-bar {
-  background:var(--c1); border-top:1px solid var(--border3); border-bottom:1px solid var(--border3);
-  padding:0 52px; position:sticky; top:68px; z-index:100;
-  display:flex; align-items:center; gap:0; overflow-x:auto;
-  scrollbar-width:none;
+/* CATEGORY TABS */
+.cat-tabs {
+  display:flex; gap:6px; flex-wrap:wrap;
 }
-#filter-bar::-webkit-scrollbar { display:none; }
-.filter-btn {
-  font-family:var(--font-mono); font-size:11px; color:var(--text3);
-  letter-spacing:.1em; text-transform:uppercase;
-  padding:18px 20px; border:none; background:none; cursor:none;
-  border-bottom:2px solid transparent; transition:.2s; white-space:nowrap; flex-shrink:0;
+.cat-tab {
+  font-family:var(--font-mono); font-size:10px;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:7px 14px; border-radius:100px;
+  border:1px solid var(--border3); background:none;
+  color:var(--text3); cursor:pointer;
+  transition:all .2s; white-space:nowrap;
 }
-.filter-btn:hover { color:var(--text); }
-.filter-btn.active { color:var(--cyan); border-bottom-color:var(--cyan); }
-.filter-sep { width:1px; height:20px; background:var(--border3); flex-shrink:0; margin:0 4px; }
-.filter-search {
-  margin-left:auto; flex-shrink:0;
-  display:flex; align-items:center; gap:8px; padding:10px 0;
+.cat-tab:hover { border-color:var(--border2); color:var(--text); }
+.cat-tab.active {
+  background:var(--cyan); color:var(--c0);
+  border-color:var(--cyan);
 }
-.search-input {
-  background:var(--c2); border:1px solid var(--border3);
-  color:var(--text); font-family:var(--font-mono); font-size:11px;
-  padding:7px 12px; border-radius:6px; outline:none; cursor:none;
-  width:180px; transition:border-color .2s, width .3s var(--ease);
+.cat-tab .tab-count {
+  font-size:9px; opacity:.7; margin-left:4px;
 }
-.search-input:focus { border-color:var(--border2); width:220px; }
-.search-input::placeholder { color:var(--text3); }
 
-/* ── BLOG GRID ── */
-#blog-main { padding:52px 52px 100px; max-width:1300px; margin:0 auto; }
-
-.blog-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:16px; }
-
-/* FEATURED — big */
-.post-card { background:var(--c1); border:1px solid var(--border3); position:relative; overflow:hidden; transition:border-color .3s, transform .3s; }
-.post-card:hover { border-color:var(--border2); }
-.post-card.layout-featured { grid-column:span 8; display:flex; flex-direction:column; padding:36px 40px; }
-.post-card.layout-side     { grid-column:span 4; display:flex; flex-direction:column; padding:28px; }
-.post-card.layout-half     { grid-column:span 6; display:flex; flex-direction:column; padding:28px; }
-.post-card.layout-third    { grid-column:span 4; display:flex; flex-direction:column; padding:24px; }
-
-.post-card::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:2px;
-  background:linear-gradient(90deg, var(--cyan2), var(--cyan));
+/* ── POSTS GRID ── */
+#posts-grid {
+  padding:32px 52px 100px;
+  max-width:1300px; margin:0 auto;
+}
+.posts-layout {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.post-card {
+  background:var(--c1); border:1px solid var(--border3);
+  border-radius:4px; padding:28px;
+  display:flex; flex-direction:column;
+  transition:border-color .3s, transform .3s var(--ease), box-shadow .3s;
+  position:relative; overflow:hidden;
+  cursor:pointer; text-decoration:none;
+}
+.post-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--cyan2),var(--cyan));
   transform:scaleX(0); transform-origin:left;
   transition:transform .4s var(--ease);
 }
-.post-card:hover::before { transform:scaleX(1); }
+.post-card:hover::after { transform:scaleX(1); }
+.post-card:hover {
+  border-color:var(--border2);
+  transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(0,0,0,.25);
+}
+.post-card.hidden { display:none; }
 
-.card-num { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.16em; margin-bottom:18px; }
-.card-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
-.card-cat {
-  font-family:var(--font-mono); font-size:9px; letter-spacing:.14em;
-  text-transform:uppercase; padding:3px 10px; border-radius:100px; font-weight:700;
+.pc-meta {
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:14px; flex-wrap:wrap;
+}
+.pc-cat {
+  font-family:var(--font-mono); font-size:9px;
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:3px 10px; border-radius:100px; font-weight:700;
 }
 .cat-django        { background:rgba(0,229,192,.1);    color:var(--cyan); }
 .cat-dsa           { background:rgba(244,185,66,.1);   color:var(--amber); }
@@ -147,122 +237,72 @@ main { position:relative; z-index:1; padding-top:68px; }
 .cat-devops        { background:rgba(74,222,128,.1);   color:var(--green); }
 .cat-python        { background:rgba(0,184,154,.1);    color:var(--cyan2); }
 
-.card-date { font-family:var(--font-mono); font-size:10px; color:var(--text3); }
-.card-read { font-family:var(--font-mono); font-size:10px; color:var(--text3); margin-left:auto; }
+.pc-date { font-family:var(--font-mono); font-size:10px; color:var(--text3); }
+.pc-read { font-family:var(--font-mono); font-size:10px; color:var(--text3); margin-left:auto; }
 
-.card-title {
-  font-family:var(--font-head); font-weight:800; color:var(--text);
-  line-height:1.1; letter-spacing:-.02em; margin-bottom:12px;
+.pc-title {
+  font-family:var(--font-head); font-size:17px; font-weight:800;
+  line-height:1.2; margin-bottom:10px; letter-spacing:-.02em;
+  color:var(--text); flex:1;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.pc-excerpt {
+  font-size:12px; color:var(--text2); line-height:1.75;
+  margin-bottom:16px;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.pc-tags { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:16px; }
+.pc-footer {
+  display:flex; align-items:center;
+  justify-content:space-between; margin-top:auto;
+  padding-top:14px; border-top:1px solid var(--border3);
+}
+.pc-likes { font-family:var(--font-mono); font-size:10px; color:var(--text3); }
+.pc-arrow {
+  font-family:var(--font-mono); font-size:10px;
+  color:var(--text3); letter-spacing:.1em;
   transition:color .2s;
 }
-.layout-featured .card-title { font-size:clamp(22px,2.8vw,34px); }
-.layout-side .card-title, .layout-half .card-title { font-size:18px; }
-.layout-third .card-title { font-size:16px; }
-.post-card:hover .card-title { color:var(--cyan); }
+.post-card:hover .pc-arrow { color:var(--cyan); }
 
-.card-excerpt { font-size:13px; color:var(--text2); line-height:1.8; margin-bottom:20px; flex:1; }
-.layout-third .card-excerpt { font-size:12px; }
-
-.card-tags { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:20px; }
-.card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:auto; }
-.card-likes { font-family:var(--font-mono); font-size:10px; color:var(--text3); display:flex; align-items:center; gap:5px; }
-.card-link {
-  font-family:var(--font-mono); font-size:10px; color:var(--text2);
-  text-decoration:none; letter-spacing:.1em; text-transform:uppercase;
-  display:flex; align-items:center; gap:5px; transition:color .2s;
+/* NO RESULTS */
+.no-results {
+  text-align:center; padding:80px 20px;
+  grid-column:1/-1;
 }
-.card-link:hover { color:var(--cyan); }
-.card-link::after { content:'↗'; }
+.no-results p {
+  font-size:15px; color:var(--text2); margin-bottom:12px;
+}
+.no-results .nr-icon { font-size:48px; margin-bottom:16px; }
 
-/* FEATURED LABEL */
-.featured-badge {
-  position:absolute; top:16px; right:16px;
-  font-family:var(--font-mono); font-size:9px; color:#a78bfa;
-  background:rgba(167,139,250,.1); border:1px solid rgba(167,139,250,.2);
-  padding:3px 9px; border-radius:100px; letter-spacing:.1em;
+/* LOAD MORE */
+.load-more-wrap {
+  text-align:center; padding:0 0 40px;
+  max-width:1300px; margin:0 auto;
+  padding-left:52px; padding-right:52px;
 }
 
-/* LOADING SKELETON */
-.skeleton { background:var(--c2); border-radius:4px; animation:shimmer 1.5s infinite; }
-@keyframes shimmer { 0%,100%{opacity:.5} 50%{opacity:1} }
-.post-card.skeleton-card { padding:28px; }
-.sk-line { height:12px; margin-bottom:10px; border-radius:3px; }
-.sk-title { height:22px; margin-bottom:14px; border-radius:3px; }
-.sk-para { height:10px; margin-bottom:7px; border-radius:3px; }
-
-/* EMPTY STATE */
-.blog-empty {
-  grid-column:span 12; text-align:center; padding:80px 20px;
-  font-family:var(--font-mono); font-size:13px; color:var(--text3);
+@media(max-width:1100px){
+  #blog-hero { grid-template-columns:1fr; }
+  .blog-featured-card { display:none; }
+  .about-blog-inner { grid-template-columns:1fr 1fr; }
+  .posts-layout { grid-template-columns:1fr 1fr; }
 }
-.blog-empty .big-icon { font-size:48px; margin-bottom:16px; display:block; }
-
-/* NEWSLETTER */
-#newsletter {
-  background:var(--c1); border-top:1px solid var(--border3);
-  border-bottom:1px solid var(--border3);
-  padding:64px 52px;
+@media(max-width:700px){
+  #blog-hero,#about-blog,#controls,#posts-grid,.load-more-wrap {
+    padding-left:20px; padding-right:20px;
+  }
+  .about-blog-inner { grid-template-columns:1fr; }
+  .posts-layout { grid-template-columns:1fr; }
+  .controls-top { flex-direction:column; align-items:stretch; }
+  .blog-search { max-width:100%; }
+  .post-count-label { margin-left:0; }
 }
-.nl-inner {
-  max-width:640px; margin:0 auto; text-align:center;
-}
-.nl-inner h2 { font-family:var(--font-head); font-size:clamp(24px,3.5vw,38px); font-weight:900; letter-spacing:-.02em; margin-bottom:12px; }
-.nl-inner p { font-size:14px; color:var(--text2); line-height:1.8; margin-bottom:32px; }
-.nl-row { display:flex; gap:10px; }
-.nl-input {
-  flex:1; background:var(--c0); border:1px solid var(--border3);
-  color:var(--text); font-family:var(--font-body); font-size:14px;
-  padding:13px 18px; border-radius:6px; outline:none; cursor:none;
-  transition:border-color .2s;
-}
-.nl-input:focus { border-color:var(--border2); }
-.nl-input::placeholder { color:var(--text3); }
-.nl-btn {
-  background:var(--cyan); color:var(--c0); border:none;
-  font-family:var(--font-mono); font-size:11px; letter-spacing:.12em;
-  text-transform:uppercase; padding:13px 24px; border-radius:6px;
-  cursor:none; transition:.2s; white-space:nowrap;
-}
-.nl-btn:hover { background:var(--text); }
-.nl-btn:disabled { opacity:.6; }
-.nl-msg {
-  display:none; margin-top:12px;
-  font-family:var(--font-mono); font-size:11px; color:var(--green); letter-spacing:.08em;
-}
-
-/* AUTH NOTICE */
-.auth-notice {
-  background:rgba(167,139,250,.06); border:1px solid rgba(167,139,250,.15);
-  border-radius:8px; padding:12px 16px;
-  display:flex; align-items:center; gap:10px;
-  font-size:12px; color:var(--text2); margin-bottom:24px;
-}
-.auth-notice a { color:#a78bfa; text-decoration:none; }
-.auth-notice a:hover { text-decoration:underline; }
 
 @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
-
-@media(max-width:1100px) {
-  #blog-hero { grid-template-columns:1fr; gap:40px; padding:60px 20px 40px; }
-  .bh-ai { position:static; }
-  .post-card.layout-featured { grid-column:span 12; }
-  .post-card.layout-side     { grid-column:span 12; }
-  .post-card.layout-half     { grid-column:span 12; }
-  .post-card.layout-third    { grid-column:span 12; }
-}
-@media(max-width:900px) {
-  #filter-bar { padding:0 20px; }
-  #blog-main { padding:32px 20px 60px; }
-  #newsletter { padding:48px 20px; }
-  .nl-row { flex-direction:column; }
-  .bh-stats { gap:20px; }
-}
-@media(min-width:700px) and (max-width:1100px) {
-  .post-card.layout-featured { grid-column:span 12; }
-  .post-card.layout-side     { grid-column:span 6; }
-  .post-card.layout-half     { grid-column:span 6; }
-  .post-card.layout-third    { grid-column:span 6; }
-}
+@keyframes cardIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
 </style>
 </head>
 <body>
@@ -274,7 +314,10 @@ main { position:relative; z-index:1; padding-top:68px; }
 <canvas id="bg-canvas"></canvas>
 
 <nav id="nav">
-  <a href="index.html" class="nav-logo"><span class="logo-bracket">[</span>AK<span class="logo-bracket">]</span><div class="logo-dot"></div></a>
+  <a href="index.html" class="nav-logo">
+    <span class="logo-bracket">[</span>AK<span class="logo-bracket">]</span>
+    <div class="logo-dot"></div>
+  </a>
   <ul class="nav-center">
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
@@ -287,7 +330,9 @@ main { position:relative; z-index:1; padding-top:68px; }
     <span class="nav-avail">Available</span>
     <a href="contact.html" class="nav-hire">Hire Me</a>
   </div>
-  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 <div id="mobile-menu">
   <a href="index.html">Home</a>
@@ -302,43 +347,45 @@ main { position:relative; z-index:1; padding-top:68px; }
 
 <!-- HERO -->
 <section id="blog-hero">
-  <div class="bh-left">
-    <div class="section-tag" style="opacity:0;animation:fadeUp .6s .05s forwards">Writing</div>
-    <h1>Learning<br>in <span class="c">Public</span></h1>
-    <p class="bh-sub">Technical deep-dives on Django, FastAPI, PostgreSQL, System Design, DSA, and AI — written from real production work, not tutorials.</p>
-    <div class="bh-stats" id="bh-stats">
-      <div class="bh-stat"><div class="bh-stat-n" id="stat-posts">—</div><div class="bh-stat-l">Articles</div></div>
-      <div class="bh-stat"><div class="bh-stat-n" id="stat-likes">—</div><div class="bh-stat-l">Total Likes</div></div>
-      <div class="bh-stat"><div class="bh-stat-n" id="stat-cats">6</div><div class="bh-stat-l">Categories</div></div>
+  <div class="blog-hero-left">
+    <div class="eyebrow">Writing</div>
+    <h1>Real code.<br><span class="s">Real problems.</span></h1>
+    <p class="lead">
+      I write about things I've actually built, debugged, and shipped —
+      Django internals, PostgreSQL patterns, DevOps gotchas, and DSA applied
+      to production code. No fluff. No beginner tutorials you've already read.
+    </p>
+    <div class="blog-stats">
+      <div>
+        <div class="blog-stat-n" id="stat-posts">8</div>
+        <div class="blog-stat-l">Posts</div>
+      </div>
+      <div>
+        <div class="blog-stat-n" id="stat-reads">53 min</div>
+        <div class="blog-stat-l">Total Read Time</div>
+      </div>
+      <div>
+        <div class="blog-stat-n" id="stat-likes">193</div>
+        <div class="blog-stat-l">Total Likes</div>
+      </div>
     </div>
   </div>
 
-  <!-- AI CHAT SIDEBAR -->
-  <div class="bh-ai">
-    <div class="bai-head">
-      <div class="bai-dot"></div>
-      <div class="bai-title">Blog AI</div>
-      <span class="bai-sub">Ask anything</span>
+  <!-- Featured card — filled by JS -->
+  <a href="#" class="blog-featured-card reveal-right" id="featured-card">
+    <div class="bfc-body">
+      <div class="bfc-meta" id="bfc-meta"></div>
+      <div class="bfc-title" id="bfc-title"></div>
+      <div class="bfc-excerpt" id="bfc-excerpt"></div>
     </div>
-    <div class="bai-msgs" id="bai-msgs">
-      <div class="bai-msg ai-msg">
-        <div class="bai-avatar">✦</div>
-        <div class="bai-bubble">Hey! I can recommend posts, explain topics, or answer questions about anything on this blog. What are you curious about?</div>
+    <div class="bfc-footer">
+      <div style="display:flex;gap:16px">
+        <span style="font-family:var(--font-mono);font-size:10px;color:var(--text3)" id="bfc-date"></span>
+        <span style="font-family:var(--font-mono);font-size:10px;color:var(--text3)" id="bfc-read"></span>
       </div>
+      <span class="bfc-read-cta">Read Post →</span>
     </div>
-    <div class="bai-qs" id="bai-qs">
-      <button class="bai-q" data-q="What's the best post to start with?">Where to start?</button>
-      <button class="bai-q" data-q="Tell me about the Django ORM optimization post">Django ORM</button>
-      <button class="bai-q" data-q="What is RAG and why does it matter?">What is RAG?</button>
-      <button class="bai-q" data-q="Recommend a post on system design">System design</button>
-    </div>
-    <div class="bai-row">
-      <input class="bai-input" id="bai-input" placeholder="Ask about any topic...">
-      <button class="bai-send" id="bai-send">
-        <svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/></svg>
-      </button>
-    </div>
-  </div>
+  </a>
 </section>
 
 <!-- TICKER -->
@@ -346,339 +393,229 @@ main { position:relative; z-index:1; padding-top:68px; }
   <div class="ticker-track" id="ticker"></div>
 </div>
 
-<!-- FILTER BAR -->
-<div id="filter-bar">
-  <button class="filter-btn active" data-cat="all">All Posts</button>
-  <div class="filter-sep"></div>
-  <button class="filter-btn" data-cat="django">Django</button>
-  <button class="filter-btn" data-cat="dsa">DSA</button>
-  <button class="filter-btn" data-cat="system-design">System Design</button>
-  <button class="filter-btn" data-cat="ai">AI</button>
-  <button class="filter-btn" data-cat="devops">DevOps</button>
-  <button class="filter-btn" data-cat="python">Python</button>
-  <div class="filter-search">
-    <input class="search-input" id="search-input" placeholder="Search posts...">
+<!-- ABOUT THE BLOG -->
+<section id="about-blog">
+  <div class="about-blog-inner">
+    <div class="abl-item">
+      <div class="abl-icon">🔧</div>
+      <div class="abl-title">Production-Sourced</div>
+      <div class="abl-desc">Every post starts with a real problem — a slow API, a broken pipeline, a schema decision that came back to bite me. No contrived examples.</div>
+    </div>
+    <div class="abl-item">
+      <div class="abl-icon">📐</div>
+      <div class="abl-title">Code-First</div>
+      <div class="abl-desc">Each post includes the actual code — not pseudocode, not simplified snippets. The same patterns I use in production, with the edge cases included.</div>
+    </div>
+    <div class="abl-item">
+      <div class="abl-icon">📊</div>
+      <div class="abl-title">Numbers Included</div>
+      <div class="abl-desc">Query counts, response times, load reductions. If I'm claiming something is faster, I show the before and after measurement, not just the fix.</div>
+    </div>
+    <div class="abl-item">
+      <div class="abl-icon">🧠</div>
+      <div class="abl-title">Learning in Public</div>
+      <div class="abl-desc">Written from IIT Mandi coursework meeting real freelance problems. I write to deepen my own understanding — and to give back what I wish existed when I was debugging these things.</div>
+    </div>
   </div>
+</section>
+
+<!-- CONTROLS -->
+<div id="controls">
+  <div class="controls-top">
+    <div class="blog-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" id="search-input" placeholder="Search posts...">
+    </div>
+    <select class="sort-select" id="sort-select">
+      <option value="latest">Latest First</option>
+      <option value="popular">Most Popular</option>
+      <option value="longest">Longest Read</option>
+      <option value="shortest">Quickest Read</option>
+    </select>
+    <span class="post-count-label" id="post-count-label">8 posts</span>
+  </div>
+  <div class="cat-tabs" id="cat-tabs"></div>
 </div>
 
-<!-- BLOG GRID -->
-<section id="blog-main">
-  <!-- Auth notice for admins -->
-  <div class="auth-notice" id="auth-notice" style="display:none">
-    <span>✦</span>
-    <span>You're logged in as admin. <a href="#" id="admin-create-link">Create new post ↗</a> · <a href="#" id="admin-logout-link">Logout</a></span>
-  </div>
-
-  <div class="blog-grid" id="blog-grid">
-    <!-- skeleton loaders -->
-    <div class="post-card skeleton-card layout-featured reveal">
-      <div class="skeleton sk-line" style="width:60px;margin-bottom:18px"></div>
-      <div class="skeleton sk-title" style="width:85%"></div>
-      <div class="skeleton sk-title" style="width:65%;margin-bottom:18px"></div>
-      <div class="skeleton sk-para" style="width:100%"></div>
-      <div class="skeleton sk-para" style="width:90%"></div>
-      <div class="skeleton sk-para" style="width:70%"></div>
-    </div>
-    <div class="post-card skeleton-card layout-side reveal" data-delay="60">
-      <div class="skeleton sk-line" style="width:60px;margin-bottom:18px"></div>
-      <div class="skeleton sk-title" style="width:90%"></div>
-      <div class="skeleton sk-para" style="width:100%"></div>
-      <div class="skeleton sk-para" style="width:80%"></div>
-    </div>
-  </div>
-</section>
-
-<!-- NEWSLETTER -->
-<section id="newsletter">
-  <div class="nl-inner reveal">
-    <div class="section-tag" style="justify-content:center">Stay Updated</div>
-    <h2>Get posts in your <span class="c">inbox</span></h2>
-    <p>No spam. One email when a new post goes live. Unsubscribe anytime.</p>
-    <div class="nl-row">
-      <input class="nl-input" id="nl-email" type="email" placeholder="your@email.com">
-      <button class="nl-btn" id="nl-btn">Subscribe</button>
-    </div>
-    <div class="nl-msg" id="nl-msg">✓ You're subscribed! Thanks.</div>
-  </div>
-</section>
+<!-- POSTS GRID -->
+<div id="posts-grid">
+  <div class="posts-layout" id="posts-layout"></div>
+</div>
 
 </main>
 
 <footer>
-  <div class="footer-left">© 2025 <span>Ashwani Kumar</span></div>
+  <div class="footer-left">© 2026 <span>Ashwani Kumar</span></div>
   <div class="footer-center">Built with <span>♥</span> + 4am discipline</div>
   <div class="footer-right">
-    <a href="https://github.com/Ashwani1611" target="_blank">GitHub</a>
-    <a href="https://linkedin.com/in/ashwani-kumar" target="_blank">LinkedIn</a>
+    <a href="https://github.com/Ashwani1611" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/ashwani-kumar-52b453139/" target="_blank" rel="noopener">LinkedIn</a>
     <a href="contact.html">Contact</a>
   </div>
 </footer>
 
-<script src="api.js"></script>
 <script src="main.js"></script>
 <script src="posts-data.js"></script>
 <script>
-/* ════════════════════════════════════════
-   TICKER
-════════════════════════════════════════ */
-const techs = ['Django','FastAPI','Python','PostgreSQL','Docker','Redis','pgvector','OpenAI','System Design','DSA','RAG','Celery','IIT Mandi'];
+/* ── TICKER ── */
+const techs = [
+  'Django ORM','N+1 Queries','Redis Caching','PostgreSQL Schema',
+  'Docker Compose','Celery Beat','VAPID Push','WhatsApp API',
+  'DSA in Production','Tally Sync','AWS EC2','S3 Pipelines',
+  'JWT / RBAC','IIT Mandi','NeetCode 150'
+];
 const t = document.getElementById('ticker');
-const html = [...techs,...techs,...techs,...techs].map(x=>`<div class="ticker-item"><span class="sep">→</span>${x}</div>`).join('');
-t.innerHTML = html + html;
+const tHtml = [...techs,...techs,...techs,...techs]
+  .map(x => `<div class="ticker-item"><span class="sep">→</span>${x}</div>`)
+  .join('');
+t.innerHTML = tHtml + tHtml;
 
-/* ════════════════════════════════════════
-   STATE
-════════════════════════════════════════ */
-let allPosts = [];
-let currentCat = 'all';
-let currentSearch = '';
+/* ── HELPERS ── */
+const readMins = post => parseInt(post.read) || 0;
 
-/* ════════════════════════════════════════
-   RENDER POST CARD
-════════════════════════════════════════ */
-function buildCard(p, index) {
-  const slug       = p.slug || p.id;
-  const likeCount  = p.like_count ?? p.likes ?? 0;
-  const readTime   = p.read_time  ?? p.read  ?? '5 min read';
-  const date       = p.created_at
-    ? new Date(p.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})
-    : (p.date || '');
-  const tags = (p.tags || []).slice(0,3);
-  const layout = p.layout || 'third';
-  const isFeatured = p.featured || layout === 'featured';
-
-  return `
-    <div class="post-card layout-${layout} reveal" data-delay="${Math.min(index*60,300)}" data-cat="${p.cat}">
-      ${isFeatured ? '<span class="featured-badge">✦ Featured</span>' : ''}
-      <div class="card-num">${String(index+1).padStart(2,'0')} —</div>
-      <div class="card-meta">
-        <span class="card-cat cat-${p.cat}">${p.cat.replace('-',' ')}</span>
-        <span class="card-date">${date}</span>
-        <span class="card-read">${readTime}</span>
-      </div>
-      <div class="card-title">${p.title}</div>
-      <p class="card-excerpt">${p.excerpt}</p>
-      <div class="card-tags">${tags.map(tag=>`<span class="pill" style="font-size:9px">${tag}</span>`).join('')}</div>
-      <div class="card-footer">
-        <span class="card-likes">♥ ${likeCount}</span>
-        <a href="blog-post.html?id=${slug}" class="card-link">Read Entry</a>
-      </div>
-    </div>`;
+function parseDateStr(str) {
+  /* "June 3, 2026" → Date */
+  return new Date(str);
 }
 
-function renderGrid(posts) {
-  const grid = document.getElementById('blog-grid');
-  const notice = document.getElementById('auth-notice');
+/* ── HERO STATS ── */
+const totalLikes = POSTS.reduce((s,p) => s + (p.likes || 0), 0);
+const totalMins  = POSTS.reduce((s,p) => s + readMins(p), 0);
+document.getElementById('stat-posts').textContent  = POSTS.length;
+document.getElementById('stat-reads').textContent  = totalMins + ' min';
+document.getElementById('stat-likes').textContent  = totalLikes;
 
-  if (!posts.length) {
-    grid.innerHTML = `<div class="blog-empty">
-      <span class="big-icon">🔍</span>
-      No posts found${currentSearch ? ` for "<strong>${currentSearch}</strong>"` : ''} in this category.
-    </div>`;
+/* ── FEATURED CARD ── */
+const featured = POSTS.find(p => p.featured) || POSTS[0];
+const fc = document.getElementById('featured-card');
+fc.href = `blog-post.html?id=${featured.id}`;
+document.getElementById('bfc-meta').innerHTML =
+  `<span class="pc-cat cat-${featured.cat}">${featured.cat.replace('-',' ')}</span>
+   <span style="font-family:var(--font-mono);font-size:9px;color:var(--text3);background:rgba(0,229,192,.08);border:1px solid rgba(0,229,192,.18);padding:3px 10px;border-radius:100px;letter-spacing:.1em">FEATURED</span>`;
+document.getElementById('bfc-title').textContent   = featured.title;
+document.getElementById('bfc-excerpt').textContent = featured.excerpt;
+document.getElementById('bfc-date').textContent    = featured.date;
+document.getElementById('bfc-read').textContent    = featured.read;
+
+/* ── CATEGORY TABS ── */
+const allCats = ['all', ...new Set(POSTS.map(p => p.cat))];
+const catLabels = {
+  all:'All Posts', django:'Django', dsa:'DSA',
+  python:'Python', devops:'DevOps',
+  'system-design':'System Design', ai:'AI'
+};
+const tabsEl = document.getElementById('cat-tabs');
+
+allCats.forEach(cat => {
+  const count = cat === 'all' ? POSTS.length : POSTS.filter(p => p.cat === cat).length;
+  const btn   = document.createElement('button');
+  btn.className = 'cat-tab' + (cat === 'all' ? ' active' : '');
+  btn.dataset.cat = cat;
+  btn.innerHTML = `${catLabels[cat] || cat}<span class="tab-count">${count}</span>`;
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat = cat;
+    renderGrid();
+  });
+  tabsEl.appendChild(btn);
+});
+
+/* ── STATE ── */
+let activeCat    = 'all';
+let searchQuery  = '';
+let sortMode     = 'latest';
+
+/* ── SEARCH ── */
+document.getElementById('search-input').addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase().trim();
+  renderGrid();
+});
+
+/* ── SORT ── */
+document.getElementById('sort-select').addEventListener('change', e => {
+  sortMode = e.target.value;
+  renderGrid();
+});
+
+/* ── RENDER ── */
+function renderGrid() {
+  let posts = [...POSTS];
+
+  /* filter out featured post from grid (shown in hero) */
+  posts = posts.filter(p => !p.featured);
+
+  /* category */
+  if (activeCat !== 'all') {
+    posts = posts.filter(p => p.cat === activeCat);
+  }
+
+  /* search */
+  if (searchQuery) {
+    posts = posts.filter(p =>
+      p.title.toLowerCase().includes(searchQuery) ||
+      p.excerpt.toLowerCase().includes(searchQuery) ||
+      (p.tags || []).some(tag => tag.toLowerCase().includes(searchQuery)) ||
+      p.cat.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  /* sort */
+  if (sortMode === 'latest') {
+    posts.sort((a,b) => parseDateStr(b.date) - parseDateStr(a.date));
+  } else if (sortMode === 'popular') {
+    posts.sort((a,b) => (b.likes||0) - (a.likes||0));
+  } else if (sortMode === 'longest') {
+    posts.sort((a,b) => readMins(b) - readMins(a));
+  } else if (sortMode === 'shortest') {
+    posts.sort((a,b) => readMins(a) - readMins(b));
+  }
+
+  const grid = document.getElementById('posts-layout');
+  const countLabel = document.getElementById('post-count-label');
+
+  if (posts.length === 0) {
+    grid.innerHTML = `
+      <div class="no-results">
+        <div class="nr-icon">🔍</div>
+        <p>No posts match "<strong>${searchQuery || activeCat}</strong>"</p>
+        <p style="font-size:13px;color:var(--text3)">Try a different search or category.</p>
+      </div>`;
+    countLabel.textContent = '0 posts';
     return;
   }
 
-  // Preserve auth notice
-  const noticeHtml = notice ? notice.outerHTML : '';
-  grid.innerHTML = noticeHtml + posts.map((p, i) => buildCard(p, i)).join('');
+  countLabel.textContent = posts.length + (posts.length === 1 ? ' post' : ' posts');
 
-  // Re-run reveal observer for new elements
-  document.querySelectorAll('.blog-grid .reveal:not(.in)').forEach(el => {
-    revealObserver.observe(el);
-  });
+  grid.innerHTML = posts.map((p, i) => `
+    <a href="blog-post.html?id=${p.id}" class="post-card reveal" data-delay="${(i % 3) * 60}"
+       style="animation:cardIn .4s ${i * 50}ms both">
+      <div class="pc-meta">
+        <span class="pc-cat cat-${p.cat}">${p.cat.replace('-',' ')}</span>
+        <span class="pc-date">${p.date}</span>
+        <span class="pc-read">${p.read}</span>
+      </div>
+      <div class="pc-title">${p.title}</div>
+      <div class="pc-excerpt">${p.excerpt}</div>
+      <div class="pc-tags">
+        ${(p.tags || []).slice(0,3).map(tag =>
+          `<span class="pill" style="font-size:9px;padding:2px 8px">${tag}</span>`
+        ).join('')}
+        ${p.tags.length > 3
+          ? `<span class="pill" style="font-size:9px;padding:2px 8px;opacity:.6">+${p.tags.length - 3}</span>`
+          : ''}
+      </div>
+      <div class="pc-footer">
+        <span class="pc-likes">♥ ${p.likes || 0} · 💬 ${p.comments || 0}</span>
+        <span class="pc-arrow">Read →</span>
+      </div>
+    </a>
+  `).join('');
 }
 
-/* ════════════════════════════════════════
-   FILTER + SEARCH
-════════════════════════════════════════ */
-function applyFilter() {
-  let filtered = allPosts;
-  if (currentCat !== 'all') {
-    filtered = filtered.filter(p => p.cat === currentCat);
-  }
-  if (currentSearch) {
-    const q = currentSearch.toLowerCase();
-    filtered = filtered.filter(p =>
-      p.title.toLowerCase().includes(q) ||
-      p.excerpt.toLowerCase().includes(q) ||
-      (p.tags || []).some(t => t.toLowerCase().includes(q))
-    );
-  }
-  renderGrid(filtered);
-}
-
-// Filter buttons
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentCat = btn.dataset.cat;
-    applyFilter();
-    // Smooth scroll to grid
-    document.getElementById('blog-main').scrollIntoView({ behavior:'smooth', block:'start' });
-  });
-});
-
-// Search
-let searchTimer;
-document.getElementById('search-input').addEventListener('input', e => {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => {
-    currentSearch = e.target.value.trim();
-    applyFilter();
-  }, 280);
-});
-
-/* ════════════════════════════════════════
-   REVEAL OBSERVER (re-usable)
-════════════════════════════════════════ */
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const delay = e.target.dataset.delay || 0;
-      setTimeout(() => e.target.classList.add('in'), +delay);
-      revealObserver.unobserve(e.target);
-    }
-  });
-}, { threshold: .08 });
-
-/* ════════════════════════════════════════
-   LOAD POSTS — API first, fallback static
-════════════════════════════════════════ */
-async function loadPosts() {
-  // Try API
-  let posts = await apiGetPosts();
-
-  // Fallback to static
-  if (!posts || !posts.length) {
-    posts = typeof POSTS !== 'undefined' ? POSTS : [];
-  }
-
-  allPosts = posts;
-
-  // Stats
-  const totalLikes = posts.reduce((s, p) => s + (p.like_count ?? p.likes ?? 0), 0);
-  document.getElementById('stat-posts').textContent = posts.length;
-  document.getElementById('stat-likes').textContent = totalLikes > 999 ? (totalLikes/1000).toFixed(1)+'k' : totalLikes;
-
-  renderGrid(posts);
-}
-
-/* ════════════════════════════════════════
-   AUTH — show admin controls if logged in
-════════════════════════════════════════ */
-function initAuth() {
-  const notice = document.getElementById('auth-notice');
-  if (!notice) return;
-
-  if (AK.Auth.getToken()) {
-    notice.style.display = 'flex';
-    document.getElementById('admin-logout-link').addEventListener('click', e => {
-      e.preventDefault();
-      AK.apiLogout();
-      notice.style.display = 'none';
-    });
-    document.getElementById('admin-create-link').addEventListener('click', e => {
-      e.preventDefault();
-      // Route to admin panel or show a modal — for now link to Django admin
-      window.open('http://localhost:8000/admin/', '_blank');
-    });
-  }
-}
-
-/* ════════════════════════════════════════
-   NEWSLETTER
-════════════════════════════════════════ */
-function initNewsletter() {
-  const btn   = document.getElementById('nl-btn');
-  const input = document.getElementById('nl-email');
-  const msg   = document.getElementById('nl-msg');
-  if (!btn) return;
-
-  btn.addEventListener('click', async () => {
-    const email = input.value.trim();
-    if (!email || !email.includes('@')) {
-      input.style.borderColor = 'var(--red)';
-      setTimeout(() => input.style.borderColor = '', 2000);
-      return;
-    }
-    btn.textContent = '...'; btn.disabled = true;
-    const res = await apiSubscribeNewsletter(email);
-    btn.textContent = 'Subscribe'; btn.disabled = false;
-    if (res) {
-      input.value = '';
-      msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 4000);
-    } else {
-      // Offline fallback — just show success UX
-      input.value = '';
-      msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 4000);
-    }
-  });
-
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') btn.click(); });
-}
-
-/* ════════════════════════════════════════
-   BLOG AI CHAT — routes through /ai/chat
-════════════════════════════════════════ */
-const baiMsgs  = document.getElementById('bai-msgs');
-const baiInput = document.getElementById('bai-input');
-const baiSend  = document.getElementById('bai-send');
-let baiHistory = [];
-
-document.querySelectorAll('.bai-q').forEach(b =>
-  b.addEventListener('click', () => baiSendMsg(b.dataset.q))
-);
-
-function baiAddMsg(role, text, typing = false) {
-  const div = document.createElement('div');
-  div.className = 'bai-msg ' + (role === 'user' ? 'user' : 'ai-msg');
-  div.innerHTML = `<div class="bai-avatar">${role === 'user' ? '👤' : '✦'}</div><div class="bai-bubble${typing ? ' typing' : ''}">${typing ? '' : text}</div>`;
-  baiMsgs.appendChild(div);
-  baiMsgs.scrollTop = baiMsgs.scrollHeight;
-  return div.querySelector('.bai-bubble');
-}
-
-async function baiSendMsg(q) {
-  if (!q.trim()) return;
-  baiHistory.push({ role: 'user', content: q });
-  baiAddMsg('user', q);
-  const bubble = baiAddMsg('ai', '', true);
-
-  // Build context from loaded posts for the API
-  const postSummary = allPosts.slice(0,10).map(p =>
-    `"${p.title}" (${p.cat}, ${p.read_time||p.read||''}): ${p.excerpt}`
-  ).join('\n');
-
-  const data = await apiAIChat([
-    ...baiHistory.slice(0,-1),
-    {
-      role: 'user',
-      content: `Context — blog posts available:\n${postSummary}\n\nUser question: ${q}`
-    }
-  ]);
-  const reply = data?.reply || 'Sorry, the AI backend is offline. Please check your FastAPI server.';
-
-  bubble.classList.remove('typing');
-  bubble.textContent = reply;
-  baiHistory.push({ role: 'assistant', content: reply });
-  baiMsgs.scrollTop = baiMsgs.scrollHeight;
-}
-
-baiSend.addEventListener('click', () => {
-  const q = baiInput.value.trim();
-  if (q) { baiInput.value = ''; baiSendMsg(q); }
-});
-baiInput.addEventListener('keydown', e => { if (e.key === 'Enter') baiSend.click(); });
-
-/* ════════════════════════════════════════
-   BOOT
-════════════════════════════════════════ */
-loadPosts();
-initNewsletter();
-initAuth();
+renderGrid();
 </script>
 </body>
 </html>

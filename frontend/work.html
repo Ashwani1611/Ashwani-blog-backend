@@ -27,7 +27,7 @@ main { position:relative; z-index:1; padding-top:68px; }
   margin-bottom:24px;
   opacity:0; animation:fadeUp .7s .2s forwards;
 }
-.work-hero-title .dim { color:var(--text3); }
+.work-hero-title .dim    { color:var(--text3); }
 .work-hero-title .accent { color:var(--cyan); }
 .work-hero-sub {
   font-size:15px; color:var(--text2); line-height:1.8;
@@ -47,18 +47,19 @@ main { position:relative; z-index:1; padding-top:68px; }
   display:flex; align-items:center; gap:10px; flex-wrap:wrap;
   opacity:0; animation:fadeUp .6s .55s forwards;
 }
+/* FIX — was cursor:none; corrected to pointer */
 .filter-btn {
   font-family:var(--font-mono); font-size:11px; letter-spacing:.12em;
   text-transform:uppercase; padding:8px 18px;
   border:1px solid var(--border3); border-radius:100px;
   background:transparent; color:var(--text3);
-  cursor:none; transition:all .2s;
+  cursor:pointer; transition:all .2s;
 }
 .filter-btn:hover  { border-color:var(--border2); color:var(--text); }
 .filter-btn.active { border-color:var(--cyan); color:var(--cyan); background:rgba(0,229,192,.06); }
 
 /* ── PROJECTS ── */
-#projects { padding:0 52px 120px; max-width:1300px; margin:0 auto; }
+#projects { padding:0 52px 80px; max-width:1300px; margin:0 auto; }
 
 /* featured big card */
 .project-featured {
@@ -74,7 +75,7 @@ main { position:relative; z-index:1; padding-top:68px; }
   background:linear-gradient(90deg, var(--cyan2), var(--cyan), var(--cyan2));
 }
 .pf-left {
-  padding:48px 48px 48px 48px;
+  padding:48px;
   display:flex; flex-direction:column;
   border-right:1px solid var(--border3);
 }
@@ -110,25 +111,22 @@ main { position:relative; z-index:1; padding-top:68px; }
   text-decoration:none; padding:10px 20px;
   border-radius:6px; transition:all .2s;
   display:inline-flex; align-items:center; gap:6px;
+  cursor:pointer; border:none;
 }
-.proj-link.primary {
-  background:var(--cyan); color:var(--c0);
-}
-.proj-link.primary:hover { background:#fff; }
-.proj-link.secondary {
-  border:1px solid var(--border2); color:var(--text2);
-}
-.proj-link.secondary:hover { border-color:var(--cyan); color:var(--cyan); }
-.proj-link::after { content:'↗'; }
+.proj-link.primary            { background:var(--cyan); color:var(--c0); }
+.proj-link.primary:hover      { background:#fff; }
+.proj-link.secondary          { border:1px solid var(--border2); color:var(--text2); }
+.proj-link.secondary:hover    { border-color:var(--cyan); color:var(--cyan); }
+/* external links get ↗ arrow; detail buttons get → */
+.proj-link[target="_blank"]::after { content:'↗'; }
+.proj-link.detail-btn::after       { content:'→'; }
 
-/* right panel — tech stack + highlights */
+/* right panel */
 .pf-label {
   font-family:var(--font-mono); font-size:10px; color:var(--text3);
   letter-spacing:.18em; text-transform:uppercase; margin-bottom:12px;
 }
-.tech-stack-list {
-  display:flex; flex-direction:column; gap:8px; margin-bottom:36px;
-}
+.tech-stack-list { display:flex; flex-direction:column; gap:8px; margin-bottom:36px; }
 .tech-row {
   display:flex; align-items:center; gap:10px;
   font-size:13px; color:var(--text2);
@@ -161,28 +159,17 @@ main { position:relative; z-index:1; padding-top:68px; }
   transition:transform .5s var(--ease);
 }
 .project-card:hover::before { transform:scaleX(1); }
-.project-card:hover {
-  border-color:var(--border2);
-  transform:translateY(-3px);
-}
-.project-card .proj-desc { margin-bottom:24px; }
+.project-card:hover { border-color:var(--border2); transform:translateY(-3px); }
+.project-card .proj-desc  { margin-bottom:24px; }
 .project-card .proj-links { margin-top:auto; }
 
 /* status strip */
-.status-strip {
-  display:flex; align-items:center; gap:8px;
-  margin-bottom:20px;
-}
-.status-dot {
-  width:7px; height:7px; border-radius:50%;
-}
-.status-dot.live   { background:var(--green); box-shadow:0 0 8px rgba(74,222,128,.5); }
-.status-dot.wip    { background:var(--amber); }
-.status-dot.done   { background:var(--cyan); }
-.status-text {
-  font-family:var(--font-mono); font-size:10px;
-  letter-spacing:.14em; text-transform:uppercase;
-}
+.status-strip { display:flex; align-items:center; gap:8px; margin-bottom:20px; }
+.status-dot   { width:7px; height:7px; border-radius:50%; }
+.status-dot.live { background:var(--green); box-shadow:0 0 8px rgba(74,222,128,.5); }
+.status-dot.wip  { background:var(--amber); }
+.status-dot.done { background:var(--cyan); }
+.status-text      { font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; }
 .status-text.live { color:var(--green); }
 .status-text.wip  { color:var(--amber); }
 .status-text.done { color:var(--cyan); }
@@ -192,6 +179,23 @@ main { position:relative; z-index:1; padding-top:68px; }
 .pill.amber { background:rgba(251,191,36,.1);  color:#fbbf24; border-color:rgba(251,191,36,.25); }
 .pill.blue  { background:rgba(96,165,250,.1);  color:#60a5fa; border-color:rgba(96,165,250,.25); }
 .pill.red   { background:rgba(248,113,113,.1); color:#f87171; border-color:rgba(248,113,113,.25); }
+
+/* secondary tag row inside project cards */
+.proj-tags-secondary { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px; }
+
+/* ── PROFESSIONAL SECTION ── */
+#professional {
+  padding:0 52px 80px;
+  max-width:1300px; margin:0 auto;
+}
+.professional-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+}
+.professional-note {
+  font-size:14px; color:var(--text3); line-height:1.8;
+  max-width:600px; margin:12px 0 48px;
+  font-family:var(--font-mono); letter-spacing:.04em;
+}
 
 /* ── PROCESS STRIP ── */
 #process {
@@ -206,28 +210,15 @@ main { position:relative; z-index:1; padding-top:68px; }
   border:1px solid var(--border3);
   margin-top:48px;
 }
-.process-step {
-  background:var(--c1); padding:32px 28px;
-  position:relative;
-  transition:background .3s;
-}
+.process-step { background:var(--c1); padding:32px 28px; transition:background .3s; }
 .process-step:hover { background:var(--c0); }
-.ps-num {
-  font-family:var(--font-mono); font-size:11px; color:var(--text3);
-  letter-spacing:.2em; margin-bottom:20px;
-}
-.ps-icon { font-size:28px; margin-bottom:16px; }
-.ps-title {
-  font-family:var(--font-head); font-size:17px; font-weight:700;
-  margin-bottom:8px;
-}
-.ps-desc { font-size:13px; color:var(--text2); line-height:1.75; }
+.ps-num   { font-family:var(--font-mono); font-size:11px; color:var(--text3); letter-spacing:.2em; margin-bottom:20px; }
+.ps-icon  { font-size:28px; margin-bottom:16px; }
+.ps-title { font-family:var(--font-head); font-size:17px; font-weight:700; margin-bottom:8px; }
+.ps-desc  { font-size:13px; color:var(--text2); line-height:1.75; }
 
 /* ── CTA ── */
-#work-cta {
-  padding:120px 52px; text-align:center;
-  position:relative; overflow:hidden;
-}
+#work-cta { padding:120px 52px; text-align:center; position:relative; overflow:hidden; }
 .cta-glow {
   position:absolute; top:50%; left:50%;
   transform:translate(-50%,-50%);
@@ -242,11 +233,168 @@ main { position:relative; z-index:1; padding-top:68px; }
   margin-bottom:20px;
 }
 .work-cta-title span { color:var(--cyan); }
-.work-cta-sub {
-  font-size:15px; color:var(--text2); line-height:1.8;
-  margin-bottom:40px;
-}
+.work-cta-sub { font-size:15px; color:var(--text2); line-height:1.8; margin-bottom:40px; }
 .cta-actions { display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+
+/* ════════════════════════════════════════════════
+   PROJECT DETAIL MODAL
+   ════════════════════════════════════════════════ */
+.modal-overlay {
+  position:fixed; inset:0; z-index:9000;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(6px);
+  opacity:0; pointer-events:none;
+  transition:opacity .3s ease;
+  display:flex; align-items:flex-start; justify-content:flex-end;
+}
+.modal-overlay.open {
+  opacity:1; pointer-events:all;
+}
+/* Drawer slides in from right */
+.modal-drawer {
+  width:min(760px, 92vw);
+  height:100vh;
+  overflow-y:auto;
+  background:var(--c1);
+  border-left:1px solid var(--border2);
+  transform:translateX(100%);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+  position:relative;
+}
+.modal-overlay.open .modal-drawer {
+  transform:translateX(0);
+}
+
+/* drawer scrollbar */
+.modal-drawer::-webkit-scrollbar { width:4px; }
+.modal-drawer::-webkit-scrollbar-track { background:transparent; }
+.modal-drawer::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+/* drawer header */
+.modal-header {
+  position:sticky; top:0; z-index:10;
+  background:var(--c1);
+  border-bottom:1px solid var(--border3);
+  padding:20px 32px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.modal-header-left { display:flex; align-items:center; gap:14px; }
+.modal-close {
+  width:36px; height:36px; border-radius:50%;
+  background:var(--c0); border:1px solid var(--border3);
+  color:var(--text2); font-size:18px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:all .2s; flex-shrink:0;
+  line-height:1;
+}
+.modal-close:hover { border-color:var(--cyan); color:var(--cyan); background:rgba(0,229,192,.06); }
+
+/* drawer body sections */
+.modal-body { padding:40px 32px 60px; }
+
+.modal-project-index {
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.2em; text-transform:uppercase; margin-bottom:8px;
+}
+.modal-project-title {
+  font-family:var(--font-head); font-size:clamp(28px,4vw,44px);
+  font-weight:900; letter-spacing:-.03em; line-height:1.0;
+  margin-bottom:8px;
+}
+.modal-project-client {
+  font-family:var(--font-mono); font-size:11px;
+  color:var(--cyan); letter-spacing:.14em; text-transform:uppercase;
+  margin-bottom:20px;
+}
+.modal-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:32px; }
+
+.modal-divider { height:1px; background:var(--border3); margin:28px 0; }
+
+/* section label */
+.modal-section-label {
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.2em; text-transform:uppercase;
+  margin-bottom:14px;
+}
+.modal-section-title {
+  font-family:var(--font-head); font-size:18px; font-weight:800;
+  margin-bottom:12px;
+}
+
+/* overview text */
+.modal-overview {
+  font-size:14px; color:var(--text2); line-height:1.9;
+  margin-bottom:0;
+}
+
+/* stats row */
+.modal-stats {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:var(--border3);
+  border:1px solid var(--border3);
+  border-radius:6px; overflow:hidden;
+  margin-bottom:0;
+}
+.modal-stat {
+  background:var(--c0); padding:20px 16px; text-align:center;
+}
+.modal-stat-n {
+  font-family:var(--font-head); font-size:26px; font-weight:900;
+  color:var(--cyan); line-height:1; margin-bottom:4px;
+}
+.modal-stat-l {
+  font-family:var(--font-mono); font-size:9px;
+  color:var(--text3); letter-spacing:.1em; text-transform:uppercase;
+}
+
+/* feature list */
+.modal-features { display:flex; flex-direction:column; gap:10px; }
+.modal-feature {
+  background:var(--c0); border:1px solid var(--border3);
+  border-radius:6px; padding:16px 20px;
+  display:flex; gap:14px; align-items:flex-start;
+  transition:border-color .2s;
+}
+.modal-feature:hover { border-color:var(--border2); }
+.modal-feature-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.modal-feature-body {}
+.modal-feature-title {
+  font-family:var(--font-head); font-size:14px; font-weight:700;
+  margin-bottom:4px;
+}
+.modal-feature-desc { font-size:13px; color:var(--text2); line-height:1.7; }
+
+/* tech grid */
+.modal-tech-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:8px;
+}
+.modal-tech-item {
+  background:var(--c0); border:1px solid var(--border3);
+  border-radius:6px; padding:12px 16px;
+  display:flex; align-items:center; gap:10px;
+}
+.modal-tech-dot { width:6px; height:6px; border-radius:50%; background:var(--cyan); flex-shrink:0; }
+.modal-tech-name { font-size:13px; color:var(--text2); }
+.modal-tech-role { font-family:var(--font-mono); font-size:10px; color:var(--text3); margin-left:auto; letter-spacing:.06em; }
+
+/* challenges */
+.modal-challenges { display:flex; flex-direction:column; gap:12px; }
+.modal-challenge {
+  border-left:2px solid var(--border3);
+  padding:0 0 0 16px;
+  transition:border-color .2s;
+}
+.modal-challenge:hover { border-color:var(--cyan); }
+.modal-challenge-q { font-size:13px; font-weight:600; color:var(--text); margin-bottom:6px; }
+.modal-challenge-a { font-size:13px; color:var(--text2); line-height:1.75; }
+
+/* drawer footer CTA */
+.modal-footer {
+  padding:28px 32px;
+  border-top:1px solid var(--border3);
+  display:flex; gap:12px; flex-wrap:wrap;
+  background:var(--c0);
+}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1100px) {
@@ -260,7 +408,18 @@ main { position:relative; z-index:1; padding-top:68px; }
   .projects-grid { grid-template-columns:1fr; }
   .pf-left, .pf-right { padding:28px; }
   .process-steps { grid-template-columns:1fr; }
-  #professional > div:last-child { grid-template-columns:1fr !important; }
+  .professional-grid { grid-template-columns:1fr; }
+  .modal-stats { grid-template-columns:1fr 1fr; }
+  .modal-tech-grid { grid-template-columns:1fr; }
+}
+
+/* reduced motion */
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after {
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
 }
 @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
 </style>
@@ -270,8 +429,9 @@ main { position:relative; z-index:1; padding-top:68px; }
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 <div id="scroll-progress"></div>
-<div id="page-transition"></div>
-<div id="pt-label"></div>
+<!-- hidden by default to prevent CLS -->
+<div id="page-transition" style="display:none;"></div>
+<div id="pt-label" style="display:none;"></div>
 <canvas id="bg-canvas"></canvas>
 
 <!-- NAV -->
@@ -283,7 +443,7 @@ main { position:relative; z-index:1; padding-top:68px; }
   <ul class="nav-center">
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
-    <li><a href="work.html">Work</a></li>
+    <li><a href="work.html" class="active">Work</a></li>
     <li><a href="skills.html">Skills</a></li>
     <li><a href="blog.html">Blog</a></li>
     <li><a href="contact.html">Contact</a></li>
@@ -303,6 +463,24 @@ main { position:relative; z-index:1; padding-top:68px; }
   <a href="skills.html">Skills</a>
   <a href="blog.html">Blog</a>
   <a href="contact.html">Contact</a>
+</div>
+
+<!-- ══ PROJECT DETAIL MODAL ══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-drawer" id="modal-drawer">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="status-strip" id="modal-status-strip" style="margin:0;"></div>
+      </div>
+      <button class="modal-close" id="modal-close" aria-label="Close project detail">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <!-- JS-injected content -->
+    </div>
+    <div class="modal-footer" id="modal-footer">
+      <!-- JS-injected links -->
+    </div>
+  </div>
 </div>
 
 <main>
@@ -359,15 +537,14 @@ main { position:relative; z-index:1; padding-top:68px; }
         dealership workflow: bike inventory, showroom listings, service stations,
         customer enquiries, service bookings, and exchange requests.
         <br><br>
-        Integrated Cloudinary for multi-model media delivery with transformation
-        pipelines, VAPID web push notifications for real-time lead alerts,
-        WhatsApp Business API + SMTP for automated follow-ups, and Jazzmin
-        for a polished admin experience. Deployed on Railway with Supabase
-        PostgreSQL — 8 production security settings enabled.
+        Integrated Cloudinary for multi-model media delivery, VAPID web push
+        notifications for real-time lead alerts, WhatsApp Business API + SMTP
+        for automated follow-ups. Deployed on Railway with 8 production security
+        settings enabled.
       </p>
       <div class="proj-links">
         <a href="https://www.skylinewheels.in" class="proj-link primary" target="_blank" rel="noopener">Live Site</a>
-        <a href="#skyline-detail" class="proj-link secondary">Case Study</a>
+        <button class="proj-link secondary detail-btn" data-project="skyline">Full Details</button>
       </div>
     </div>
     <div class="pf-right">
@@ -388,22 +565,10 @@ main { position:relative; z-index:1; padding-top:68px; }
       <div>
         <div class="pf-label">Key Highlights</div>
         <div class="highlights">
-          <div class="highlight-item">
-            <span class="hi">⚡</span>
-            <span>6 core modules — full dealership workflow from inventory to bookings</span>
-          </div>
-          <div class="highlight-item">
-            <span class="hi">📲</span>
-            <span>Real-time lead alerts via VAPID push + WhatsApp Business API</span>
-          </div>
-          <div class="highlight-item">
-            <span class="hi">🖼️</span>
-            <span>Cloudinary transformation pipelines for optimized media delivery</span>
-          </div>
-          <div class="highlight-item">
-            <span class="hi">🔒</span>
-            <span>8 production security settings — HTTPS, HSTS, CSP, secure cookies</span>
-          </div>
+          <div class="highlight-item"><span class="hi" aria-hidden="true">⚡</span><span>6 core modules — full dealership workflow from inventory to bookings</span></div>
+          <div class="highlight-item"><span class="hi" aria-hidden="true">📲</span><span>Real-time lead alerts via VAPID push + WhatsApp Business API</span></div>
+          <div class="highlight-item"><span class="hi" aria-hidden="true">🖼️</span><span>Cloudinary transformation pipelines for optimized media delivery</span></div>
+          <div class="highlight-item"><span class="hi" aria-hidden="true">🔒</span><span>8 production security settings — HTTPS, HSTS, CSP, secure cookies</span></div>
         </div>
       </div>
     </div>
@@ -430,22 +595,20 @@ main { position:relative; z-index:1; padding-top:68px; }
       <div class="proj-title" style="font-size:clamp(22px,2.5vw,32px)">FlowBoard</div>
       <p class="proj-desc">
         Real-time project management tool — Kanban boards, team collaboration,
-        and task analytics. Built to showcase production-level Django architecture:
-        Django Channels for WebSockets, Celery + Redis for async task queues,
-        JWT auth, React frontend, Dockerized, and full CI/CD via GitHub Actions.
-        <br><br>
-        DSA embedded throughout — Min-Heap for task prioritization,
+        and task analytics. Django Channels for WebSockets, Celery + Redis for
+        async task queues, JWT auth, React + Vite frontend, Docker (5 services),
+        full CI/CD via GitHub Actions. DSA embedded — Min-Heap for priority,
         Binary Search for filtering, Sliding Window for analytics.
       </p>
-      <div class="proj-tags" style="margin-bottom:24px;">
+      <div class="proj-tags-secondary">
         <span class="pill">Celery</span>
         <span class="pill">Redis</span>
         <span class="pill">JWT</span>
         <span class="pill">GitHub Actions</span>
-        <span class="pill">CI/CD</span>
       </div>
       <div class="proj-links">
         <a href="https://github.com/Ashwani1611/flowboard" class="proj-link primary" target="_blank" rel="noopener">GitHub</a>
+        <button class="proj-link secondary detail-btn" data-project="flowboard">Full Details</button>
       </div>
     </div>
 
@@ -464,39 +627,75 @@ main { position:relative; z-index:1; padding-top:68px; }
       <div class="proj-client">Client · Calisthenics Business, New Delhi</div>
       <div class="proj-title" style="font-size:clamp(22px,2.5vw,32px)">Mogli Flow Club</div>
       <p class="proj-desc">
-        Website for a calisthenics training business based in Mayur Vihar,
-        New Delhi. Multi-page site with member enrollment flow, admin panel
-        for managing members and schedules, Firebase backend, and a custom
-        dark athletic design — Bebas Neue display type, lime-green accents,
-        mobile-first layout built for the gym community.
+        Website for a calisthenics training business in Mayur Vihar, New Delhi.
+        Multi-page site with member enrollment flow, admin panel for managing
+        members and schedules, Firebase backend, and a custom dark athletic
+        design — Bebas Neue display type, lime-green accents, mobile-first
+        layout built for the gym community.
       </p>
-      <div class="proj-tags" style="margin-bottom:24px;">
+      <div class="proj-tags-secondary">
         <span class="pill">Firebase Auth</span>
         <span class="pill">Firestore</span>
         <span class="pill">Mobile First</span>
       </div>
       <div class="proj-links">
-        <a href="#" class="proj-link secondary">Coming Soon</a>
+        <button class="proj-link secondary detail-btn" data-project="mogli">Full Details</button>
       </div>
     </div>
 
   </div>
 
+  <!-- 04 — BAJAJ ANALYTICS (full width card) -->
+  <div class="project-card reveal" data-delay="80" data-tags="freelance django" style="margin-bottom:16px; padding:40px 48px; flex-direction:row; gap:48px; align-items:flex-start;">
+    <div style="flex:1.4; min-width:0;">
+      <div class="proj-index">04 — Client Project</div>
+      <div class="status-strip">
+        <span class="status-dot done"></span>
+        <span class="status-text done">Deployed</span>
+      </div>
+      <div class="proj-tags">
+        <span class="pill green">Deployed</span>
+        <span class="pill">Django</span>
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">Tally API</span>
+        <span class="pill">Pandas</span>
+      </div>
+      <div class="proj-client">Client · Bajaj Dealership (Same Client)</div>
+      <div class="proj-title" style="font-size:clamp(22px,2.5vw,34px)">Bajaj Analytics — BI Dashboard</div>
+      <p class="proj-desc" style="margin-bottom:24px;">
+        Financial intelligence platform built alongside Skyline Wheels. Tally
+        accounting data syncs automatically into PostgreSQL; Excel expense records
+        import via a structured validation pipeline. P&L tracking across 5–10
+        categories with daily, monthly, and quarterly views. On-demand PDF and
+        Excel report generation — <strong style="color:var(--text)">cut report prep from 12 hours to under 1 minute</strong>.
+      </p>
+      <div class="proj-links">
+        <button class="proj-link primary detail-btn" data-project="bajaj-analytics">Full Details</button>
+      </div>
+    </div>
+    <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px;">
+      <div class="pf-label" style="margin-bottom:4px;">Impact Numbers</div>
+      <div class="highlight-item"><span class="hi" aria-hidden="true">⏱️</span><span>12 hours → &lt;1 minute report generation time</span></div>
+      <div class="highlight-item"><span class="hi" aria-hidden="true">📊</span><span>5–10 P&L categories tracked across daily / monthly / quarterly views</span></div>
+      <div class="highlight-item"><span class="hi" aria-hidden="true">🔗</span><span>Tally API + Excel import with full validation pipeline</span></div>
+      <div class="highlight-item"><span class="hi" aria-hidden="true">📄</span><span>On-demand PDF &amp; Excel export for client reports</span></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- PROFESSIONAL WORK -->
-<section id="professional" style="padding:0 52px 80px; max-width:1300px; margin:0 auto;">
+<section id="professional">
   <div class="section-tag reveal">Professional Experience</div>
   <h2 class="big-title reveal" data-delay="80">Company <span class="c">Projects</span></h2>
-  <p class="reveal" data-delay="120" style="font-size:14px; color:var(--text3); line-height:1.8; max-width:600px; margin:12px 0 48px; font-family:var(--font-mono); letter-spacing:.04em;">
+  <p class="professional-note reveal" data-delay="120">
     Built at GIS Consortium India Pvt. Ltd. (2022–2025) · Proprietary — code not publicly available
   </p>
-
-  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+  <div class="professional-grid">
 
     <!-- SURVEY SYSTEM -->
     <div class="project-card reveal" data-delay="0" data-tags="company">
-      <div class="proj-index">04 — Backend API</div>
+      <div class="proj-index">05 — Backend API</div>
       <div class="status-strip">
         <span class="status-dot done"></span>
         <span class="status-text done">Delivered</span>
@@ -509,22 +708,24 @@ main { position:relative; z-index:1; padding-top:68px; }
       <div class="proj-client">GIS Consortium India · Municipal Client</div>
       <div class="proj-title" style="font-size:clamp(18px,2vw,26px)">House Survey System</div>
       <p class="proj-desc">
-        Backend API for door-to-door household survey operations across
-        municipal zones. Field workers used the API to record property
-        data, owner details, and geo-tagged survey entries in real time.
-        Handled zone-wise data segmentation, survey progress tracking,
-        and bulk data reporting for municipal administrators.
+        Backend API for door-to-door household survey operations across municipal
+        zones. Field workers recorded property data, owner details, and geo-tagged
+        entries in real time. Zone-wise data segmentation, survey progress tracking,
+        and bulk reporting for municipal administrators.
       </p>
-      <div class="proj-tags" style="margin-bottom:0;">
+      <div class="proj-tags-secondary">
         <span class="pill">JWT Auth</span>
         <span class="pill">Geo Data</span>
         <span class="pill">Bulk Reports</span>
+      </div>
+      <div class="proj-links" style="margin-top:auto;">
+        <button class="proj-link secondary detail-btn" data-project="survey">Full Details</button>
       </div>
     </div>
 
     <!-- PROPERTY TAX -->
     <div class="project-card reveal" data-delay="100" data-tags="company">
-      <div class="proj-index">05 — Backend API</div>
+      <div class="proj-index">06 — Backend API</div>
       <div class="status-strip">
         <span class="status-dot done"></span>
         <span class="status-text done">Delivered</span>
@@ -537,22 +738,24 @@ main { position:relative; z-index:1; padding-top:68px; }
       <div class="proj-client">GIS Consortium India · Municipal Client</div>
       <div class="proj-title" style="font-size:clamp(18px,2vw,26px)">Property Tax System</div>
       <p class="proj-desc">
-        Backend API for automated property tax calculation serving
-        municipal corporations. Tax computed dynamically from the
-        database using property type, area, zone, and usage factors.
-        Citizens could query dues and generate tax receipts via API.
-        Handled bulk property records with optimized query performance.
+        Backend API for automated property tax calculation across municipal
+        corporations. Tax computed dynamically from property type, area, zone,
+        and usage factors. Citizens could query dues and generate receipts.
+        Handled bulk property records with heavily optimized query performance.
       </p>
-      <div class="proj-tags" style="margin-bottom:0;">
+      <div class="proj-tags-secondary">
         <span class="pill">Tax Engine</span>
         <span class="pill">ORM Optimization</span>
         <span class="pill">RBAC</span>
+      </div>
+      <div class="proj-links" style="margin-top:auto;">
+        <button class="proj-link secondary detail-btn" data-project="propertytax">Full Details</button>
       </div>
     </div>
 
     <!-- EMPLOYEE MANAGEMENT -->
     <div class="project-card reveal" data-delay="200" data-tags="company">
-      <div class="proj-index">06 — Backend API</div>
+      <div class="proj-index">07 — Backend API</div>
       <div class="status-strip">
         <span class="status-dot done"></span>
         <span class="status-text done">Delivered</span>
@@ -565,16 +768,18 @@ main { position:relative; z-index:1; padding-top:68px; }
       <div class="proj-client">GIS Consortium India · Internal HR Tool</div>
       <div class="proj-title" style="font-size:clamp(18px,2vw,26px)">Employee Management System</div>
       <p class="proj-desc">
-        HR and employee tracking platform for internal use. Managers
-        could assign project milestones and weekly task targets to
-        employees, track progress, and generate performance reports.
-        Employees logged daily work updates via API. Built role-based
-        access for HR, managers, and individual contributors.
+        HR and employee tracking platform for internal use. Managers assigned
+        project milestones and weekly task targets, tracked progress, and
+        generated performance reports. Employees logged daily work via API.
+        Full RBAC for HR, managers, and individual contributors.
       </p>
-      <div class="proj-tags" style="margin-bottom:0;">
+      <div class="proj-tags-secondary">
         <span class="pill">Milestones</span>
         <span class="pill">Task Tracking</span>
         <span class="pill">RBAC</span>
+      </div>
+      <div class="proj-links" style="margin-top:auto;">
+        <button class="proj-link secondary detail-btn" data-project="employee">Full Details</button>
       </div>
     </div>
 
@@ -589,25 +794,25 @@ main { position:relative; z-index:1; padding-top:68px; }
     <div class="process-steps">
       <div class="process-step reveal">
         <div class="ps-num">01</div>
-        <div class="ps-icon">🔍</div>
+        <div class="ps-icon" aria-hidden="true">🔍</div>
         <div class="ps-title">Understand</div>
         <p class="ps-desc">Requirements, constraints, real users. I ask the questions most developers skip before writing a single line.</p>
       </div>
       <div class="process-step reveal" data-delay="80">
         <div class="ps-num">02</div>
-        <div class="ps-icon">🏗️</div>
+        <div class="ps-icon" aria-hidden="true">🏗️</div>
         <div class="ps-title">Architect</div>
         <p class="ps-desc">Schema design, API contracts, data flow. Decisions made upfront save weeks of refactoring later.</p>
       </div>
       <div class="process-step reveal" data-delay="160">
         <div class="ps-num">03</div>
-        <div class="ps-icon">⚙️</div>
+        <div class="ps-icon" aria-hidden="true">⚙️</div>
         <div class="ps-title">Build</div>
         <p class="ps-desc">Iterative development with clear commits. Backend first, then frontend, then integration — tested at each layer.</p>
       </div>
       <div class="process-step reveal" data-delay="240">
         <div class="ps-num">04</div>
-        <div class="ps-icon">🚀</div>
+        <div class="ps-icon" aria-hidden="true">🚀</div>
         <div class="ps-title">Ship</div>
         <p class="ps-desc">CI/CD, environment config, production hardening. I don't hand over a zip file — I hand over a live URL.</p>
       </div>
@@ -641,30 +846,433 @@ main { position:relative; z-index:1; padding-top:68px; }
   <div class="footer-center">Built with <span>♥</span> + 4am discipline</div>
   <div class="footer-right">
     <a href="https://github.com/Ashwani1611" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://linkedin.com/in/ashwani-kumar" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="contact.html">Email</a>
+    <a href="https://linkedin.com/in/ashwani-kumar-52b453139/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="contact.html">Contact</a>
   </div>
 </footer>
 
 <script src="main.js"></script>
 <script>
-// Filter logic
-const filterBtns = document.querySelectorAll('.filter-btn');
+/* ════════════════════════════════════════════════
+   PROJECT DATA
+   Each key matches data-project="..." on buttons
+   ════════════════════════════════════════════════ */
+const PROJECTS = {
+
+  skyline: {
+    index:  '01 — Featured / Freelance',
+    title:  'Skyline Wheels',
+    client: 'Client · Bajaj Dealership, Delhi NCR',
+    status: { cls: 'live', label: 'Live in Production' },
+    tags:   ['Live','Django 5.1','PostgreSQL','Redis','Cloudinary','Railway','Supabase','CI/CD'],
+    overview: `Skyline Wheels is a complete dealership management platform built for a Bajaj motorcycle client — taken from zero requirements to a live, production URL. The platform covers the entire dealership workflow across six core modules: bike inventory, showroom listings, service station management, customer enquiries, service bookings, and exchange requests.\n\nThe admin experience is fully customized via Jazzmin, giving the client a branded, intuitive backend. Media — bike photos, banners, thumbnails — flows through Cloudinary with automatic transformation and optimization pipelines. Real-time lead notifications reach the sales team via VAPID web push directly in the browser, with WhatsApp Business API and SMTP as follow-up channels. Deployed on Railway with Supabase-hosted PostgreSQL and Cloudflare SSL/TLS at the edge.`,
+    stats: [
+      { n:'6',      l:'Core Modules' },
+      { n:'8',      l:'Security Controls' },
+      { n:'~40%',   l:'Cache Load Reduction' },
+    ],
+    features: [
+      { icon:'🏍️', title:'Full Inventory Management',    desc:'Bikes categorized by model, colour, variant, and availability. Admins manage stock in real time through a custom Jazzmin interface.' },
+      { icon:'🔔', title:'VAPID Web Push Notifications', desc:'Sales team receives instant browser push alerts when a new enquiry or service booking lands — no polling, no delay.' },
+      { icon:'💬', title:'WhatsApp Business API',        desc:'Automated follow-up messages sent on enquiry submission and booking confirmation, integrated with the SMTP email pipeline.' },
+      { icon:'🖼️', title:'Cloudinary Media Pipeline',   desc:'All bike images processed through Cloudinary\'s transformation API — auto-resize, format conversion, lazy-load URLs generated at upload.' },
+      { icon:'🔒', title:'Production Security Hardening',desc:'HTTPS forced, HSTS enabled, CSP headers configured, secure + HttpOnly + SameSite cookies, X-Frame-Options, CSRF double-submit.' },
+      { icon:'🚀', title:'GitHub Actions CI/CD',         desc:'Every push to main triggers lint, test, and deploy to Railway automatically. Zero manual deployment steps for the client.' },
+    ],
+    tech: [
+      { name:'Django 5.1 + DRF',      role:'Backend' },
+      { name:'PostgreSQL + Supabase',  role:'Database' },
+      { name:'Redis',                  role:'Cache' },
+      { name:'Cloudinary CDN',         role:'Media' },
+      { name:'VAPID / web-push',       role:'Notifications' },
+      { name:'WhatsApp Business API',  role:'Messaging' },
+      { name:'Jazzmin',                role:'Admin UI' },
+      { name:'GitHub Actions',         role:'CI/CD' },
+      { name:'Railway',                role:'Hosting' },
+      { name:'Cloudflare',             role:'DNS / SSL' },
+    ],
+    challenges: [
+      { q:'How do you send push notifications without a mobile app?', a:'Used VAPID (Voluntary Application Server Identification) — a web standard that lets browsers receive push notifications directly. The service worker registers in the client browser; Django backend sends via pywebpush on every new enquiry.' },
+      { q:'How was the 40% cache improvement measured and achieved?', a:'Redis was placed in front of heavy list queries (bike inventory, showroom listings) with a 5-minute TTL. Load time compared via Django Debug Toolbar before/after. Cache invalidated on admin save signal.' },
+      { q:'Why Railway + Supabase instead of a single provider?', a:'Railway gives a clean deploy pipeline from GitHub with zero config. Supabase provides managed PostgreSQL with connection pooling and a built-in dashboard — separating compute from data also makes scaling either independently simpler.' },
+    ],
+    links: [
+      { label:'Live Site', href:'https://www.skylinewheels.in', external:true, style:'primary' },
+    ],
+  },
+
+  flowboard: {
+    index:  '02 — Personal / Open Source',
+    title:  'FlowBoard',
+    client: 'Personal Build · Portfolio Project',
+    status: { cls: 'done', label: 'Complete' },
+    tags:   ['Open Source','Django','React','WebSockets','Docker','Celery','Redis','JWT'],
+    overview: `FlowBoard is a real-time project management tool — Kanban boards, task assignment, team collaboration, and analytics — built to demonstrate production-level Django architecture in a portfolio context.\n\nThe architecture is deliberately over-engineered for a personal project: Django Channels powers WebSocket connections for live board updates, Celery + Redis handles async task queues (deadline reminders, email digests), React + Vite builds the frontend, and the whole system runs in Docker across 5 services with a full GitHub Actions CI/CD pipeline.\n\nThe distinctive feature is DSA embedded directly into business logic — Min-Heap for O(log n) task priority queues, Binary Search for O(log n) task filtering, and Sliding Window algorithm for rolling analytics on task completion rates.`,
+    stats: [
+      { n:'5',    l:'Docker Services' },
+      { n:'3',    l:'DSA Algorithms' },
+      { n:'100%', l:'CI/CD Automated' },
+    ],
+    features: [
+      { icon:'🔄', title:'Real-time WebSockets',      desc:'Django Channels + Redis channel layer. Board updates (card moves, new tasks, comments) broadcast instantly to all connected clients — no polling.' },
+      { icon:'📋', title:'Kanban Board Engine',       desc:'Drag-and-drop task management across configurable columns. State persisted in PostgreSQL; frontend syncs via WebSocket events.' },
+      { icon:'⚙️', title:'Celery Async Task Queue',   desc:'Background jobs for deadline reminders, email digests, and report generation. Beat scheduler for recurring tasks. Redis as both broker and result backend.' },
+      { icon:'🧮', title:'DSA-backed Business Logic', desc:'Min-Heap for task prioritization (O log n insertions), Binary Search for filtered task lookup, Sliding Window for rolling 7-day completion rate analytics.' },
+      { icon:'🐳', title:'Docker Compose (5 Services)',desc:'web (Django), worker (Celery), beat (scheduler), redis, postgres — fully containerized. Single docker-compose up spins the complete system.' },
+      { icon:'🚀', title:'GitHub Actions CI/CD',      desc:'Lint, unit tests, Docker build, and deploy triggered on every push to main. Fails the pipeline before a broken build reaches production.' },
+    ],
+    tech: [
+      { name:'Django + DRF',        role:'Backend' },
+      { name:'Django Channels',     role:'WebSockets' },
+      { name:'React + Vite',        role:'Frontend' },
+      { name:'PostgreSQL',          role:'Database' },
+      { name:'Redis',               role:'Cache / Broker' },
+      { name:'Celery + Beat',       role:'Task Queue' },
+      { name:'Docker Compose',      role:'Orchestration' },
+      { name:'GitHub Actions',      role:'CI/CD' },
+      { name:'JWT Auth',            role:'Auth' },
+    ],
+    challenges: [
+      { q:'Why embed DSA algorithms into a real application?', a:'To prove they\'re not just interview answers. A Min-Heap for task priority actually makes inserting urgent tasks O(log n) instead of O(n) on a sorted list. It\'s a genuine improvement, not decoration.' },
+      { q:'How are WebSocket updates handled when a user reconnects?', a:'On reconnect, the client fetches a full board snapshot via REST, then re-subscribes to the Channels consumer group. The WebSocket layer only delivers deltas — the REST layer ensures consistency.' },
+    ],
+    links: [
+      { label:'GitHub', href:'https://github.com/Ashwani1611/flowboard', external:true, style:'primary' },
+    ],
+  },
+
+  mogli: {
+    index:  '03 — Freelance / In Progress',
+    title:  'Mogli Flow Club',
+    client: 'Client · Calisthenics Business, Mayur Vihar, New Delhi',
+    status: { cls: 'wip', label: 'In Development' },
+    tags:   ['Firebase','HTML/CSS/JS','Mobile First','Firestore','Firebase Auth'],
+    overview: `Mogli Flow Club is a website for a calisthenics training business based in Mayur Vihar, New Delhi. The client runs outdoor training sessions and needed a digital presence that matches the energy of the sport — raw, athletic, community-driven.\n\nThe site is multi-page: a landing page, a schedule/class view, a member enrollment flow, and an admin panel for managing members and session schedules. Firebase handles auth and data with no server to maintain — Firestore as the database, Firebase Auth for member accounts, and Firebase Hosting for deployment.\n\nDesign direction: dark athletic aesthetic — near-black backgrounds, Bebas Neue display type for impact, lime-green accent, mobile-first layout since the majority of the client's audience is on phones.`,
+    stats: [
+      { n:'0',    l:'Server to Maintain' },
+      { n:'100%', l:'Mobile First' },
+      { n:'4',    l:'Core Pages' },
+    ],
+    features: [
+      { icon:'📋', title:'Member Enrollment Flow',  desc:'Multi-step form — personal details, batch selection, payment confirmation. Data written to Firestore. Admin sees new members instantly in the panel.' },
+      { icon:'🗓️', title:'Schedule Management',     desc:'Admin updates class schedules in the panel; changes reflect live on the public schedule page via Firestore real-time listeners.' },
+      { icon:'🔐', title:'Firebase Auth',            desc:'Members log in to view their enrollment status and batch details. Admin access protected by a separate role flag in Firestore.' },
+      { icon:'🎨', title:'Dark Athletic Design',     desc:'Bebas Neue display face, tight letter-spacing, lime-green accent on near-black. Every element designed for high contrast on mobile screens in outdoor light.' },
+      { icon:'📱', title:'Mobile-First Layout',      desc:'All layouts built at 375px first, then expanded. No content hidden at mobile — the full experience works on a phone used at the park.' },
+    ],
+    tech: [
+      { name:'HTML / CSS / JS',  role:'Frontend' },
+      { name:'Firebase Auth',    role:'Auth' },
+      { name:'Firestore',        role:'Database' },
+      { name:'Firebase Hosting', role:'Deployment' },
+      { name:'Bebas Neue',       role:'Typography' },
+    ],
+    challenges: [
+      { q:'Why Firebase over a Django backend for this client?', a:'The client has no technical team to manage a server. Firebase gives auth, database, and hosting with zero infrastructure overhead — the client can focus on running training sessions, not uptime.' },
+      { q:'How is admin access secured without a backend?', a:'Firebase Auth UID is checked against an admins collection in Firestore before any admin-only Firestore reads/writes. Security rules block any write from a UID not in that collection — enforcement happens at the database layer, not just the frontend.' },
+    ],
+    links: [],
+  },
+
+  'bajaj-analytics': {
+    index:  '04 — Freelance / Deployed',
+    title:  'Bajaj Analytics',
+    client: 'Client · Bajaj Dealership (Same Client as Skyline Wheels)',
+    status: { cls: 'done', label: 'Deployed' },
+    tags:   ['Django','PostgreSQL','Tally API','Pandas','openpyxl','ReportLab'],
+    overview: `Bajaj Analytics is a financial BI dashboard built alongside Skyline Wheels for the same Bajaj dealership client. The core problem: the client's finance team spent 12 hours every month manually pulling Tally accounting data, cross-referencing Excel expense records, and building P&L reports in spreadsheets. Every report was a fresh 12-hour effort.\n\nThe solution: an automated sync pipeline that pulls Tally data into PostgreSQL, an Excel import flow with structured validation, and an on-demand report generator that produces formatted PDF and Excel outputs in under a minute. The client now runs monthly reporting in the time it used to take to open the spreadsheets.`,
+    stats: [
+      { n:'12h→1m', l:'Report Generation' },
+      { n:'10+',    l:'P&L Categories' },
+      { n:'3',      l:'Report Views' },
+    ],
+    features: [
+      { icon:'🔗', title:'Tally → PostgreSQL Sync',   desc:'Automated sync pipeline pulls accounting entries from Tally via its HTTP/XML API on a schedule. Data normalized and loaded into PostgreSQL with deduplication.' },
+      { icon:'📥', title:'Excel Import + Validation', desc:'Expense records uploaded as Excel files. Pandas validates structure, data types, and required fields before committing. Malformed rows flagged with row-level error messages.' },
+      { icon:'📊', title:'P&L Tracking Dashboard',    desc:'Profit & Loss tracked across 5–10 configurable categories (parts, service, accessories, new bikes, insurance). Daily, monthly, and quarterly aggregation views.' },
+      { icon:'📄', title:'On-Demand PDF Reports',     desc:'Client clicks "Generate Report" — a formatted PDF with category breakdowns, trend charts, and summary totals produces in under 1 minute via ReportLab.' },
+      { icon:'📑', title:'Excel Export',              desc:'Same report data exported as a structured Excel workbook — separate sheets per category, formatted for the client\'s existing accounting workflow.' },
+      { icon:'🔐', title:'Role-Based Access',         desc:'Owner sees all categories. Department heads see only their cost centres. Django\'s permission system enforces data segmentation at the query layer.' },
+    ],
+    tech: [
+      { name:'Django',      role:'Backend' },
+      { name:'PostgreSQL',  role:'Database' },
+      { name:'Pandas',      role:'Data Processing' },
+      { name:'openpyxl',    role:'Excel I/O' },
+      { name:'ReportLab',   role:'PDF Generation' },
+      { name:'Tally HTTP',  role:'Accounting Sync' },
+      { name:'Celery',      role:'Scheduled Sync' },
+    ],
+    challenges: [
+      { q:'How does the Tally sync work without a Tally plugin?', a:'Tally exposes a built-in HTTP server on localhost that accepts XML requests and returns XML responses. The Django pipeline sends a query XML, parses the response, and upserts records into PostgreSQL — no third-party Tally connector needed.' },
+      { q:'What made the 12-hour process take so long before?', a:'The finance team was manually exporting Tally ledgers as PDFs, re-entering totals into Excel, merging with expense sheets, and formatting the final report by hand. Every step was manual and repeated monthly. The automation eliminated all of it.' },
+    ],
+    links: [],
+  },
+
+  survey: {
+    index:  '05 — Company / Backend API',
+    title:  'House Survey System',
+    client: 'GIS Consortium India · Municipal Client',
+    status: { cls: 'done', label: 'Delivered' },
+    tags:   ['Django','PostgreSQL','REST API','JWT Auth','AWS EC2','S3'],
+    overview: `The House Survey System is the backend API that powered door-to-door household survey operations across municipal zones for a state government client. Field workers — surveyors on the ground — used a mobile app backed by this API to record property data, owner details, photographs, and geo-tagged survey entries in real time.\n\nThe backend handled zone-wise data segmentation (each surveyor sees only their assigned zones), survey progress tracking for supervisors, and bulk data reporting for municipal administrators. Built at GIS Consortium as part of the e-governance platform that underpinned property tax infrastructure across 5+ municipal corporations.`,
+    stats: [
+      { n:'5+',  l:'Municipal Corps' },
+      { n:'20+', l:'Secured Endpoints' },
+      { n:'6',   l:'RBAC Roles' },
+    ],
+    features: [
+      { icon:'📍', title:'Geo-tagged Survey Entries', desc:'Each survey record stores GPS coordinates from the mobile device. Supervisors can track coverage across a zone on a map view.' },
+      { icon:'🗂️', title:'Zone-wise Data Segmentation', desc:'Surveyors can only read and write records within their assigned municipal zones. Segmentation enforced at the queryset level in every endpoint.' },
+      { icon:'📸', title:'Photo Upload Pipeline',     desc:'Property and document photos captured on mobile, uploaded via API to S3 with presigned URLs. Files linked to survey records in PostgreSQL.' },
+      { icon:'📊', title:'Progress Tracking',         desc:'Supervisors see zone-level completion rates — total properties assigned vs surveyed — updated in real time as field workers submit entries.' },
+      { icon:'📋', title:'Bulk Data Reporting',       desc:'Municipal administrators generate zone-wide survey reports as Excel downloads. Queries optimized with select_related and prefetch_related to handle large datasets.' },
+      { icon:'🔐', title:'6-Role RBAC',               desc:'Surveyor, Supervisor, Zone Admin, Municipal Admin, State Admin, System Admin — each with a distinct permission set enforced per endpoint.' },
+    ],
+    tech: [
+      { name:'Django DRF',    role:'Backend' },
+      { name:'PostgreSQL',    role:'Database' },
+      { name:'AWS EC2',       role:'Hosting' },
+      { name:'AWS S3',        role:'File Storage' },
+      { name:'JWT Auth',      role:'Auth' },
+      { name:'RBAC',          role:'Permissions' },
+    ],
+    challenges: [
+      { q:'How was data isolation handled across zones without separate databases?', a:'Row-level filtering via a ZoneQueryset mixin — every model manager attached to a zone-aware base class that automatically scoped queries to the authenticated user\'s assigned zones. Applied uniformly across all serializers and viewsets.' },
+      { q:'How did the system handle poor mobile network conditions in the field?', a:'The mobile app (separate client) queued submissions locally and retried. The API was designed idempotent — duplicate submission of a survey record (same device + property ID) was a no-op, not a duplicate record.' },
+    ],
+    links: [],
+  },
+
+  propertytax: {
+    index:  '06 — Company / Backend API',
+    title:  'Property Tax System',
+    client: 'GIS Consortium India · Municipal Client',
+    status: { cls: 'done', label: 'Delivered' },
+    tags:   ['Django','PostgreSQL','REST API','SQL Server','ORM Optimization','RBAC'],
+    overview: `The Property Tax System is the citizen-facing backend API that automated property tax calculation and collection for municipal corporations. Before this system, tax assessors manually calculated dues from paper ledgers — a process rife with inconsistency and delay.\n\nThis API computed tax dynamically: a citizen or assessor provides a property ID, and the system calculates current dues based on property type (residential, commercial, industrial), area in square feet, zone classification, usage factors, and applicable rebates. Citizens could query outstanding dues, generate receipts, and municipalities could run bulk assessments across the entire property register.\n\nThe database layer — SQL Server and PostgreSQL — was designed by Ashwani himself during his Database Developer tenure, giving him a uniquely deep understanding of the schema as he built the API layer on top of it.`,
+    stats: [
+      { n:'10+',  l:'Cities Covered' },
+      { n:'40%',  l:'Query Latency Reduction' },
+      { n:'Zero', l:'Data Loss in Production' },
+    ],
+    features: [
+      { icon:'🧮', title:'Dynamic Tax Calculation Engine', desc:'Tax computed in-database from property attributes. Multi-city support — each municipality has its own rate configuration. Zero hardcoded rates in application code.' },
+      { icon:'🧾', title:'On-demand Tax Receipts',        desc:'Citizens hit an endpoint with their property ID and get a structured JSON response with itemized dues, applicable rebates, and a receipt reference.' },
+      { icon:'📦', title:'Bulk Assessment Queries',       desc:'Municipal administrators run city-wide assessments via a single API call — 40% faster than the previous raw SQL approach after ORM optimization.' },
+      { icon:'🔐', title:'RBAC for 6 Roles',              desc:'Citizen, Property Owner, Ward Officer, Zone Admin, Municipal Admin, and Auditor — each role sees only what they\'re permitted to query or modify.' },
+      { icon:'📈', title:'ORM Query Optimization',        desc:'select_related and prefetch_related applied across all multi-join queries. Indexed columns for property zone, type, and tax year lookups. 40% latency improvement measured and documented.' },
+    ],
+    tech: [
+      { name:'Django DRF',    role:'Backend' },
+      { name:'PostgreSQL',    role:'Primary DB' },
+      { name:'SQL Server',    role:'Legacy DB' },
+      { name:'AWS EC2',       role:'Hosting' },
+      { name:'RBAC',          role:'Permissions' },
+      { name:'JWT Auth',      role:'Auth' },
+    ],
+    challenges: [
+      { q:'How do you handle different tax rates across 10+ cities in one codebase?', a:'Rate configurations stored per municipality in the database — no hardcoded rates. The calculation engine fetches the relevant rate set for the property\'s municipality at runtime. Adding a new city is a data operation, not a code change.' },
+      { q:'How was the 40% latency improvement achieved?', a:'Django Debug Toolbar profiling revealed N+1 query patterns in bulk assessment endpoints — a property queryset was triggering individual zone and rate lookups per row. select_related collapsed those into single JOINs; prefetch_related handled the one-to-many rate configs. Result measured and documented before/after.' },
+    ],
+    links: [],
+  },
+
+  employee: {
+    index:  '07 — Company / Internal Tool',
+    title:  'Employee Management System',
+    client: 'GIS Consortium India · Internal HR Tool',
+    status: { cls: 'done', label: 'Delivered' },
+    tags:   ['Django','PostgreSQL','REST API','RBAC','Milestones','Task Tracking'],
+    overview: `The Employee Management System is an internal HR and project tracking platform built for GIS Consortium's own operations. As the company grew its government project portfolio, tracking engineer assignments, milestone delivery, and performance across multiple concurrent projects became unwieldy in spreadsheets.\n\nThe system gives HR a single view of the workforce — roles, project assignments, active milestones. Managers assign task targets and weekly goals to engineers, track daily progress logs, and generate performance summaries. Engineers log their daily work via API, which feeds manager dashboards and HR reports.\n\nBuilt in Django DRF with a strict three-level RBAC model: HR (workforce-wide read + report generation), Manager (project-scoped write + task assignment), Individual Contributor (own records read/write only).`,
+    stats: [
+      { n:'3',   l:'RBAC Levels' },
+      { n:'100%', l:'Internal Adoption' },
+      { n:'0',   l:'Spreadsheets Replaced' },
+    ],
+    features: [
+      { icon:'🗓️', title:'Milestone Management',    desc:'Projects broken into milestones with due dates and completion criteria. Managers update status; HR sees live progress across all active projects.' },
+      { icon:'📝', title:'Daily Work Logs',          desc:'Engineers POST a daily log entry via API — task completed, hours, blocker notes. Managers see the log in their dashboard the same day.' },
+      { icon:'🎯', title:'Weekly Target Assignment', desc:'Managers set weekly task targets per engineer. System tracks completion percentage against target at end of week and flags underperformance.' },
+      { icon:'📊', title:'Performance Reports',      desc:'HR generates engineer performance summaries by date range — task completion rates, milestone contributions, and attendance log. Exportable as Excel.' },
+      { icon:'🔐', title:'Three-Level RBAC',         desc:'HR sees the whole company. Managers see their team only. Engineers see their own records only. Enforced at the queryset layer — not just the UI.' },
+    ],
+    tech: [
+      { name:'Django DRF',  role:'Backend' },
+      { name:'PostgreSQL',  role:'Database' },
+      { name:'JWT Auth',    role:'Auth' },
+      { name:'RBAC',        role:'Permissions' },
+      { name:'openpyxl',    role:'Excel Reports' },
+      { name:'AWS EC2',     role:'Hosting' },
+    ],
+    challenges: [
+      { q:'How do you prevent managers from accessing data outside their team?', a:'A TeamQueryset base class scopes every manager-initiated query to only the employee IDs in their project assignment list. HR role bypasses the scope. Individual contributor role restricts to request.user only. Applied as a mixin — not repeated per viewset.' },
+    ],
+    links: [],
+  },
+
+}; // end PROJECTS
+
+/* ════════════════════════════════════════════════
+   MODAL ENGINE
+   ════════════════════════════════════════════════ */
+const overlay     = document.getElementById('modal-overlay');
+const drawer      = document.getElementById('modal-drawer');
+const modalBody   = document.getElementById('modal-body');
+const modalFooter = document.getElementById('modal-footer');
+const modalStatus = document.getElementById('modal-status-strip');
+const closeBtn    = document.getElementById('modal-close');
+
+function openModal(projectKey) {
+  const p = PROJECTS[projectKey];
+  if (!p) return;
+
+  // Status strip
+  modalStatus.innerHTML = `
+    <span class="status-dot ${p.status.cls}"></span>
+    <span class="status-text ${p.status.cls}">${p.status.label}</span>
+  `;
+
+  // Tags HTML
+  const tagsHtml = p.tags.map(t => `<span class="pill">${t}</span>`).join('');
+
+  // Stats HTML
+  const statsHtml = p.stats.map(s => `
+    <div class="modal-stat">
+      <div class="modal-stat-n">${s.n}</div>
+      <div class="modal-stat-l">${s.l}</div>
+    </div>
+  `).join('');
+
+  // Features HTML
+  const featuresHtml = p.features.map(f => `
+    <div class="modal-feature">
+      <div class="modal-feature-icon" aria-hidden="true">${f.icon}</div>
+      <div class="modal-feature-body">
+        <div class="modal-feature-title">${f.title}</div>
+        <div class="modal-feature-desc">${f.desc}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Tech grid HTML
+  const techHtml = p.tech.map(t => `
+    <div class="modal-tech-item">
+      <div class="modal-tech-dot"></div>
+      <div class="modal-tech-name">${t.name}</div>
+      <div class="modal-tech-role">${t.role}</div>
+    </div>
+  `).join('');
+
+  // Challenges HTML
+  const challengesHtml = p.challenges.map(c => `
+    <div class="modal-challenge">
+      <div class="modal-challenge-q">${c.q}</div>
+      <div class="modal-challenge-a">${c.a}</div>
+    </div>
+  `).join('');
+
+  // Overview — convert \n\n to paragraphs
+  const overviewHtml = p.overview
+    .split('\n\n')
+    .map(para => `<p class="modal-overview" style="margin-bottom:14px;">${para}</p>`)
+    .join('');
+
+  // Build body
+  modalBody.innerHTML = `
+    <div class="modal-project-index">${p.index}</div>
+    <div class="modal-project-title" id="modal-title">${p.title}</div>
+    <div class="modal-project-client">${p.client}</div>
+    <div class="modal-tags">${tagsHtml}</div>
+
+    <div class="modal-divider"></div>
+
+    <div class="modal-section-label">Overview</div>
+    ${overviewHtml}
+
+    <div class="modal-divider"></div>
+
+    <div class="modal-section-label">By the Numbers</div>
+    <div class="modal-stats" style="margin-bottom:0;">${statsHtml}</div>
+
+    <div class="modal-divider"></div>
+
+    <div class="modal-section-label">Features &amp; Functionality</div>
+    <div class="modal-features">${featuresHtml}</div>
+
+    <div class="modal-divider"></div>
+
+    <div class="modal-section-label">Tech Stack</div>
+    <div class="modal-tech-grid">${techHtml}</div>
+
+    ${p.challenges.length ? `
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">Engineering Decisions</div>
+    <div class="modal-challenges">${challengesHtml}</div>
+    ` : ''}
+  `;
+
+  // Footer links
+  if (p.links.length) {
+    modalFooter.style.display = '';
+    modalFooter.innerHTML = p.links.map(l => `
+      <a href="${l.href}" class="proj-link ${l.style}"
+         ${l.external ? 'target="_blank" rel="noopener"' : ''}>
+        ${l.label}
+      </a>
+    `).join('') + `<button class="proj-link secondary" onclick="closeModal()">Close</button>`;
+  } else {
+    modalFooter.style.display = '';
+    modalFooter.innerHTML = `<button class="proj-link secondary" onclick="closeModal()">Close</button>`;
+  }
+
+  overlay.classList.add('open');
+  drawer.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+  closeBtn.focus();
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on overlay click (outside drawer)
+overlay.addEventListener('click', e => {
+  if (e.target === overlay) closeModal();
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+});
+
+closeBtn.addEventListener('click', closeModal);
+
+// Wire up all detail buttons
+document.querySelectorAll('.detail-btn').forEach(btn => {
+  btn.addEventListener('click', () => openModal(btn.dataset.project));
+});
+
+/* ════════════════════════════════════════════════
+   FILTER LOGIC
+   ════════════════════════════════════════════════ */
+const filterBtns  = document.querySelectorAll('.filter-btn');
 const projectItems = document.querySelectorAll('[data-tags]');
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     filterBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-
     const filter = btn.dataset.filter;
     projectItems.forEach(item => {
       const tags = item.dataset.tags || '';
       const show = filter === 'all' || tags.includes(filter);
-      item.style.opacity    = show ? '1' : '0.2';
-      item.style.transform  = show ? '' : 'scale(0.98)';
+      item.style.opacity     = show ? '1' : '0.2';
+      item.style.transform   = show ? ''  : 'scale(0.98)';
       item.style.pointerEvents = show ? '' : 'none';
-      item.style.transition = 'opacity .3s, transform .3s';
+      item.style.transition  = 'opacity .3s, transform .3s';
     });
   });
 });

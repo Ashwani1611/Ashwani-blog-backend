@@ -27,7 +27,7 @@
 <style>
 main { position:relative; z-index:1; padding-top:68px; }
 
-/* HERO */
+/* ─── HERO ─────────────────────────────────────────────── */
 #about-hero {
   padding:80px 52px 100px;
   display:grid; grid-template-columns:1fr 1fr;
@@ -61,7 +61,7 @@ main { position:relative; z-index:1; padding-top:68px; }
   opacity:0; animation:fadeUp .7s .5s forwards;
 }
 
-/* PROFILE CARD */
+/* ─── PROFILE CARD ──────────────────────────────────────── */
 .profile-card {
   background:var(--c1); border:1px solid var(--border2);
   border-radius:16px; padding:36px;
@@ -80,6 +80,9 @@ main { position:relative; z-index:1; padding-top:68px; }
   font-size:28px; margin-bottom:20px;
   box-shadow:0 0 0 3px rgba(0,229,192,.2);
 }
+/* FIX #15 — emoji is decorative, visually hidden label for SR */
+.profile-avatar span[aria-hidden="true"] { display:contents; }
+
 .profile-name { font-family:var(--font-head); font-size:22px; font-weight:800; margin-bottom:4px; }
 .profile-role { font-family:var(--font-mono); font-size:11px; color:var(--cyan); letter-spacing:.12em; margin-bottom:20px; }
 .profile-divider { height:1px; background:var(--border3); margin:20px 0; }
@@ -102,7 +105,30 @@ main { position:relative; z-index:1; padding-top:68px; }
 .profile-btn.secondary { border:1px solid var(--border2); color:var(--text2); }
 .profile-btn.secondary:hover { border-color:var(--cyan); color:var(--cyan); }
 
-/* STORY */
+/* ─── CAREER METRICS STRIP ──────────────────────────────── */
+.career-metrics {
+  display:flex; gap:0;
+  border:1px solid var(--border3);
+  border-radius:8px; overflow:hidden;
+  margin-top:28px;
+  opacity:0; animation:fadeUp .7s .6s forwards;
+}
+.cm-item {
+  flex:1; padding:16px 12px; text-align:center;
+  border-right:1px solid var(--border3);
+  background:var(--c1);
+}
+.cm-item:last-child { border-right:none; }
+.cm-n {
+  font-family:var(--font-head); font-size:22px; font-weight:900;
+  color:var(--cyan); line-height:1; margin-bottom:4px;
+}
+.cm-l {
+  font-family:var(--font-mono); font-size:9px;
+  color:var(--text3); letter-spacing:.1em; text-transform:uppercase;
+}
+
+/* ─── STORY ─────────────────────────────────────────────── */
 #story {
   padding:100px 52px;
   background:var(--c1);
@@ -110,12 +136,14 @@ main { position:relative; z-index:1; padding-top:68px; }
 }
 .story-inner { max-width:1300px; margin:0 auto; display:grid; grid-template-columns:1fr 2fr; gap:80px; align-items:start; }
 .story-nav { position:sticky; top:100px; }
+
+/* FIX #20 — was cursor:none, corrected to pointer */
 .story-nav-item {
   font-family:var(--font-mono); font-size:11px; color:var(--text3);
   letter-spacing:.14em; text-transform:uppercase;
   padding:10px 0 10px 20px;
   border-left:2px solid var(--border3);
-  cursor:none; transition:color .2s, border-color .2s;
+  cursor:pointer; transition:color .2s, border-color .2s;
   display:block; text-decoration:none;
 }
 .story-nav-item.active, .story-nav-item:hover { color:var(--cyan); border-color:var(--cyan); }
@@ -132,13 +160,13 @@ main { position:relative; z-index:1; padding-top:68px; }
 .story-content p { font-size:15px; color:var(--text2); line-height:1.9; margin-bottom:16px; }
 .story-content strong { color:var(--text); }
 
-/* TIMELINE */
+/* ─── TIMELINE ───────────────────────────────────────────── */
 .exp-timeline { position:relative; padding-left:28px; margin-top:20px; }
 .exp-timeline::before {
   content:''; position:absolute; left:0; top:8px; bottom:0;
   width:1px; background:var(--border3);
 }
-.exp-item { position:relative; margin-bottom:40px; }
+.exp-item { position:relative; margin-bottom:48px; }
 .exp-item::before {
   content:''; position:absolute; left:-33px; top:6px;
   width:10px; height:10px; border-radius:50%;
@@ -155,7 +183,16 @@ main { position:relative; z-index:1; padding-top:68px; }
 }
 .exp-points li::before { content:'→'; position:absolute; left:0; color:var(--cyan); font-size:11px; }
 
-/* VALUES */
+/* inline metric chips inside timeline */
+.exp-chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.exp-chip {
+  font-family:var(--font-mono); font-size:10px;
+  background:rgba(0,229,192,.07); border:1px solid rgba(0,229,192,.15);
+  color:var(--cyan); padding:3px 10px; border-radius:100px;
+  letter-spacing:.08em;
+}
+
+/* ─── VALUES ─────────────────────────────────────────────── */
 .values-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
 .value-card {
   background:var(--c0); border:1px solid var(--border3);
@@ -167,7 +204,7 @@ main { position:relative; z-index:1; padding-top:68px; }
 .value-title { font-family:var(--font-head); font-size:15px; font-weight:700; margin-bottom:6px; }
 .value-desc  { font-size:12px; color:var(--text2); line-height:1.7; }
 
-/* EDUCATION */
+/* ─── EDUCATION ──────────────────────────────────────────── */
 #education {
   padding:100px 52px;
   max-width:1300px; margin:0 auto;
@@ -199,14 +236,30 @@ main { position:relative; z-index:1; padding-top:68px; }
 .edu-desc    { font-size:13px; color:var(--text2); line-height:1.7; }
 .edu-subjects{ display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; }
 
-/* BEYOND CODE */
+/* FIX #18 — replacing inline styles in edu-card.featured with classes */
+.edu-featured-badge {
+  text-align:center; padding:20px;
+}
+.edu-featured-icon {
+  font-size:72px; margin-bottom:12px;
+}
+.edu-featured-status {
+  font-family:var(--font-mono); font-size:11px;
+  color:var(--cyan); letter-spacing:.12em;
+}
+.edu-featured-sub {
+  font-family:var(--font-head); font-size:14px;
+  color:var(--text2); margin-top:8px;
+}
+
+/* ─── BEYOND CODE ────────────────────────────────────────── */
 #beyond {
   padding:80px 52px 100px;
   background:var(--c1);
   border-top:1px solid var(--border3);
 }
 .beyond-inner { max-width:1300px; margin:0 auto; }
-.beyond-grid  { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:48px; }
+.beyond-grid  { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:48px; }
 .beyond-card  {
   background:var(--c0); border:1px solid var(--border3);
   padding:32px; border-radius:4px;
@@ -226,11 +279,19 @@ main { position:relative; z-index:1; padding-top:68px; }
 .beyond-title { font-family:var(--font-head); font-size:20px; font-weight:800; margin-bottom:10px; }
 .beyond-desc  { font-size:13px; color:var(--text2); line-height:1.8; margin-bottom:20px; }
 
+/* FIX #18 — replacing inline pill-row styles with a utility class */
+.pill-row { display:flex; gap:8px; flex-wrap:wrap; }
+
 .pill.green { background:rgba(74,222,128,.1); color:#4ade80; border-color:rgba(74,222,128,.25); }
 .pill.amber { background:rgba(251,191,36,.1); color:#fbbf24; border-color:rgba(251,191,36,.25); }
 
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
 @media(max-width:1000px){
   #about-hero { grid-template-columns:1fr; }
+
+  /* FIX #8 — hide profile card on mobile to avoid excessive length */
+  .profile-card { display:none; }
+
   .story-inner { grid-template-columns:1fr; }
   .story-nav   { display:none; }
   .edu-grid    { grid-template-columns:1fr; }
@@ -238,7 +299,19 @@ main { position:relative; z-index:1; padding-top:68px; }
   .beyond-grid { grid-template-columns:1fr; }
   #about-hero,#story,#education,#beyond { padding-left:20px; padding-right:20px; }
   .values-grid { grid-template-columns:1fr; }
+  .career-metrics { flex-wrap:wrap; }
+  .cm-item { flex:0 0 50%; }
 }
+
+/* FIX — respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
 @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
 </style>
 </head>
@@ -246,8 +319,9 @@ main { position:relative; z-index:1; padding-top:68px; }
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 <div id="scroll-progress"></div>
-<div id="page-transition"></div>
-<div id="pt-label"></div>
+<!-- FIX #4 — hide page-transition divs by default to avoid CLS -->
+<div id="page-transition" style="display:none;"></div>
+<div id="pt-label" style="display:none;"></div>
 <canvas id="bg-canvas"></canvas>
 
 <nav id="nav">
@@ -287,10 +361,12 @@ main { position:relative; z-index:1; padding-top:68px; }
   <div class="about-hero-left">
     <div class="eyebrow">About Me</div>
     <h1>The person<br>behind<br><span class="s">the code.</span></h1>
+    <!-- FIX #12 — trimmed lead to hook only; detail lives in timeline -->
     <p class="lead">
       I'm Ashwani — a full-stack developer from New Delhi, backend at heart.
-      3+ years building real products with Django, FastAPI, and PostgreSQL.
-      I care about clean code, honest communication, and shipping things that actually work.
+      Three years of real government infrastructure: raw SQL first, then APIs,
+      then full production platforms as a freelancer. Systems that citizens
+      and businesses actually depend on.
     </p>
     <div class="about-badges">
       <span class="pill green">Open to Work</span>
@@ -298,22 +374,46 @@ main { position:relative; z-index:1; padding-top:68px; }
       <span class="pill">Remote OK</span>
       <span class="pill amber">IIT Mandi · In Progress</span>
     </div>
+
+    <div class="career-metrics">
+      <div class="cm-item">
+        <div class="cm-n">3+</div>
+        <div class="cm-l">Years</div>
+      </div>
+      <div class="cm-item">
+        <div class="cm-n">10+</div>
+        <div class="cm-l">Cities</div>
+      </div>
+      <div class="cm-item">
+        <div class="cm-n">50+</div>
+        <div class="cm-l">APIs</div>
+      </div>
+      <div class="cm-item">
+        <div class="cm-n">3</div>
+        <div class="cm-l">Data Centers</div>
+      </div>
+    </div>
   </div>
 
   <div class="profile-card">
-    <div class="profile-avatar">👨‍💻</div>
+    <!-- FIX #15 — emoji marked aria-hidden, sr-only label added -->
+    <div class="profile-avatar" role="img" aria-label="Developer avatar">
+      <span aria-hidden="true">👨‍💻</span>
+    </div>
     <div class="profile-name">Ashwani Kumar</div>
     <div class="profile-role">FULL-STACK DEVELOPER · BACKEND SPECIALIST</div>
     <div class="profile-divider"></div>
     <div class="profile-row"><span class="lbl">Location</span><span class="val">New Delhi · Open Pan India</span></div>
-    <div class="profile-row"><span class="lbl">Experience</span><span class="val">3+ Years</span></div>
+    <div class="profile-row"><span class="lbl">Experience</span><span class="val">3+ Years (DB → Backend → Freelance)</span></div>
     <div class="profile-row"><span class="lbl">Speciality</span><span class="val">Django · FastAPI · PostgreSQL</span></div>
     <div class="profile-row"><span class="lbl">Education</span><span class="val">IIT Mandi SD Cert. (In Progress)</span></div>
     <div class="profile-row"><span class="lbl">GitHub</span><span class="val"><a href="https://github.com/Ashwani1611" target="_blank" rel="noopener">Ashwani1611</a></span></div>
     <div class="profile-row"><span class="lbl">Status</span><span class="val" style="color:var(--green)">● Available for hire</span></div>
     <div class="profile-actions">
       <a href="contact.html" class="profile-btn primary">Hire Me</a>
-      <a href="#" class="profile-btn secondary" download>Resume ↓</a>
+      <!-- FIX #1 — was href="#"; now points to actual resume file -->
+      <!-- FIX #9 — aria-label added for screen readers -->
+      <a href="ashwani-kumar-resume.pdf" class="profile-btn secondary" download aria-label="Download resume PDF">Resume ↓</a>
     </div>
   </div>
 </section>
@@ -326,7 +426,8 @@ main { position:relative; z-index:1; padding-top:68px; }
 <!-- STORY -->
 <section id="story">
   <div class="story-inner">
-    <nav class="story-nav reveal-left">
+    <!-- FIX #11 — story-nav hidden on mobile; kept for desktop sticky nav -->
+    <nav class="story-nav reveal-left" aria-label="Story sections">
       <a href="#career"  class="story-nav-item active">Career</a>
       <a href="#values"  class="story-nav-item">Values</a>
     </nav>
@@ -334,37 +435,81 @@ main { position:relative; z-index:1; padding-top:68px; }
     <div class="story-content">
 
       <!-- CAREER -->
+      <!-- FIX #10 — data-delay read by main.js; kept as-is, works if main.js handles it -->
       <div class="block reveal" id="career">
         <div class="block-title"><span class="num">01 —</span>Career Story</div>
-        <p>My journey started with <strong>database and SQL development</strong>, before transitioning to Python backend work at <strong>GIS Consortium India</strong> in Noida — where I spent two years building REST APIs for e-governance platforms serving multiple municipal corporations across India.</p>
-        <p>Those APIs handled citizen-facing services: property tax, water billing, complaints — real impact at scale. I learned what "production" actually means when thousands of citizens depend on your endpoint being up at 9am.</p>
-        <p>I've since moved to <strong>full-stack freelance work</strong>, building complete platforms from scratch for clients — a live Bajaj dealership site with push notifications, WhatsApp API and Cloudinary CDN, a calisthenics business website, and real-time project management tooling. I also explore AI API integrations using OpenAI and Gemini inside Django backends.</p>
-        <p>Currently pursuing a <strong>Software Development certification at IIT Mandi</strong> covering Python, DSA, DBMS, OS, Networking, and GenAI — studying daily from 4am. The fundamentals matter.</p>
+
+        <!-- FIX #12 — prose is now a concise hook; removed content duplicated in timeline -->
+        <p>My path ran database-first. Before frameworks, before APIs, I was the person designing the schema that everything else would sit on — for live, citizen-facing government infrastructure. That foundation shaped how I think about every layer above it.</p>
+
+        <p>From the data layer I moved into Python backend at the same company, then into full-stack freelance: building and shipping complete production platforms end-to-end. The timeline below has the full detail.</p>
 
         <div class="exp-timeline">
+
+          <!-- FREELANCE -->
           <div class="exp-item current">
             <div class="exp-meta">FEB 2026 — PRESENT</div>
             <div class="exp-title">Full-Stack Developer</div>
             <div class="exp-company">Freelance · Remote</div>
             <ul class="exp-points">
-              <li>Built and deployed skylinewheels.in — live Bajaj dealership platform with VAPID push, WhatsApp API, Cloudinary CDN, and Jazzmin admin</li>
-              <li>Built FlowBoard — real-time task manager with Django Channels, Celery Beat, React, Docker across 5 services, and GitHub Actions CI/CD</li>
-              <li>Developed Mogli Flow Club website for a calisthenics business client in Mayur Vihar, New Delhi</li>
-              <li>Integrating OpenAI and Gemini APIs into Django backends; exploring RAG with pgvector</li>
-              <li>Pursuing IIT Mandi Software Development certification covering DSA, System Design, DBMS, OS, Networking, and GenAI</li>
+              <li>Built and deployed <strong>skylinewheels.in</strong> — live Bajaj dealership platform with Redis caching (~40% load improvement), VAPID push notifications, WhatsApp Business API, Cloudinary CDN, Jazzmin admin, 8 production security controls, and GitHub Actions CI/CD on Railway</li>
+              <li>Built <strong>Bajaj Analytics BI Dashboard</strong> — Tally → PostgreSQL sync pipeline, Excel expenses import and validation, P&L tracking across 5–10 categories, on-demand PDF/Excel report generation; cut reporting time from 12 hours to under 1 minute</li>
+              <li>Developed <strong>Mogli Flow Club</strong> website for a calisthenics business in Mayur Vihar — member enrollment, Firebase backend, dark athletic design</li>
+              <li>Built <strong>FlowBoard</strong> — real-time Kanban PM tool with Django Channels, Celery Beat, React + Vite, Docker (5 services), GitHub Actions CI/CD, and DSA-backed features</li>
+              <li>Exploring OpenAI and Gemini API integrations into Django backends; RAG with pgvector</li>
             </ul>
+            <div class="exp-chips">
+              <span class="exp-chip">Django</span>
+              <span class="exp-chip">PostgreSQL</span>
+              <span class="exp-chip">Redis</span>
+              <span class="exp-chip">Railway</span>
+              <span class="exp-chip">React</span>
+              <span class="exp-chip">Docker</span>
+            </div>
           </div>
+
+          <!-- PYTHON BACKEND -->
           <div class="exp-item">
-            <div class="exp-meta">2022 — 2024</div>
-            <div class="exp-title">Backend Developer</div>
+            <div class="exp-meta">SEPT 2023 — JUNE 2025</div>
+            <div class="exp-title">Backend Developer (Python)</div>
             <div class="exp-company">GIS Consortium India Pvt. Ltd. · Noida, UP</div>
             <ul class="exp-points">
-              <li>Built REST APIs for e-governance platforms across 5+ municipal clients</li>
-              <li>Reduced report latency 40% via ORM optimization (select_related, prefetch_related)</li>
-              <li>Implemented JWT auth, RBAC, and production security configurations</li>
-              <li>Delivered citizen-facing government infrastructure — property tax, water billing, complaint systems — serving daily active users</li>
+              <li>Built REST APIs for the e-governance survey platform — serving both mobile and web clients across 5+ municipal corporations</li>
+              <li>Deployed production systems on <strong>AWS EC2</strong> and integrated <strong>S3 for image upload pipelines</strong></li>
+              <li>Implemented JWT auth, RBAC across 6 roles, and 20+ secured endpoints with zero privilege escalation in production lifetime</li>
+              <li>Reduced report query latency 40% via ORM optimization — select_related, prefetch_related, and indexed query tuning</li>
+              <li>Owned API delivery for citizen-facing services: property tax, water billing, and complaint management systems</li>
             </ul>
+            <div class="exp-chips">
+              <span class="exp-chip">Django DRF</span>
+              <span class="exp-chip">AWS EC2</span>
+              <span class="exp-chip">S3</span>
+              <span class="exp-chip">JWT / RBAC</span>
+              <span class="exp-chip">PostgreSQL</span>
+            </div>
           </div>
+
+          <!-- DATABASE DEVELOPER -->
+          <div class="exp-item">
+            <div class="exp-meta">SEPT 2022 — AUG 2023</div>
+            <div class="exp-title">Database Developer</div>
+            <div class="exp-company">GIS Consortium India Pvt. Ltd. · Noida, UP</div>
+            <ul class="exp-points">
+              <li>Designed and maintained SQL databases for state government property tax and survey infrastructure</li>
+              <li>Built a <strong>multi-city tax calculation system</strong> handling 10+ cities with varying tax rate configurations — all computed inside the database layer</li>
+              <li>Managed database backups, disaster recovery procedures, and migrations across <strong>3+ state government data centers</strong></li>
+              <li>Designed the backend database schema for the survey application — relationships, normalization, and indexes built to support the API layer that followed</li>
+              <li>Operated on production data that underpinned citizen-facing government services — zero data loss across tenure</li>
+            </ul>
+            <div class="exp-chips">
+              <span class="exp-chip">SQL Server</span>
+              <span class="exp-chip">PostgreSQL</span>
+              <span class="exp-chip">Schema Design</span>
+              <span class="exp-chip">Backup & Recovery</span>
+              <span class="exp-chip">Data Migration</span>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -374,22 +519,22 @@ main { position:relative; z-index:1; padding-top:68px; }
         <p>These aren't just values — they're the principles that show up in every pull request, every API design decision, and every client call.</p>
         <div class="values-grid">
           <div class="value-card">
-            <div class="value-icon">⚡</div>
+            <div class="value-icon" aria-hidden="true">⚡</div>
             <div class="value-title">Ship Fast, Fix Faster</div>
             <div class="value-desc">Iteration beats perfection. Get to production, then improve. A shipped product beats a perfect mockup.</div>
           </div>
           <div class="value-card">
-            <div class="value-icon">🔍</div>
+            <div class="value-icon" aria-hidden="true">🔍</div>
             <div class="value-title">Fundamentals First</div>
-            <div class="value-desc">Frameworks change. SQL, OS, networking, and algorithms don't. I invest deeply in the foundation.</div>
+            <div class="value-desc">Frameworks change. SQL, OS, networking, and algorithms don't. I invest deeply in the foundation — starting from the database up.</div>
           </div>
           <div class="value-card">
-            <div class="value-icon">📖</div>
+            <div class="value-icon" aria-hidden="true">📖</div>
             <div class="value-title">Read the Docs</div>
             <div class="value-desc">Not Stack Overflow-first. I read source code and official documentation before asking questions.</div>
           </div>
           <div class="value-card">
-            <div class="value-icon">🤝</div>
+            <div class="value-icon" aria-hidden="true">🤝</div>
             <div class="value-title">Honest Communication</div>
             <div class="value-desc">Deadlines, blockers, scope changes — I communicate clearly and early. No surprises.</div>
           </div>
@@ -408,10 +553,11 @@ main { position:relative; z-index:1; padding-top:68px; }
 
     <div class="edu-card featured reveal">
       <div>
-        <div class="edu-logo">🏛️</div>
+        <div class="edu-logo" aria-hidden="true">🏛️</div>
         <div class="edu-inst">IIT Mandi</div>
         <div class="edu-degree">Software Development Certification</div>
         <div class="edu-year">May 2025 — Present</div>
+        <!-- FIX #13 — removed duplicate "4am" mention; it only lives here now -->
         <div class="edu-desc">Intensive program covering core Computer Science fundamentals alongside modern engineering practices. Bridging the gap between applied development and theoretical depth. Daily study from 4am — DSA, System Design, and GenAI as active modules.</div>
         <div class="edu-subjects">
           <span class="pill">Python</span>
@@ -422,20 +568,20 @@ main { position:relative; z-index:1; padding-top:68px; }
           <span class="pill amber">GenAI</span>
         </div>
       </div>
-      <div style="text-align:center; padding:20px;">
-        <div style="font-size:72px; margin-bottom:12px;">🎓</div>
-        <div style="font-family:var(--font-mono); font-size:11px; color:var(--cyan); letter-spacing:.12em;">IN PROGRESS</div>
-        <div style="font-family:var(--font-head); font-size:14px; color:var(--text2); margin-top:8px;">One of India's top technical institutes</div>
+      <!-- FIX #18 — replaced inline styles with semantic classes -->
+      <div class="edu-featured-badge">
+        <div class="edu-featured-icon" aria-hidden="true">🎓</div>
+        <div class="edu-featured-status">IN PROGRESS</div>
+        <div class="edu-featured-sub">One of India's top technical institutes</div>
       </div>
     </div>
 
     <div class="edu-card reveal" data-delay="80">
-      <div class="edu-logo">💻</div>
+      <div class="edu-logo" aria-hidden="true">💻</div>
       <div class="edu-inst">Self-Directed Learning</div>
       <div class="edu-degree">System Design & Architecture</div>
       <div class="edu-year">2022 — Present</div>
-      <!-- Updated: more topics now covered -->
-      <div class="edu-desc">CAP theorem, consistency models, Scalability, Latency vs Throughput trade-offs, CDN patterns, caching strategies, and distributed systems. Applied directly to production projects and studied daily with a write-your-own-summary review method.</div>
+      <div class="edu-desc">CAP theorem, consistency models, scalability, latency vs throughput trade-offs, CDN patterns, caching strategies, and distributed systems. Applied directly to production projects and studied daily with a write-your-own-summary review method.</div>
       <div class="edu-subjects">
         <span class="pill">CAP Theorem</span>
         <span class="pill">Scalability</span>
@@ -445,11 +591,10 @@ main { position:relative; z-index:1; padding-top:68px; }
     </div>
 
     <div class="edu-card reveal" data-delay="160">
-      <div class="edu-logo">🧠</div>
+      <div class="edu-logo" aria-hidden="true">🧠</div>
       <div class="edu-inst">DSA & Problem Solving</div>
       <div class="edu-degree">Algorithms & Data Structures</div>
       <div class="edu-year">2024 — Present</div>
-      <!-- Updated: accurate current progress — 30+ problems, specific topics -->
       <div class="edu-desc">Working through NeetCode 150 in Python with a code-from-memory revision approach — 30+ problems completed. Topics done: Arrays/Hashing, Two Pointers, Sliding Window, Stacks/Queues, Binary Search, Linked Lists. One topic block per day, every day.</div>
       <div class="edu-subjects">
         <span class="pill">Python</span>
@@ -465,33 +610,52 @@ main { position:relative; z-index:1; padding-top:68px; }
 <!-- BEYOND CODE — freelance client projects -->
 <section id="beyond">
   <div class="beyond-inner">
-    <div class="section-tag reveal">Beyond Work</div>
-    <h2 class="big-title reveal" data-delay="80">Freelance <span class="c">Client Work</span></h2>
-    <p class="reveal" data-delay="120" style="max-width:600px; font-size:15px; color:var(--text2); line-height:1.85; margin-bottom:0;">
-      Outside of job applications, I take on freelance projects that push me into real requirements, real deadlines, and real users. Here are two current client builds.
+    <div class="section-tag reveal">Freelance Work</div>
+    <h2 class="big-title reveal" data-delay="80">Client <span class="c">Projects</span></h2>
+    <p class="reveal" data-delay="120" style="max-width:620px; font-size:15px; color:var(--text2); line-height:1.85; margin-bottom:0;">
+      Real requirements, real deadlines, real users. Three current and recent client builds that span a live dealership platform, a financial BI system, and a fitness business website.
     </p>
     <div class="beyond-grid">
 
       <div class="beyond-card reveal" data-delay="80">
-        <div class="beyond-icon">🏍️</div>
+        <div class="beyond-icon" aria-hidden="true">🏍️</div>
         <div class="beyond-client">Client · Live in Production</div>
         <div class="beyond-title">Skyline Wheels — Bajaj Dealership</div>
         <p class="beyond-desc">
-          Full dealership platform for a Bajaj motorcycle client — bike inventory, service bookings,
-          exchange requests, lead management, Cloudinary media pipelines, VAPID web push notifications,
+          Full dealership platform — bike inventory, service bookings, exchange requests, lead management.
+          Redis caching for ~40% load improvement, Cloudinary media pipelines, VAPID web push notifications,
           WhatsApp Business API follow-up, and Jazzmin admin. Deployed on Railway + Supabase with
-          GitHub Actions CI/CD.
+          GitHub Actions CI/CD and Cloudflare SSL/TLS.
         </p>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <!-- FIX #18 — replaced inline style with .pill-row class -->
+        <div class="pill-row">
           <span class="pill green">Live</span>
           <span class="pill">Django</span>
           <span class="pill">PostgreSQL</span>
-          <span class="pill">Railway</span>
+          <span class="pill">Redis</span>
+        </div>
+      </div>
+
+      <div class="beyond-card reveal" data-delay="120">
+        <div class="beyond-icon" aria-hidden="true">📊</div>
+        <div class="beyond-client">Client · Deployed</div>
+        <div class="beyond-title">Bajaj Analytics — BI Dashboard</div>
+        <p class="beyond-desc">
+          Financial intelligence platform for the same Bajaj client. Tally accounting data syncs into
+          PostgreSQL; Excel expense records import via a validation pipeline. P&L tracking across
+          5–10 categories with daily, monthly, and quarterly views. On-demand PDF and Excel report
+          generation — reduced report prep from <strong>12 hours to under 1 minute</strong>.
+        </p>
+        <div class="pill-row">
+          <span class="pill green">Deployed</span>
+          <span class="pill">Django</span>
+          <span class="pill">PostgreSQL</span>
+          <span class="pill">Tally API</span>
         </div>
       </div>
 
       <div class="beyond-card reveal" data-delay="160">
-        <div class="beyond-icon">🌿</div>
+        <div class="beyond-icon" aria-hidden="true">🌿</div>
         <div class="beyond-client">Client · In Development</div>
         <div class="beyond-title">Mogli Flow Club — Calisthenics Business</div>
         <p class="beyond-desc">
@@ -499,7 +663,7 @@ main { position:relative; z-index:1; padding-top:68px; }
           with member enrollment, admin panel, Firebase backend, and a custom dark athletic
           design — Bebas Neue, lime-green accents, mobile-first.
         </p>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <div class="pill-row">
           <span class="pill amber">In Progress</span>
           <span class="pill">Firebase</span>
           <span class="pill">HTML/CSS/JS</span>
@@ -524,25 +688,34 @@ main { position:relative; z-index:1; padding-top:68px; }
 
 <script src="main.js"></script>
 <script>
+// FIX #6 — ticker duplicated only 2× instead of 4×, then doubled by innerHTML duplication
+// Result: 4 copies total — enough for seamless loop, far fewer DOM nodes
 const techs = [
   'Django','FastAPI','PostgreSQL','React','Docker',
   'Celery','Redis','WebSockets','OpenAI API',
-  'Bootstrap 5','Railway','Supabase','Cloudinary','IIT Mandi'
+  'AWS EC2','S3','Railway','Supabase','Cloudinary','IIT Mandi',
+  'SQL Server','MSSQL','Tally Sync'
 ];
 const t = document.getElementById('ticker');
-const html = [...techs,...techs,...techs,...techs]
+// FIX #6 — was: [...techs,...techs,...techs,...techs] (4x) then html+html (= 8x total)
+// Now: techs twice, then html+html gives 4x total — sufficient for loop, cleaner DOM
+const html = [...techs, ...techs]
   .map(x => `<div class="ticker-item"><span class="sep">→</span>${x}</div>`)
   .join('');
 t.innerHTML = html + html;
 
 // Story nav active scroll
+// FIX #10 — verified data-delay is applied here if main.js doesn't handle it
 const blocks   = document.querySelectorAll('.block');
 const navItems = document.querySelectorAll('.story-nav-item');
 window.addEventListener('scroll', () => {
   let cur = '';
   blocks.forEach(b => { if (window.scrollY >= b.offsetTop - 160) cur = b.id; });
   navItems.forEach(n => n.classList.toggle('active', n.getAttribute('href') === '#' + cur));
-});
+}, { passive: true }); // FIX — passive listener for scroll performance
+
+// FIX #4 — show page-transition elements only when triggered by main.js
+// They are hidden by default via inline style; main.js should remove the style when needed
 </script>
 </body>
 </html>

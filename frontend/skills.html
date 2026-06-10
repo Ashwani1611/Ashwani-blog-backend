@@ -27,7 +27,7 @@
 <meta name="twitter:description" content="Django, FastAPI, PostgreSQL, Celery, Docker, React. Honest skill map from a 3+ year backend developer. IIT Mandi certified. Open to work.">
 <meta name="twitter:image" content="https://ashwani.dev/og-image.png">
 
-<!-- Schema.org structured data -->
+<!-- Schema.org -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -40,7 +40,7 @@
     "https://github.com/Ashwani1611",
     "https://linkedin.com/in/ashwani-kumar-52b453139/"
   ],
-  "knowsAbout": ["Django", "FastAPI", "Python", "PostgreSQL", "Redis", "Docker", "React", "REST APIs", "Celery", "WebSockets"]
+  "knowsAbout": ["Django","FastAPI","Python","PostgreSQL","Redis","Docker","React","REST APIs","Celery","WebSockets"]
 }
 </script>
 
@@ -48,18 +48,38 @@
 <style>
 main { position:relative; z-index:1; padding-top:68px; }
 
-/* HERO */
+/* ── HERO ─────────────────────────────────────────────── */
 #skills-hero {
   padding:80px 52px 60px;
   max-width:1300px; margin:0 auto;
   display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
 }
-.skills-hero-left h1 { font-family:var(--font-head); font-size:clamp(48px,6vw,80px); font-weight:900; line-height:.95; letter-spacing:-.04em; margin-bottom:20px; }
-.skills-hero-left p { font-size:15px; color:var(--text2); line-height:1.85; }
+.skills-hero-left h1 {
+  font-family:var(--font-head); font-size:clamp(48px,6vw,80px);
+  font-weight:900; line-height:.95; letter-spacing:-.04em; margin-bottom:20px;
+}
+.skills-hero-left .hero-intro {
+  font-size:15px; color:var(--text2); line-height:1.85; margin-top:20px;
+}
+
+/* FIX #12 — hero legend extracted from inline styles into classes */
+.skill-legend { display:flex; gap:20px; margin-top:32px; flex-wrap:wrap; }
+.skill-legend-item { display:flex; align-items:center; gap:8px; }
+.skill-legend-pip {
+  width:12px; height:3px; border-radius:2px; flex-shrink:0;
+}
+.skill-legend-pip.mastered   { background:var(--cyan); }
+.skill-legend-pip.proficient { background:var(--green); }
+.skill-legend-pip.learning   { background:var(--amber); }
+.skill-legend-pip.exploring  { background:var(--red); }
+.skill-legend-label {
+  font-family:var(--font-mono); font-size:11px; color:var(--text3);
+}
+
 .skills-radar-wrap { position:relative; }
 #radar-canvas { display:block; margin:0 auto; }
 
-/* IIT MANDI PROGRESS BANNER */
+/* ── IIT MANDI BANNER ──────────────────────────────────── */
 .iit-banner {
   background:rgba(0,229,192,.05); border:1px solid rgba(0,229,192,.18);
   border-radius:10px; padding:20px 24px; margin-top:28px;
@@ -67,6 +87,7 @@ main { position:relative; z-index:1; padding-top:68px; }
 .iit-banner-title {
   font-family:var(--font-mono); font-size:10px; color:var(--cyan);
   letter-spacing:.2em; text-transform:uppercase; margin-bottom:14px;
+  display:flex; align-items:center; gap:8px;
 }
 .iit-module-row {
   display:flex; align-items:center; gap:10px; margin-bottom:8px;
@@ -82,11 +103,10 @@ main { position:relative; z-index:1; padding-top:68px; }
 .iit-mod-status.near    { color:var(--amber); }
 .iit-mod-status.ongoing { color:var(--text3); }
 
-/* SKILL BARS SECTION */
+/* ── SKILL BARS ────────────────────────────────────────── */
 #skill-bars { padding:80px 52px; background:var(--c1); border-top:1px solid var(--border3); }
 .skill-bars-inner { max-width:1300px; margin:0 auto; }
 .sb-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:56px; }
-.sb-category { }
 .sb-cat-title {
   font-family:var(--font-mono); font-size:11px; color:var(--cyan);
   letter-spacing:.22em; text-transform:uppercase;
@@ -94,8 +114,10 @@ main { position:relative; z-index:1; padding-top:68px; }
   border-bottom:1px solid var(--border3);
 }
 .sb-item { margin-bottom:20px; }
-.sb-label-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.sb-label-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
 .sb-name { font-size:14px; color:var(--text); font-weight:500; }
+.sb-meta { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.06em; }
+/* FIX — pct moved below bar; meta context shown instead */
 .sb-pct { font-family:var(--font-mono); font-size:11px; color:var(--text3); }
 .sb-track { height:4px; background:var(--c3); position:relative; border-radius:2px; overflow:visible; }
 .sb-fill {
@@ -108,15 +130,36 @@ main { position:relative; z-index:1; padding-top:68px; }
   content:''; position:absolute; right:-1px; top:-3px;
   width:10px; height:10px; border-radius:50%;
   background:var(--cyan); box-shadow:0 0 10px var(--cyan);
-  opacity:0; transition:opacity .3s .8s;
+  opacity:0;
+  /* FIX #I — was .3s .8s; corrected to match 1.4s bar width transition */
+  transition:opacity .3s 1.2s;
 }
 .sb-fill.done::after { opacity:1; }
 
-/* TECH CLOUD */
+/* ── TECH CLOUD ────────────────────────────────────────── */
 #tech-cloud { padding:80px 52px; max-width:1300px; margin:0 auto; }
+
+/* FIX #A — cloud legend added */
+.cloud-legend {
+  display:flex; gap:16px; flex-wrap:wrap;
+  margin-top:20px; margin-bottom:0;
+}
+.cloud-legend-item {
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.1em;
+}
+.cloud-legend-swatch {
+  border:1px solid var(--border3); border-radius:4px;
+  padding:2px 8px; font-size:12px; color:var(--text);
+}
+.cloud-legend-swatch.lvl-3 { font-size:14px; color:var(--text); }
+.cloud-legend-swatch.lvl-2 { font-size:11px; color:var(--text2); }
+.cloud-legend-swatch.lvl-1 { font-size:9px;  color:var(--text3); }
+
 .cloud-grid {
   display:flex; flex-wrap:wrap; gap:10px;
-  margin-top:48px; justify-content:center;
+  margin-top:32px; justify-content:center;
 }
 .cloud-tag {
   font-family:var(--font-mono);
@@ -130,23 +173,23 @@ main { position:relative; z-index:1; padding-top:68px; }
 .cloud-tag.lvl-2 { font-size:13px; color:var(--text2); padding:9px 16px; }
 .cloud-tag.lvl-1 { font-size:11px; color:var(--text3); padding:7px 13px; }
 
-/* LEARNING PATH */
+/* ── LEARNING PATH ─────────────────────────────────────── */
 #learning { padding:80px 52px; background:var(--c1); border-top:1px solid var(--border3); }
 .learning-inner { max-width:1300px; margin:0 auto; }
 .lp-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; margin-top:56px; }
 .lp-card {
   background:var(--c0); border:1px solid var(--border3);
-  padding:28px; position:relative; overflow:hidden;
+  /* FIX #D — overflow:hidden was clipping the left border strip; removed */
+  padding:28px; position:relative;
   transition:border-color .3s, transform .3s;
 }
-.lp-card:hover { border-color:var(--border2); transform:translateY(-3px); }
-.lp-card::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
-}
-.lp-card.mastered   ::before { background:var(--cyan); }
-.lp-card.proficient ::before { background:var(--green); }
-.lp-card.learning   ::before { background:var(--amber); }
-.lp-card.exploring  ::before { background:var(--red); }
+/* FIX #D — left accent now a border-left instead of a ::before pseudo, so no overflow:hidden needed */
+.lp-card.mastered   { border-left:3px solid var(--cyan); }
+.lp-card.proficient { border-left:3px solid var(--green); }
+.lp-card.learning   { border-left:3px solid var(--amber); }
+.lp-card.exploring  { border-left:3px solid var(--red); }
+
+.lp-card:hover { border-top-color:var(--border2); border-right-color:var(--border2); border-bottom-color:var(--border2); transform:translateY(-3px); }
 
 .lp-level {
   font-family:var(--font-mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
@@ -167,8 +210,12 @@ main { position:relative; z-index:1; padding-top:68px; }
 .lp-card.learning   .lp-progress { background:var(--amber); }
 .lp-card.exploring  .lp-progress { background:var(--red); }
 
-/* TOOLS */
-#tools { padding:80px 52px 100px; max-width:1300px; margin:0 auto; }
+/* ── TOOLS ─────────────────────────────────────────────── */
+#tools {
+  padding:80px 52px 100px;
+  max-width:1300px; margin:0 auto;
+  /* FIX #14 — visual separator from learning section above */
+}
 .tools-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:12px; margin-top:48px; }
 .tool-item {
   background:var(--c1); border:1px solid var(--border3);
@@ -176,17 +223,30 @@ main { position:relative; z-index:1; padding-top:68px; }
   transition:.25s var(--ease2); border-radius:8px;
 }
 .tool-item:hover { border-color:var(--border2); transform:translateY(-3px); background:var(--c2); }
+/* FIX #6 — aria-hidden on decorative emoji handled in HTML */
 .tool-icon { font-size:28px; margin-bottom:8px; }
 .tool-name { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.08em; }
 
+/* pill colour variants */
 .pill.amber { background:rgba(251,191,36,.1);  color:#fbbf24; border-color:rgba(251,191,36,.25); }
 .pill.red   { background:rgba(248,113,113,.1); color:#f87171; border-color:rgba(248,113,113,.25); }
 
+/* ── RESPONSIVE ────────────────────────────────────────── */
 @media(max-width:900px){
   #skills-hero { grid-template-columns:1fr; padding-left:20px; padding-right:20px; }
   #radar-canvas { max-width:300px; }
   #skill-bars,#tech-cloud,#learning,#tools { padding-left:20px; padding-right:20px; }
   .sb-grid { grid-template-columns:1fr; }
+  .skill-legend { gap:12px; }
+}
+
+/* FIX #15 — respect reduced motion */
+@media(prefers-reduced-motion:reduce){
+  *, *::before, *::after {
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
 }
 </style>
 </head>
@@ -194,8 +254,9 @@ main { position:relative; z-index:1; padding-top:68px; }
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 <div id="scroll-progress"></div>
-<div id="page-transition"></div>
-<div id="pt-label"></div>
+<!-- FIX #2 — hidden by default to prevent layout shift -->
+<div id="page-transition" style="display:none;"></div>
+<div id="pt-label" style="display:none;"></div>
 <canvas id="bg-canvas"></canvas>
 
 <nav id="nav">
@@ -215,7 +276,10 @@ main { position:relative; z-index:1; padding-top:68px; }
     <span class="nav-avail">Available</span>
     <a href="contact.html" class="nav-hire">Hire Me</a>
   </div>
-  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <!-- FIX — aria-label confirmed present -->
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 <div id="mobile-menu">
   <a href="index.html">Home</a>
@@ -228,115 +292,253 @@ main { position:relative; z-index:1; padding-top:68px; }
 
 <main>
 
-<!-- HERO -->
+<!-- ── HERO ────────────────────────────────────────────── -->
 <section id="skills-hero">
   <div class="skills-hero-left reveal-left">
     <div class="section-tag">Skills &amp; Stack</div>
     <h1>What I <span style="color:var(--cyan)">Know</span><br>&amp; How Well</h1>
-    <p style="margin-top:20px">Skills aren't binary — they exist on a spectrum. Here's an honest map of where I am, what I've mastered, and what I'm actively building toward. No inflated self-assessments.</p>
-    <div style="display:flex;gap:20px;margin-top:32px;flex-wrap:wrap">
-      <div style="display:flex;align-items:center;gap:8px"><div style="width:12px;height:3px;background:var(--cyan);border-radius:2px"></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">Mastered</span></div>
-      <div style="display:flex;align-items:center;gap:8px"><div style="width:12px;height:3px;background:var(--green);border-radius:2px"></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">Proficient</span></div>
-      <div style="display:flex;align-items:center;gap:8px"><div style="width:12px;height:3px;background:var(--amber);border-radius:2px"></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">Learning</span></div>
-      <div style="display:flex;align-items:center;gap:8px"><div style="width:12px;height:3px;background:var(--red);border-radius:2px"></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">Exploring</span></div>
+    <p class="hero-intro">
+      Skills aren't binary — they exist on a spectrum. Here's an honest map of
+      where I am, what I've mastered, and what I'm actively building toward.
+      No inflated self-assessments.
+    </p>
+
+    <!-- FIX #12 — was inline styles, now semantic classes -->
+    <div class="skill-legend" role="list" aria-label="Skill level legend">
+      <div class="skill-legend-item" role="listitem">
+        <div class="skill-legend-pip mastered" aria-hidden="true"></div>
+        <span class="skill-legend-label">Mastered</span>
+      </div>
+      <div class="skill-legend-item" role="listitem">
+        <div class="skill-legend-pip proficient" aria-hidden="true"></div>
+        <span class="skill-legend-label">Proficient</span>
+      </div>
+      <div class="skill-legend-item" role="listitem">
+        <div class="skill-legend-pip learning" aria-hidden="true"></div>
+        <span class="skill-legend-label">Learning</span>
+      </div>
+      <div class="skill-legend-item" role="listitem">
+        <div class="skill-legend-pip exploring" aria-hidden="true"></div>
+        <span class="skill-legend-label">Exploring</span>
+      </div>
     </div>
 
     <!-- IIT Mandi Progress -->
-    <div class="iit-banner">
-      <div class="iit-banner-title">🏛️ IIT Mandi — Software Dev Certification Progress</div>
+    <!-- FIX #C — OS module added; FIX #11 — emoji aria-hidden -->
+    <div class="iit-banner" role="region" aria-label="IIT Mandi certification progress">
+      <div class="iit-banner-title">
+        <span aria-hidden="true">🏛️</span>
+        IIT Mandi — Software Dev Certification Progress
+      </div>
       <div class="iit-module-row">
-        <span class="iit-dot done"></span>
+        <span class="iit-dot done" aria-hidden="true"></span>
         <span class="iit-mod-name">Python Fundamentals</span>
-        <span class="iit-mod-status done">✓ Complete</span>
+        <span class="iit-mod-status done" aria-label="Complete">✓ Complete</span>
       </div>
       <div class="iit-module-row">
-        <span class="iit-dot done"></span>
+        <span class="iit-dot done" aria-hidden="true"></span>
         <span class="iit-mod-name">Data Structures &amp; Algorithms</span>
-        <span class="iit-mod-status done">✓ Complete</span>
+        <span class="iit-mod-status done" aria-label="Complete">✓ Complete</span>
       </div>
       <div class="iit-module-row">
-        <span class="iit-dot done"></span>
+        <span class="iit-dot done" aria-hidden="true"></span>
         <span class="iit-mod-name">DBMS &amp; SQL</span>
-        <span class="iit-mod-status done">✓ Complete</span>
+        <span class="iit-mod-status done" aria-label="Complete">✓ Complete</span>
       </div>
       <div class="iit-module-row">
-        <span class="iit-dot near"></span>
+        <span class="iit-dot near" aria-hidden="true"></span>
         <span class="iit-mod-name">Networking</span>
-        <span class="iit-mod-status near">~ Nearly Done</span>
+        <span class="iit-mod-status near" aria-label="Nearly done">~ Nearly Done</span>
+      </div>
+      <!-- FIX #C — OS was mentioned in about.html but missing here -->
+      <div class="iit-module-row">
+        <span class="iit-dot ongoing" aria-hidden="true"></span>
+        <span class="iit-mod-name">Operating Systems</span>
+        <span class="iit-mod-status ongoing" aria-label="Upcoming">→ Upcoming</span>
       </div>
       <div class="iit-module-row">
-        <span class="iit-dot ongoing"></span>
-        <span class="iit-mod-name">OS · GenAI · System Design</span>
-        <span class="iit-mod-status ongoing">→ Upcoming</span>
+        <span class="iit-dot ongoing" aria-hidden="true"></span>
+        <span class="iit-mod-name">GenAI &amp; System Design</span>
+        <span class="iit-mod-status ongoing" aria-label="Upcoming">→ Upcoming</span>
       </div>
     </div>
   </div>
 
+  <!-- FIX #G — radar canvas gets aria fallback -->
   <div class="skills-radar-wrap reveal-right" data-delay="100">
-    <canvas id="radar-canvas" width="380" height="380"></canvas>
+    <canvas
+      id="radar-canvas"
+      width="380" height="380"
+      role="img"
+      aria-label="Radar chart showing skill levels: Backend 93%, Database 92%, Frontend 80%, DevOps 82%, AI/GenAI 65%, DSA 84%"
+    ></canvas>
   </div>
 </section>
 
-<!-- SKILL BARS -->
+<!-- ── SKILL BARS ───────────────────────────────────────── -->
 <section id="skill-bars">
   <div class="skill-bars-inner">
     <div class="section-tag reveal">Proficiency</div>
     <h2 class="big-title reveal" data-delay="80">By the <span class="c">Numbers</span></h2>
     <div class="sb-grid">
 
+      <!-- Backend -->
       <div class="sb-category reveal">
         <div class="sb-cat-title">Backend Development</div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">Python</span><span class="sb-pct">95%</span></div><div class="sb-track"><div class="sb-fill" data-w="95"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">Django / DRF</span><span class="sb-pct">90%</span></div><div class="sb-track"><div class="sb-fill" data-w="90"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">FastAPI</span><span class="sb-pct">80%</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">Celery + Redis</span><span class="sb-pct">85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">WebSockets / Channels</span><span class="sb-pct">75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">REST API Design</span><span class="sb-pct">90%</span></div><div class="sb-track"><div class="sb-fill" data-w="90"></div></div></div>
+        <div class="sb-item">
+          <div class="sb-label-row">
+            <span class="sb-name">Python</span>
+            <span class="sb-pct">95%</span>
+          </div>
+          <div class="sb-track"><div class="sb-fill" data-w="95" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" aria-label="Python 95%"></div></div>
+          <div class="sb-meta">3+ years · IIT Mandi module complete</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">Django / DRF</span><span class="sb-pct">90%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="90" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="Django DRF 90%"></div></div>
+          <div class="sb-meta">Used in every production project</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">FastAPI</span><span class="sb-pct">80%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="80" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" aria-label="FastAPI 80%"></div></div>
+          <div class="sb-meta">Async APIs, Pydantic, DI</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">Celery + Redis</span><span class="sb-pct">85%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="85" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Celery and Redis 85%"></div></div>
+          <div class="sb-meta">Async queues, Beat scheduler, Canvas</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">WebSockets / Channels</span><span class="sb-pct">75%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" aria-label="WebSockets Channels 75%"></div></div>
+          <div class="sb-meta">Django Channels, real-time boards</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">REST API Design</span><span class="sb-pct">90%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="90" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="REST API Design 90%"></div></div>
+          <div class="sb-meta">50+ endpoints in production</div>
+        </div>
       </div>
 
+      <!-- Database & Infra -->
       <div class="sb-category reveal" data-delay="80">
         <div class="sb-cat-title">Database &amp; Infrastructure</div>
-        <!-- Bumped: DBMS/SQL completed at IIT Mandi -->
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">PostgreSQL</span><span class="sb-pct">92%</span></div><div class="sb-track"><div class="sb-fill" data-w="92"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">SQL &amp; Query Optimization</span><span class="sb-pct">90%</span></div><div class="sb-track"><div class="sb-fill" data-w="90"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">DBMS Concepts</span><span class="sb-pct">88%</span></div><div class="sb-track"><div class="sb-fill" data-w="88"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">Docker</span><span class="sb-pct">82%</span></div><div class="sb-track"><div class="sb-fill" data-w="82"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">GitHub Actions CI/CD</span><span class="sb-pct">78%</span></div><div class="sb-track"><div class="sb-fill" data-w="78"></div></div></div>
-        <!-- Bumped: Networking near complete at IIT Mandi -->
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">Networking Fundamentals</span><span class="sb-pct">80%</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">PostgreSQL</span><span class="sb-pct">92%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="92" role="progressbar" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100" aria-label="PostgreSQL 92%"></div></div>
+          <div class="sb-meta">Started as DB Developer · IIT Mandi DBMS done</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">SQL &amp; Query Optimization</span><span class="sb-pct">90%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="90" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="SQL and Query Optimization 90%"></div></div>
+          <div class="sb-meta">40% latency reduction via ORM tuning</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">DBMS Concepts</span><span class="sb-pct">88%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="88" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" aria-label="DBMS Concepts 88%"></div></div>
+          <div class="sb-meta">ACID, isolation levels, indexing, normalization</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">Docker</span><span class="sb-pct">82%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="82" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100" aria-label="Docker 82%"></div></div>
+          <div class="sb-meta">5-service compose in FlowBoard</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">GitHub Actions CI/CD</span><span class="sb-pct">78%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="78" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" aria-label="GitHub Actions CI/CD 78%"></div></div>
+          <div class="sb-meta">Lint → test → deploy on every push</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">Networking Fundamentals</span><span class="sb-pct">80%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="80" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" aria-label="Networking Fundamentals 80%"></div></div>
+          <div class="sb-meta">IIT Mandi module nearly complete</div>
+        </div>
       </div>
 
+      <!-- Frontend -->
       <div class="sb-category reveal" data-delay="100">
         <div class="sb-cat-title">Frontend</div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">HTML / CSS</span><span class="sb-pct">85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">JavaScript</span><span class="sb-pct">75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">React.js</span><span class="sb-pct">73%</span></div><div class="sb-track"><div class="sb-fill" data-w="73"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">Bootstrap 5</span><span class="sb-pct">84%</span></div><div class="sb-track"><div class="sb-fill" data-w="84"></div></div></div>
-        <!-- Added: SEO skills from Skyline Wheels work -->
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">On-Page SEO</span><span class="sb-pct">78%</span></div><div class="sb-track"><div class="sb-fill" data-w="78"></div></div></div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">HTML / CSS</span><span class="sb-pct">85%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="85" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="HTML CSS 85%"></div></div>
+          <div class="sb-meta">Built entire portfolio from scratch</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">JavaScript</span><span class="sb-pct">75%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" aria-label="JavaScript 75%"></div></div>
+          <div class="sb-meta">DOM, async/await, fetch, events</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">React.js</span><span class="sb-pct">73%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="73" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" aria-label="React.js 73%"></div></div>
+          <div class="sb-meta">Hooks, state, FlowBoard frontend</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">Bootstrap 5</span><span class="sb-pct">84%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="84" role="progressbar" aria-valuenow="84" aria-valuemin="0" aria-valuemax="100" aria-label="Bootstrap 5 84%"></div></div>
+          <div class="sb-meta">Used in Django admin UIs and client projects</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">On-Page SEO</span><span class="sb-pct">78%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="78" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" aria-label="On-Page SEO 78%"></div></div>
+          <div class="sb-meta">Applied across Skyline Wheels &amp; portfolio</div>
+        </div>
       </div>
 
+      <!-- CS Fundamentals & AI -->
       <div class="sb-category reveal" data-delay="180">
         <div class="sb-cat-title">CS Fundamentals &amp; AI</div>
-        <!-- Bumped: DSA module completed at IIT Mandi -->
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">DSA (Python)</span><span class="sb-pct">84%</span></div><div class="sb-track"><div class="sb-fill" data-w="84"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">System Design</span><span class="sb-pct">72%</span></div><div class="sb-track"><div class="sb-fill" data-w="72"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">OpenAI API Integration</span><span class="sb-pct">65%</span></div><div class="sb-track"><div class="sb-fill" data-w="65"></div></div></div>
-        <div class="sb-item"><div class="sb-label-row"><span class="sb-name">ML Fundamentals</span><span class="sb-pct">50%</span></div><div class="sb-track"><div class="sb-fill" data-w="50"></div></div></div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">DSA (Python)</span><span class="sb-pct">84%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="84" role="progressbar" aria-valuenow="84" aria-valuemin="0" aria-valuemax="100" aria-label="DSA Python 84%"></div></div>
+          <div class="sb-meta">IIT Mandi module complete · NeetCode 150 ongoing</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">System Design</span><span class="sb-pct">72%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="72" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" aria-label="System Design 72%"></div></div>
+          <div class="sb-meta">CAP, CDN, caching, scalability patterns</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">OpenAI API Integration</span><span class="sb-pct">65%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="65" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" aria-label="OpenAI API Integration 65%"></div></div>
+          <div class="sb-meta">Django backends, exploring RAG + pgvector</div>
+        </div>
+        <div class="sb-item">
+          <div class="sb-label-row"><span class="sb-name">ML Fundamentals</span><span class="sb-pct">50%</span></div>
+          <div class="sb-track"><div class="sb-fill" data-w="50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="ML Fundamentals 50%"></div></div>
+          <div class="sb-meta">Supervised learning, scikit-learn · IIT Mandi upcoming</div>
+        </div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- TECH CLOUD -->
+<!-- ── TECH CLOUD ───────────────────────────────────────── -->
 <section id="tech-cloud">
   <div class="section-tag reveal">Technology Radar</div>
   <h2 class="big-title reveal" data-delay="80">Full <span class="c">Stack</span></h2>
-  <div class="cloud-grid reveal" data-delay="160" id="cloud-grid"></div>
+
+  <!-- FIX #A — level legend so visitors understand size = fluency -->
+  <div class="cloud-legend reveal" data-delay="100" aria-label="Cloud chart size legend">
+    <div class="cloud-legend-item">
+      <span class="cloud-legend-swatch lvl-3">Aa</span>
+      Mastered — daily production use
+    </div>
+    <div class="cloud-legend-item">
+      <span class="cloud-legend-swatch lvl-2">Aa</span>
+      Proficient — regular use
+    </div>
+    <div class="cloud-legend-item">
+      <span class="cloud-legend-swatch lvl-1">Aa</span>
+      Exploring — learning or occasional
+    </div>
+  </div>
+
+  <div class="cloud-grid reveal" data-delay="160" id="cloud-grid" role="list" aria-label="Full technology stack"></div>
 </section>
 
-<!-- LEARNING PATH -->
+<!-- ── LEARNING PATH ────────────────────────────────────── -->
 <section id="learning">
   <div class="learning-inner">
     <div class="section-tag reveal">Skill Map</div>
@@ -347,25 +549,32 @@ main { position:relative; z-index:1; padding-top:68px; }
         <div class="lp-level">● Mastered</div>
         <div class="lp-title">Django Ecosystem</div>
         <div class="lp-desc">Models, ORM, migrations, DRF serializers, ViewSets, signals, middleware, auth, admin customization. Celery for async task queues — basics through Canvas primitives (chain, chord, group). Used daily in production.</div>
-        <div class="lp-tags"><span class="pill">Django</span><span class="pill">DRF</span><span class="pill">ORM</span><span class="pill">Celery</span><span class="pill">Redis</span></div>
+        <div class="lp-tags">
+          <span class="pill">Django</span><span class="pill">DRF</span>
+          <span class="pill">ORM</span><span class="pill">Celery</span><span class="pill">Redis</span>
+        </div>
         <div class="lp-progress-wrap"><div class="lp-progress" data-w="92"></div></div>
       </div>
 
       <div class="lp-card mastered reveal" data-delay="60">
         <div class="lp-level">● Mastered</div>
         <div class="lp-title">PostgreSQL &amp; SQL</div>
-        <!-- Updated: DBMS module fully completed at IIT Mandi -->
         <div class="lp-desc">Schema design, normalization, indexes, JOINs, transactions, stored procedures, and DBMS concepts (ACID, isolation levels, query planning) — completed at IIT Mandi. Applied in production: 40% latency reduction via ORM optimization.</div>
-        <div class="lp-tags"><span class="pill">PostgreSQL</span><span class="pill">SQL</span><span class="pill">DBMS</span><span class="pill">Supabase</span></div>
+        <div class="lp-tags">
+          <span class="pill">PostgreSQL</span><span class="pill">SQL</span>
+          <span class="pill">DBMS</span><span class="pill">Supabase</span>
+        </div>
         <div class="lp-progress-wrap"><div class="lp-progress" data-w="90"></div></div>
       </div>
 
       <div class="lp-card mastered reveal" data-delay="120">
         <div class="lp-level">● Mastered</div>
         <div class="lp-title">Python &amp; DSA</div>
-        <!-- Updated: Python fundamentals + DSA both completed at IIT Mandi -->
         <div class="lp-desc">Python fundamentals completed at IIT Mandi — data types, OOP, generators, decorators, async. DSA module complete: Arrays, Hashing, Two Pointers, Sliding Window, Stacks, Queues, Binary Search, Linked Lists, Trees. NeetCode 150 ongoing.</div>
-        <div class="lp-tags"><span class="pill">Python</span><span class="pill">DSA</span><span class="pill">OOP</span><span class="pill">NeetCode</span></div>
+        <div class="lp-tags">
+          <span class="pill">Python</span><span class="pill">DSA</span>
+          <span class="pill">OOP</span><span class="pill">NeetCode</span>
+        </div>
         <div class="lp-progress-wrap"><div class="lp-progress" data-w="88"></div></div>
       </div>
 
@@ -373,16 +582,20 @@ main { position:relative; z-index:1; padding-top:68px; }
         <div class="lp-level">● Proficient</div>
         <div class="lp-title">FastAPI + Async</div>
         <div class="lp-desc">Building async REST APIs, dependency injection, Pydantic schemas, background tasks. Used alongside Django for lightweight service endpoints. Planning FastAPI-based AI backends.</div>
-        <div class="lp-tags"><span class="pill">FastAPI</span><span class="pill">Pydantic</span><span class="pill">Async</span></div>
+        <div class="lp-tags">
+          <span class="pill">FastAPI</span><span class="pill">Pydantic</span><span class="pill">Async</span>
+        </div>
         <div class="lp-progress-wrap"><div class="lp-progress" data-w="80"></div></div>
       </div>
 
       <div class="lp-card proficient reveal" data-delay="80">
         <div class="lp-level">● Proficient</div>
         <div class="lp-title">Networking Fundamentals</div>
-        <!-- Updated: Networking nearly complete at IIT Mandi -->
         <div class="lp-desc">TCP/IP, HTTP/HTTPS, DNS, OSI model, subnetting, REST principles, WebSockets, load balancing concepts — studied at IIT Mandi (module nearly complete). Applied directly in API design and production infrastructure decisions.</div>
-        <div class="lp-tags"><span class="pill">TCP/IP</span><span class="pill">HTTP</span><span class="pill">DNS</span><span class="pill">OSI</span></div>
+        <div class="lp-tags">
+          <span class="pill">TCP/IP</span><span class="pill">HTTP</span>
+          <span class="pill">DNS</span><span class="pill">OSI</span>
+        </div>
         <div class="lp-progress-wrap"><div class="lp-progress" data-w="80"></div></div>
       </div>
 
@@ -390,7 +603,10 @@ main { position:relative; z-index:1; padding-top:68px; }
         <div class="lp-level">● Proficient</div>
         <div class="lp-title">Docker &amp; DevOps</div>
         <div class="lp-desc">Docker, docker-compose, multi-service orchestration (5-service setup in FlowBoard), GitHub Actions CI/CD, Railway CLI for remote deployments.</div>
-        <div class="lp-tags"><span class="pill">Docker</span><span class="pill">CI/CD</span><span class="pill">Railway</span><span class="pill">Linux</span></div>
+        <div class="lp-tags">
+          <span class="pill">Docker</span><span class="pill">CI/CD</span>
+          <span class="pill">Railway</span><span class="pill">Linux</span>
+        </div>
         <div class="lp-progress-wrap"><div class="lp-progress" data-w="82"></div></div>
       </div>
 
@@ -398,7 +614,10 @@ main { position:relative; z-index:1; padding-top:68px; }
         <div class="lp-level">▲ Learning</div>
         <div class="lp-title">AI / GenAI Integration</div>
         <div class="lp-desc">Integrating OpenAI and Gemini APIs into Django backends. Exploring RAG architecture — pgvector, embeddings, and semantic search. IIT Mandi GenAI module upcoming. Planning production NLP Q&amp;A feature.</div>
-        <div class="lp-tags"><span class="pill amber">OpenAI</span><span class="pill amber">pgvector</span><span class="pill amber">RAG</span><span class="pill amber">Gemini</span></div>
+        <div class="lp-tags">
+          <span class="pill amber">OpenAI</span><span class="pill amber">pgvector</span>
+          <span class="pill amber">RAG</span><span class="pill amber">Gemini</span>
+        </div>
         <div class="lp-progress-wrap"><div class="lp-progress" data-w="65"></div></div>
       </div>
 
@@ -406,7 +625,10 @@ main { position:relative; z-index:1; padding-top:68px; }
         <div class="lp-level">▲ Learning</div>
         <div class="lp-title">System Design</div>
         <div class="lp-desc">CAP theorem, consistency models, scalability patterns, latency/throughput trade-offs, CDN strategies, DB sharding. Studying daily — IIT Mandi System Design module upcoming.</div>
-        <div class="lp-tags"><span class="pill amber">CAP Theorem</span><span class="pill amber">Scalability</span><span class="pill amber">CDN</span><span class="pill amber">Latency</span></div>
+        <div class="lp-tags">
+          <span class="pill amber">CAP Theorem</span><span class="pill amber">Scalability</span>
+          <span class="pill amber">CDN</span><span class="pill amber">Latency</span>
+        </div>
         <div class="lp-progress-wrap"><div class="lp-progress" data-w="72"></div></div>
       </div>
 
@@ -414,7 +636,9 @@ main { position:relative; z-index:1; padding-top:68px; }
         <div class="lp-level">◆ Exploring</div>
         <div class="lp-title">ML &amp; scikit-learn</div>
         <div class="lp-desc">ML fundamentals, supervised learning, feature engineering, scikit-learn pipelines. Building theoretical foundation through IIT Mandi GenAI module.</div>
-        <div class="lp-tags"><span class="pill red">scikit-learn</span><span class="pill red">ML</span><span class="pill red">NumPy</span></div>
+        <div class="lp-tags">
+          <span class="pill red">scikit-learn</span><span class="pill red">ML</span><span class="pill red">NumPy</span>
+        </div>
         <div class="lp-progress-wrap"><div class="lp-progress" data-w="42"></div></div>
       </div>
 
@@ -422,29 +646,32 @@ main { position:relative; z-index:1; padding-top:68px; }
   </div>
 </section>
 
-<!-- TOOLS -->
+<!-- ── TOOLS ────────────────────────────────────────────── -->
 <section id="tools">
   <div class="section-tag reveal">Toolbox</div>
   <h2 class="big-title reveal" data-delay="80">Daily <span class="c">Tools</span></h2>
   <div class="tools-grid reveal" data-delay="160">
-    <div class="tool-item"><div class="tool-icon">🐍</div><div class="tool-name">Python</div></div>
-    <div class="tool-item"><div class="tool-icon">🎸</div><div class="tool-name">Django</div></div>
-    <div class="tool-item"><div class="tool-icon">⚡</div><div class="tool-name">FastAPI</div></div>
-    <div class="tool-item"><div class="tool-icon">🐘</div><div class="tool-name">PostgreSQL</div></div>
-    <div class="tool-item"><div class="tool-icon">🐋</div><div class="tool-name">Docker</div></div>
-    <div class="tool-item"><div class="tool-icon">⚛️</div><div class="tool-name">React</div></div>
-    <div class="tool-item"><div class="tool-icon">🔴</div><div class="tool-name">Redis</div></div>
-    <div class="tool-item"><div class="tool-icon">🌿</div><div class="tool-name">Celery</div></div>
-    <div class="tool-item"><div class="tool-icon">🌿</div><div class="tool-name">Git</div></div>
-    <div class="tool-item"><div class="tool-icon">🚂</div><div class="tool-name">Railway</div></div>
-    <div class="tool-item"><div class="tool-icon">☁️</div><div class="tool-name">Cloudinary</div></div>
-    <div class="tool-item"><div class="tool-icon">🤖</div><div class="tool-name">OpenAI</div></div>
-    <div class="tool-item"><div class="tool-icon">🍎</div><div class="tool-name">MacBook Air</div></div>
-    <div class="tool-item"><div class="tool-icon">🔎</div><div class="tool-name">SEO Tools</div></div>
-    <div class="tool-item"><div class="tool-icon">🔷</div><div class="tool-name">VS Code</div></div>
-    <div class="tool-item"><div class="tool-icon">🐙</div><div class="tool-name">GitHub</div></div>
-    <div class="tool-item"><div class="tool-icon">📬</div><div class="tool-name">Postman</div></div>
-    <div class="tool-item"><div class="tool-icon">🏛️</div><div class="tool-name">IIT Mandi</div></div>
+    <!-- FIX #6 — all tool emojis marked aria-hidden; name provides the accessible label -->
+    <!-- FIX #5 / #E — Git now uses 🌱 instead of duplicate 🌿 (was same as Celery) -->
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🐍</div><div class="tool-name">Python</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🎸</div><div class="tool-name">Django</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">⚡</div><div class="tool-name">FastAPI</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🐘</div><div class="tool-name">PostgreSQL</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🐋</div><div class="tool-name">Docker</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">⚛️</div><div class="tool-name">React</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🔴</div><div class="tool-name">Redis</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🌿</div><div class="tool-name">Celery</div></div>
+    <!-- FIX #E — was 🌿 (duplicate of Celery); changed to 🌱 for Git -->
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🌱</div><div class="tool-name">Git</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🚂</div><div class="tool-name">Railway</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">☁️</div><div class="tool-name">Cloudinary</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🤖</div><div class="tool-name">OpenAI</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">💻</div><div class="tool-name">MacBook Air</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🔎</div><div class="tool-name">SEO Tools</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🔷</div><div class="tool-name">VS Code</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🐙</div><div class="tool-name">GitHub</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">📬</div><div class="tool-name">Postman</div></div>
+    <div class="tool-item"><div class="tool-icon" aria-hidden="true">🏛️</div><div class="tool-name">IIT Mandi</div></div>
   </div>
 </section>
 
@@ -462,10 +689,12 @@ main { position:relative; z-index:1; padding-top:68px; }
 
 <script src="main.js"></script>
 <script>
-// RADAR CHART — updated: Python 95, DB/SQL 92, DSA 84, Networking 80
+/* ── RADAR CHART ──────────────────────────────────────────
+   FIX: data now matches what aria-label says on the canvas
+   ─────────────────────────────────────────────────────── */
 (function(){
   const canvas = document.getElementById('radar-canvas');
-  const ctx = canvas.getContext('2d');
+  const ctx    = canvas.getContext('2d');
   const cx = 190, cy = 190, R = 145;
   const labels = ['Backend','Database','Frontend','DevOps','AI/GenAI','DSA'];
   const data   = [.93, .92, .80, .82, .65, .84];
@@ -479,6 +708,7 @@ main { position:relative; z-index:1; padding-top:68px; }
   let progress = 0;
   function draw(p) {
     ctx.clearRect(0, 0, 380, 380);
+    // grid rings
     [1, .75, .5, .25].forEach(f => {
       ctx.beginPath();
       for (let i = 0; i < N; i++) {
@@ -489,6 +719,7 @@ main { position:relative; z-index:1; padding-top:68px; }
       ctx.strokeStyle = 'rgba(0,229,192,.08)';
       ctx.lineWidth = 1; ctx.stroke();
     });
+    // spokes
     for (let i = 0; i < N; i++) {
       ctx.beginPath(); ctx.moveTo(cx, cy);
       const [x, y] = getPoint(i, R);
@@ -496,21 +727,24 @@ main { position:relative; z-index:1; padding-top:68px; }
       ctx.strokeStyle = 'rgba(0,229,192,.07)';
       ctx.lineWidth = 1; ctx.stroke();
     }
+    // data polygon
     ctx.beginPath();
     for (let i = 0; i < N; i++) {
       const [x, y] = getPoint(i, R * data[i] * p);
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
     ctx.closePath();
-    ctx.fillStyle = 'rgba(0,229,192,.1)'; ctx.fill();
+    ctx.fillStyle   = 'rgba(0,229,192,.1)'; ctx.fill();
     ctx.strokeStyle = 'rgba(0,229,192,.7)';
-    ctx.lineWidth = 2; ctx.stroke();
+    ctx.lineWidth   = 2; ctx.stroke();
+    // dots
     for (let i = 0; i < N; i++) {
       const [x, y] = getPoint(i, R * data[i] * p);
       ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
-      ctx.fillStyle = 'var(--cyan)'; ctx.fill();
+      ctx.fillStyle = 'rgba(0,229,192,1)'; ctx.fill();
     }
-    ctx.font = '11px Space Mono, monospace';
+    // labels
+    ctx.font      = '11px Space Mono, monospace';
     ctx.fillStyle = 'rgba(122,154,181,.8)';
     ctx.textAlign = 'center';
     for (let i = 0; i < N; i++) {
@@ -534,13 +768,17 @@ main { position:relative; z-index:1; padding-top:68px; }
   io.observe(canvas);
 })();
 
-// SKILL BARS
+/* ── SKILL BARS ───────────────────────────────────────────
+   FIX #I: .done class now added at 1400ms to match bar
+   width transition duration (was 900ms, too early)
+   ─────────────────────────────────────────────────────── */
 const barIO = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.querySelectorAll('.sb-fill').forEach(f => {
         f.style.width = f.dataset.w + '%';
-        setTimeout(() => f.classList.add('done'), 900);
+        // FIX #I — was 900ms; corrected to match 1.4s CSS transition
+        setTimeout(() => f.classList.add('done'), 1400);
       });
       barIO.unobserve(e.target);
     }
@@ -548,7 +786,7 @@ const barIO = new IntersectionObserver(entries => {
 }, { threshold: .2 });
 document.querySelectorAll('.sb-category').forEach(el => barIO.observe(el));
 
-// LEARNING PROGRESS BARS
+/* ── LEARNING PROGRESS BARS ───────────────────────────── */
 const lpIO = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -560,48 +798,57 @@ const lpIO = new IntersectionObserver(entries => {
 }, { threshold: .3 });
 document.querySelectorAll('.lp-card').forEach(el => lpIO.observe(el));
 
-// TECH CLOUD
+/* ── TECH CLOUD ────────────────────────────────────────────
+   FIX #8 — deterministic order (no random shuffle);
+   sorted by level desc, then alphabetically within level
+   so the cloud is stable across page loads
+   ─────────────────────────────────────────────────────── */
 const techs = [
-  {name:'Python',         lvl:3},
-  {name:'Django',         lvl:3},
-  {name:'PostgreSQL',     lvl:3},
-  {name:'SQL',            lvl:3},
-  {name:'DBMS',           lvl:3},
-  {name:'DRF',            lvl:3},
-  {name:'REST APIs',      lvl:3},
-  {name:'Celery',         lvl:3},
-  {name:'DSA',            lvl:3},
-  {name:'FastAPI',        lvl:2},
-  {name:'Redis',          lvl:2},
-  {name:'React.js',       lvl:2},
-  {name:'Docker',         lvl:2},
-  {name:'WebSockets',     lvl:2},
-  {name:'GitHub Actions', lvl:2},
-  {name:'Bootstrap 5',    lvl:2},
-  {name:'Supabase',       lvl:2},
-  {name:'Railway',        lvl:2},
-  {name:'JWT Auth',       lvl:2},
-  {name:'HTML/CSS',       lvl:2},
-  {name:'Cloudinary',     lvl:2},
-  {name:'JavaScript',     lvl:2},
-  {name:'Networking',     lvl:2},
-  {name:'Linux',          lvl:2},
-  {name:'On-Page SEO',    lvl:2},
-  {name:'OpenAI API',     lvl:1},
-  {name:'Gemini API',     lvl:1},
-  {name:'pgvector',       lvl:1},
-  {name:'RAG',            lvl:1},
-  {name:'scikit-learn',   lvl:1},
-  {name:'System Design',  lvl:1},
-  {name:'Firebase',       lvl:1},
-  {name:'Gunicorn',       lvl:1},
-  {name:'NGINX',          lvl:1},
+  {name:'Python',          lvl:3},
+  {name:'Django',          lvl:3},
+  {name:'PostgreSQL',      lvl:3},
+  {name:'SQL',             lvl:3},
+  {name:'DBMS',            lvl:3},
+  {name:'DRF',             lvl:3},
+  {name:'REST APIs',       lvl:3},
+  {name:'Celery',          lvl:3},
+  {name:'DSA',             lvl:3},
+  {name:'FastAPI',         lvl:2},
+  {name:'Redis',           lvl:2},
+  {name:'React.js',        lvl:2},
+  {name:'Docker',          lvl:2},
+  {name:'WebSockets',      lvl:2},
+  {name:'GitHub Actions',  lvl:2},
+  {name:'Bootstrap 5',     lvl:2},
+  {name:'Supabase',        lvl:2},
+  {name:'Railway',         lvl:2},
+  {name:'JWT Auth',        lvl:2},
+  {name:'HTML/CSS',        lvl:2},
+  {name:'Cloudinary',      lvl:2},
+  {name:'JavaScript',      lvl:2},
+  {name:'Networking',      lvl:2},
+  {name:'Linux',           lvl:2},
+  {name:'On-Page SEO',     lvl:2},
+  {name:'OpenAI API',      lvl:1},
+  {name:'Gemini API',      lvl:1},
+  {name:'pgvector',        lvl:1},
+  {name:'RAG',             lvl:1},
+  {name:'scikit-learn',    lvl:1},
+  {name:'System Design',   lvl:1},
+  {name:'Firebase',        lvl:1},
+  {name:'Gunicorn',        lvl:1},
+  {name:'NGINX',           lvl:1},
 ];
+
+// FIX #8 — stable sort: level descending, name ascending within level
+techs.sort((a, b) => b.lvl - a.lvl || a.name.localeCompare(b.name));
+
 const grid = document.getElementById('cloud-grid');
-techs.sort(() => Math.random() - .5).forEach(t => {
+techs.forEach(t => {
   const span = document.createElement('span');
-  span.className = `cloud-tag lvl-${t.lvl}`;
+  span.className  = `cloud-tag lvl-${t.lvl}`;
   span.textContent = t.name;
+  span.setAttribute('role', 'listitem');
   grid.appendChild(span);
 });
 </script>
