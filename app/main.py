@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -63,6 +63,10 @@ async def root():
 
 @app.get("/{page:path}")
 async def serve_page(page: str):
+    # Guard: never intercept API or docs routes
+    if page.startswith(("api/", "docs", "redoc", "health", "openapi")):
+        raise HTTPException(status_code=404)
+
     file = frontend_dir / page
     if file.exists():
         return FileResponse(file)
