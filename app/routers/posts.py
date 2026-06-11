@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from sqlalchemy import update
 from sqlalchemy.orm import Session
 from typing import Optional
 
@@ -13,8 +14,16 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
 
 # ── Helpers ───────────────────────────────────────────────────
 
-def _post_or_404(db: Session, slug: str) -> Post:
-    post = db.query(Post).filter(Post.slug == slug, Post.is_published == True).first()
+def _get_post_or_404(db: Session, slug: str, published_only: bool = True) -> Post:
+    """
+    FIX: Separated public vs admin lookup.
+    published_only=True  → public readers (404 on draft/unpublished)
+    published_only=False → admin routes (can find any post by slug)
+    """
+    q = db.query(Post).filter(Post.slug == slug)
+    if published_only:
+        q = q.filter(Post.is_published == True)
+    post = q.first()
     if not post:
         raise HTTPException(404, "Post not found")
     return post
@@ -36,7 +45,7 @@ def _is_bot(request: Request) -> bool:
 
 # ── Public ────────────────────────────────────────────────────
 
-@router.get("/", response_model=list[PostListOut])
+@router.get("", response_model=list[PostListOut])
 def list_posts(
     cat: Optional[str] = Query(None),
     search: Optional[str] = Query(None),
@@ -79,11 +88,15 @@ def get_post(
     db: Session = Depends(get_db),
     current_user=Depends(get_optional_user),
 ):
-    post = _post_or_404(db, slug)
+    post = _get_post_or_404(db, slug, published_only=True)
 
-    # Increment view count — skip bots
+    # FIX: Atomic SQL-level increment — no race condition
     if not _is_bot(request):
-        post.view_count = (post.view_count or 0) + 1
+        db.execute(
+            update(Post)
+            .where(Post.id == post.id)
+            .values(view_count=Post.view_count + 1)
+        )
         db.commit()
         db.refresh(post)
 
@@ -99,7 +112,7 @@ def get_post(
 
 # ── Admin CRUD ────────────────────────────────────────────────
 
-@router.post("/", response_model=PostOut, status_code=201)
+@router.post("", response_model=PostOut, status_code=201)
 def create_post(
     payload: PostCreate,
     db: Session = Depends(get_db),
@@ -114,16 +127,16 @@ def create_post(
     return PostOut.model_validate(post)
 
 
-@router.patch("/{slug}", response_model=PostOut)
+# FIX: Changed from @router.patch to @router.put to match frontend admin.html
+# Also uses published_only=False so admins can edit/unpublish drafts
+@router.put("/{slug}", response_model=PostOut)
 def update_post(
     slug: str,
     payload: PostUpdate,
     db: Session = Depends(get_db),
     _=Depends(get_current_admin),
 ):
-    post = db.query(Post).filter(Post.slug == slug).first()
-    if not post:
-        raise HTTPException(404, "Post not found")
+    post = _get_post_or_404(db, slug, published_only=False)
     for field, value in payload.model_dump(exclude_unset=True).items():
         setattr(post, field, value)
     db.commit()
@@ -137,8 +150,7 @@ def delete_post(
     db: Session = Depends(get_db),
     _=Depends(get_current_admin),
 ):
-    post = db.query(Post).filter(Post.slug == slug).first()
-    if not post:
-        raise HTTPException(404, "Post not found")
+    # FIX: published_only=False so admins can delete draft posts too
+    post = _get_post_or_404(db, slug, published_only=False)
     db.delete(post)
     db.commit()
