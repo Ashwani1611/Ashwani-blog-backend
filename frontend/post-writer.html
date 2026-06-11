@@ -99,7 +99,7 @@ label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spac
     <div class="step" id="step-5"><span class="step-num">5</span>Publish</div>
   </div>
 
-  <!-- STEP 1: LOGIN -->
+  <!-- ── STEP 1: LOGIN ── -->
   <div id="pane-1">
     <div class="card">
       <div class="section-label">Admin Login</div>
@@ -115,7 +115,7 @@ label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spac
     </div>
   </div>
 
-  <!-- STEP 2: BRIEF -->
+  <!-- ── STEP 2: BRIEF ── -->
   <div id="pane-2" style="display:none">
     <div class="card">
       <div class="section-label">What should Gemini write about?</div>
@@ -147,7 +147,7 @@ label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spac
           </div>
         </div>
         <div class="field">
-          <label>Key points to cover (optional)</label>
+          <label>Key points to cover (optional — more detail = better output)</label>
           <textarea id="b-points" rows="4" placeholder="e.g.&#10;- explain what N+1 is&#10;- show select_related fix with real code&#10;- include before/after query counts&#10;- end with manager pattern"></textarea>
         </div>
         <div class="row">
@@ -182,7 +182,7 @@ label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spac
     </div>
   </div>
 
-  <!-- STEP 3: GENERATING -->
+  <!-- ── STEP 3: GENERATING ── -->
   <div id="pane-3" style="display:none">
     <div class="card">
       <div class="gen-wrap">
@@ -194,7 +194,7 @@ label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spac
     </div>
   </div>
 
-  <!-- STEP 4: REVIEW -->
+  <!-- ── STEP 4: REVIEW ── -->
   <div id="pane-4" style="display:none">
 
     <div class="card">
@@ -262,7 +262,7 @@ label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spac
     </div>
   </div>
 
-  <!-- STEP 5: PUBLISH -->
+  <!-- ── STEP 5: PUBLISH ── -->
   <div id="pane-5" style="display:none">
     <div class="card" id="pub-card">
       <div class="gen-wrap">
@@ -272,7 +272,7 @@ label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spac
     </div>
   </div>
 
-</div>
+</div><!-- /wrap -->
 
 <script>
 const API   = '/api/v1';
@@ -280,6 +280,7 @@ let token   = '';
 let tags    = [];
 let tocItems = [];
 
+/* ── UTILS ── */
 function showPane(n) {
   [1,2,3,4,5].forEach(i => {
     document.getElementById('pane-'+i).style.display = (i===n) ? '' : 'none';
@@ -299,6 +300,7 @@ function slugify(s) {
     .replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,80);
 }
 
+/* ── STEP 1: LOGIN ── */
 async function doLogin() {
   const email = document.getElementById('l-email').value.trim();
   const pass  = document.getElementById('l-pass').value;
@@ -335,6 +337,7 @@ function useStoredToken() {
 
 function showErr(el, msg) { el.textContent = msg; el.style.display = 'flex'; }
 
+/* ── STEP 2 → 3: GENERATE ── */
 async function goGenerate() {
   const topic  = document.getElementById('b-topic').value.trim();
   if (!topic) { alert('Enter a topic first.'); return; }
@@ -405,6 +408,7 @@ Return ONLY valid JSON — no markdown fences, no extra text, no explanation. Ju
   }
 }
 
+/* ── STEP 4: REVIEW ── */
 function populateReview(p) {
   document.getElementById('r-title').value    = p.title    || '';
   document.getElementById('r-slug').value     = p.slug     || slugify(p.title||'');
@@ -416,12 +420,14 @@ function populateReview(p) {
   document.getElementById('r-body').value     = p.body     || '';
   renderTags(); renderToc(); refreshPreview();
 
+  /* auto-slug from title */
   document.getElementById('r-title').oninput = e => {
     document.getElementById('r-slug').value = slugify(e.target.value);
   };
   document.getElementById('r-body').oninput = () => refreshPreview();
 }
 
+/* TAGS */
 function renderTags() {
   document.getElementById('tags-list').innerHTML = tags.map((t,i) =>
     `<span class="pill">${t}<button onclick="removeTag(${i})" title="Remove">✕</button></span>`
@@ -436,6 +442,7 @@ function addTagBtn() {
   inp.value = '';
 }
 
+/* TOC */
 function renderToc() {
   document.getElementById('toc-list').innerHTML = tocItems.map((t,i) => `
     <div class="toc-item-row">
@@ -460,11 +467,13 @@ function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+/* PREVIEW */
 function refreshPreview() {
   document.getElementById('preview-body').innerHTML =
     document.getElementById('r-body').value;
 }
 
+/* ── STEP 5: PUBLISH ── */
 async function goPublish() {
   if (!token) { alert('Not logged in — go back to step 1.'); showPane(1); return; }
   const title   = document.getElementById('r-title').value.trim();
@@ -497,6 +506,7 @@ async function goPublish() {
       body: JSON.stringify(payload)
     });
     const data = await res.json().catch(()=>({}));
+
     const card = document.getElementById('pub-card');
 
     if (res.status === 201) {
@@ -544,6 +554,7 @@ function startNew() {
   showPane(2);
 }
 
+/* ── INIT ── */
 const stored = localStorage.getItem('ak_token');
 if (stored) {
   token = stored;
