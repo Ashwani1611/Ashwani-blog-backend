@@ -154,3 +154,6 @@ def delete_post(
     post = _get_post_or_404(db, slug, published_only=False)
     db.delete(post)
     db.commit()
+
+
+    
