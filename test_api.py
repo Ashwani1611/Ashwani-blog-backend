@@ -146,7 +146,10 @@ def test_get_nonexistent_post(client):
 
 
 def test_create_post_requires_admin(client, user_token):
-    r = client.post("/api/v1/posts/", headers={"Authorization": f"Bearer {user_token}"}, json={
+    # FIX: removed trailing slash — route is registered as "/api/v1/posts",
+    # not "/api/v1/posts/". The trailing slash was matching the catch-all
+    # static route instead (GET-only), which returned 405 instead of 403.
+    r = client.post("/api/v1/posts", headers={"Authorization": f"Bearer {user_token}"}, json={
         "slug": "test-post", "title": "Test", "excerpt": "Test",
         "content": "Content", "cat": "python"
     })
@@ -154,7 +157,8 @@ def test_create_post_requires_admin(client, user_token):
 
 
 def test_create_post_admin(client, admin_token):
-    r = client.post("/api/v1/posts/", headers={"Authorization": f"Bearer {admin_token}"}, json={
+    # FIX: removed trailing slash — see note above.
+    r = client.post("/api/v1/posts", headers={"Authorization": f"Bearer {admin_token}"}, json={
         "slug": "ci-test-post",
         "title": "CI Test Post",
         "excerpt": "Created in CI test.",
